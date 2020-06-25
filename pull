@@ -1,0 +1,51 @@
+#!/bin/bash
+#set -x
+if [ -z "$PROJECT" ]; then
+    echo "can't $0, no PROJECT found in the environment"
+    exit 1;
+fi
+if [ -z "$PHOME" ]; then
+    echo "can't $0, no PHOME found in the environment"
+    exit 1;
+fi
+if [ -z "$ENV" ]; then
+    echo "can't $0, no configuration directory, ENV, found in the environment"
+    exit 1;
+fi
+TimeStamp="$TMP"/git_pull_timestamp
+
+
+touch "$TimeStamp"
+pushd "$PHOME" > /dev/null
+git pull || echo "git pull failed"
+
+# make a file that looks like a newly pulled executable for testing purposes
+#  touch temp
+#  chmod +x temp
+
+if [ -f "$TimeStamp" ]; then
+  find . \
+       -not -path "./.git/*" \
+       -not -path "./tmp/*" \
+       -newer "$TimeStamp" \
+       -not -type d \
+       -executable \
+       -exec echo "moving newly pulled executable file" {} "to $PHOME/tmp/"\; \
+       -exec mv {} tmp/ \;
+else
+  find . \
+       -not -path "./.git/*" \
+       -not -path "./tmp/*" \
+       -newer "$TimeStamp" \
+       -not -type d \
+       -executable \
+       -exec echo "deleting newly pulled file because it is executable:" {}; \
+       -exec rm {}/ \;
+fi
+
+if [ .gitignore -nt "$TimeStamp" ]; then
+    echo "Warning, .gitignore was modified."
+fi
+
+popd > /dev/null
+#set +x
