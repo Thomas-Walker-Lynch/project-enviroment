@@ -11,25 +11,28 @@ This document explains how to make use of this project bin template.
 
 My convention for a project directory structure goes like this:
 
+```
   projects
          ╘<project_name>_dev
           ┝ LICENSE/COPYRIGHT
-          ╞ bin  <- from bin_project.git
+          ╞ project  <- from project.git
           ┝ env  <- this holds executables and libraries to be used for the project
           ┝ <project_name>  <-  from <project>.git
          ...
+```
 
-Only bin and <project_name> directories come from the repo.  The rest is
-are either created manually or by other setup scripts.
+You will notice there are two layers.  The top layer is `<project_name>_dev`
+and it is not tied to any repo.  It is created manually or by some other script.
+There is no `.git` file in this directory.
 
-You will notice there are two layers.  The top layer is <project_name>_dev
-and it is not tied to any repo.  There is no .git file in this directory.
+At the second level down there is the directory `<project_name>_dev/<project_name>`. This
+directory has the main `.git` file for our project code.
 
-At the second level down there is the directory <project_name>_dev/<project_name>. This
-directory has the main .git file in it.
+The `<project_name>/div/project` directory also has a `.git` file in it.  This directory
+has generic project, i.e. common to all projects, scripts in it.  Gosh you probably found
+this doc here.
 
-The project_name/div/bin directory also has a .git file in it.  This bin directory
-has generic project scripts in it, and also this file.
+Other repos that the project makes use of may also be cloned into `<project_name>_dev`
 
 
 ## Directions
