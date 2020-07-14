@@ -9,18 +9,17 @@ read -r -d '' InitFile <<-"EOF"
 
      export PROJECT="tranche"
      export VERSION="dev"
-
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
-     export ENV=/home/"$PROJECT"_"$VERSION"
-     export PHOME="$ENV"/"$PROJECT"
-     export TMP="$ENV"/tmp
-     export PATH="$ENV"/bin/:"$ENV"/env/bin:$PATH
+     export PHOME="$HOME"/projects/"$PROJECT"_"$VERSION"
+     export PREPO="$PHOME"/"$PROJECT"
+     export TMP="$PHOME"/tmp
+     export PATH="$PHOME"/project/:"$PHOME"/env/bin:$PATH
      export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT"_"$VERSION")]\n\u@\h§\w§\n> '
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
-     cd "$PHOME"
+     cd "$PREPO"
      echo $PATH
 EOF
 
@@ -35,6 +34,7 @@ env -i \
     LOGNAME="$LOGNAME" \
     USERNAME="$USERNAME" \
     DISPLAY="$DISPLAY" \
+    LANG="$LANG"\
     TERM="$TERM" \
     TERMCAP="$TERMCAP" \
     EDITOR="$EDITOR" \

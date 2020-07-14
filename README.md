@@ -1,38 +1,55 @@
 # bin_project
 
-generic project bin directory
+Stuff common to projects.
 
 This document explains how to make use of this project bin template.
 
-## Summary:
+## Directory Structure:
 --------
 
-<project_name> is the nane of your project.
+`<project_name>` is the nane of your project. 
 
-My convention for a project directory structure goes like this:
-
+The directory tree starting from the user working on the project typically looks something like
+this:
 ```
-  projects
-         ╘<project_name>_dev
-          ┝ LICENSE/COPYRIGHT
-          ╞ project  <- from project.git
-          ┝ env  <- this holds executables and libraries to be used for the project
-          ┝ <project_name>  <-  from <project>.git
-         ...
+  /home/<user>
+             ╘projects
+                     ╘<project_name>_dev
+                      ┝ LICENSE/COPYRIGHT
+                      ╞ project  <- from project.git
+                      ┝ env  <- this holds executables and libraries to be used for the project
+                      ┝ <project_name>  <-  from <project>.git
+                     ...
 ```
 
-You will notice there are two layers.  The top layer is `<project_name>_dev`
-and it is not tied to any repo.  It is created manually or by some other script.
-There is no `.git` file in this directory.
+Here the user's home directory is `/home/<user>`. Under the home directory the user
+has a subdirectory called `projects` where he or she puts all of his projects.  Each
+project then has an environment directory.
 
-At the second level down there is the directory `<project_name>_dev/<project_name>`. This
-directory has the main `.git` file for our project code.
+The environment directory is where we expand out the repo, hold installed programs from
+builds, put stuff common to all projects, and expand out other projects that we use as
+tools.  The initial project directory is called: `<project_name>_dev`. When a project is
+released a new `_dev` version is made, typically from scratch using all the latest tools,
+and the release directory is renamed to `<project_name>_<version>`, where `version` is
+typically an iso8601 date, but could be a number. Thus the release moves with all of the
+environment that made it work.
+
+This approach has been used with our customer_gateway project on the RT server. That
+project is the website.
+
+The `<project_name>_dev/<project_name>`directory has the main `.git` file for our project
+code. This then gets backed to github or the company server, or wherever. Hence the sources
+end up in the repo, and not the environment. We should be able to make a new environment,
+pull the sources, and rebuild the project.  The project should have a `requirements.txt` 
+file at the top level or in a docs directory. This should list the versions that things
+were built with if that seems relevent.
 
 The `<project_name>/div/project` directory also has a `.git` file in it.  This directory
-has generic project, i.e. common to all projects, scripts in it.  Gosh you probably found
-this doc here.
+cloned from github (or wherever) has scripts and programs common to all projects. If
+local modifications are made be sure to put them on a branch.
 
-Other repos that the project makes use of may also be cloned into `<project_name>_dev`
+Other repos that the project makes use of may also be cloned into the `<project_name>_dev`
+directory.
 
 
 ## Directions
@@ -57,24 +74,22 @@ Other repos that the project makes use of may also be cloned into `<project_name
 2. install the generic project scripts
 
   ```
-    > git clone https://github.com/Thomas-Walker-Lynch/bin_project.git
-  ```
-
-    Rename the directory from 'bin_projects' to 'bin'.
-    
-  ```
-    > cd bin
+    > git clone https://github.com/Thomas-Walker-Lynch/project.git
+    > cd project
     > git branch <project_name>
     > git checkout <project_name>
   ```
 
     Note, in the start script there is a PROJECT= variable.  Set that to <project_name>.
     Chances are that is the only changed needed, but review the contents just to be sure.
+
+    .. Gosh I should make that variable part of environment launch command pcd_<p>,
+    .. this has been planeed for a long time ... right now pcd is an alias
     
     Go back to the project environment directory
     
   ```
-    > cd .. 
+    > cd ..
   ```
 
 3. install the project 'repo' from github
@@ -105,7 +120,7 @@ Other repos that the project makes use of may also be cloned into `<project_name
 
 5. check the .gitignore
 
- Conversely, we also do not want to add clutter to the repo ourselves.   
+ Conversely, we also do not want to add clutter to the repo ourselves.
 
  .gitignore goes in: ~/<project_name>_dev/<project_name>/.gitignore.  You mightshould get one
  when pulling the project repo.  This file lists things that will not be added when you
@@ -120,7 +135,6 @@ Other repos that the project makes use of may also be cloned into `<project_name
       !.gitignore
       *~
       *.o
-      **/test
   ```
 
     And for a python project:
