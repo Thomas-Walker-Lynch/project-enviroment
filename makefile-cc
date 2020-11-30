@@ -179,7 +179,6 @@ clean:
 .PHONY: dist-clean
 dist-clean: clean
 	for i in $(EXEC); do [ -e $$i ] && rm $$i || true; done 
-	rm $(INCFILE) || true
 	rm $(LIBFILE) || true
 
 # recipes
