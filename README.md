@@ -1,4 +1,4 @@
-# bin_project
+# project_share
 
 Stuff common to projects.
 
