@@ -1,14 +1,28 @@
 #!/bin/bash
+# this will start a new shell that has an environment appropriate for the project
+# set -x
 
-#set -x
+if [ -z "$1" ]; then
+   echo "no project specified"
+   exit 1
+fi
+project="$1"
+
+if [ -z "$2" ]; then
+   version='master'
+else
+   version="$2"
+fi
+# script puts the project and version into the prompt, so don't need this
+# echo "$project" "$version"
+
 
 # makes an init file for bash. Variables from the environment of 'start' will not expand
 # within this heredoc because of the quotes around the EOF.  Yes, that is a thing.
+# cat comes from the files sytem, might be better to use read
+# InitFile=$(cat <<-"EOF"
 read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
-
-     export PROJECT="tranche"
-     export VERSION="dev"
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
      export PHOME="$HOME"/projects/"$PROJECT"_"$VERSION"
@@ -30,6 +44,8 @@ EOF
 # as a parameter.
 env -i \
     INSIDE_EMACS="$INSIDE_EMACS" \
+    PROJECT="$project"\
+    VERSION="$version"\
     HOSTNAME="$HOSTNAME" \
     LOGNAME="$LOGNAME" \
     USERNAME="$USERNAME" \

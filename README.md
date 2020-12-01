@@ -1,58 +1,190 @@
 # project_share
 
-Stuff common to projects.
+This document explains how Thomas sets up his projects.
 
-This document explains how to make use of this project bin template.
+A project is something that a group of people may work on simultaneously, or in series, while each does
+small tasks.  Some tasks may be done in parallel, while others have dependencies.  Specifically in 
+this case we are talking about projects for developing software.
 
-## Directory Structure:
+## Where code goes
 --------
 
-`<project_name>` is the nane of your project. 
+We have three distinct types of code:
 
-The directory tree starting from the user working on the project typically looks something like
-this:
+1. the application source code
+2. the libraries and other resources the application links into
+3. the tools used for building the source code
+
+Let's give these code types short names:
+
+1. source
+2. resources
+3. tools
+
+We have various places where we might put code:
+
+1. in the system
+2. in the developer's user directory
+3. in a project environment directory
+4. in a dedicated project directory.
+
+Unforunately it is hard to give these one word short names because the term ‘project’
+appears in two places, and because the term ‘environment’ already has overloaded meaning.
+I see a lot of programmers struggling with the resulting abiguity. Hence we will use some
+two word short names:
+
+1. system
+2. user
+3. project environment
+4. project home
+
+Now combining our code and locations into one list:
+
+1. source
+   1. project home
+2. resources
+   1. system
+   2. user
+   3. project environment
+3. tools
+   1. system
+   2. user
+   3. project environment
+   
+So there is only one place we will find the application code we are developing, and that is 
+under the project home directory. Resources that we may need in order to compile our code
+will be found either in the system, the user directory, or in the project environment. The
+same can be said for the tools we will use.
+
+Here is an example of what this looks like on disk:
+
 ```
-  /home/<user>
-             ╘projects
-                     ╘<project_name>_dev
-                      ┝ LICENSE/COPYRIGHT
-                      ╞ project  <- from project.git
-                      ┝ env  <- this holds executables and libraries to be used for the project
-                      ┝ <project_name>  <-  from <project>.git
-                     ...
+/home/thomas/
+  bin/
+    RT-RPC/
+    cargo/
+    rustup/
+    ssh_sunshine.sh
+    project_share/
+        LICENSE
+        README.md
+        makefile-cc
+        pull
+        push
+        rm_tilda_files_dir
+        rm_tilda_files_tree
+        sed_dir
+        sed_tree
+        start
+  Desktop/
+  Documents/
+  Downloads/
+  projects/
+    chessgame/
+    customer_gateway_dev/
+    subu/ 
+    tm/
+    ws4_dev/
+      LICENSE
+      README.md
+      env/
+         bin/
+         lib/
+         include/
+      tmp/
+      uWebSockets/
+      ws4/
+```
+I can use a lot of my scripts on many projects, so I put it under my home directory. 
+`project_share` consists mostly of scripts, so I stuck it under
+`bin`, then added this to my `.bashrc`:
+
+```
+ export PATH=~/bin:~/bin/project_share:"$PATH"
+
 ```
 
-Here the user's home directory is `/home/<user>`. Under the home directory the user
-has a subdirectory called `projects` where he or she puts all of his projects.  Each
-project then has an environment directory.
-
-The environment directory is where we expand out the repo, hold installed programs from
-builds, put stuff common to all projects, and expand out other projects that we use as
-tools.  The initial project directory is called: `<project_name>_dev`. When a project is
-released a new `_dev` version is made, typically from scratch using all the latest tools,
-and the release directory is renamed to `<project_name>_<version>`, where `version` is
-typically an iso8601 date, but could be a number. Thus the release moves with all of the
-environment that made it work.
-
-This approach has been used with our customer_gateway project on the RT server. That
-project is the website.
-
-The `<project_name>_dev/<project_name>`directory has the main `.git` file for our project
-code. This then gets backed to github or the company server, or wherever. Hence the sources
-end up in the repo, and not the environment. We should be able to make a new environment,
-pull the sources, and rebuild the project.  The project should have a `requirements.txt` 
-file at the top level or in a docs directory. This should list the versions that things
-were built with if that seems relevent.
-
-The `<project_name>/div/project` directory also has a `.git` file in it.  This directory
-cloned from github (or wherever) has scripts and programs common to all projects. If
-local modifications are made be sure to put them on a branch.
-
-Other repos that the project makes use of may also be cloned into the `<project_name>_dev`
-directory.
+`project_share` is a repo, and I created it with the commands:
 
 
-## Directions
+```
+> cd ~/bin
+> git clone git@github.com:Thomas-Walker-Lynch/project_share.git
+```
+
+It is important that each time `project_share` is updated from the repo that an audit is
+done.  This is to hopefully prevent mischief from fellow developers.  For example we
+wouldn't want `pull` to put use curses to draw chu-chu train in the terminal while email
+spaming all your colleauges, or worse. Pay close attention to the messages printed out by
+git so that you know which files to look at during the audit.  Chances are you will not pull
+`project_share` very often.
+
+The other thing to note about this directory listing is the subdirectory called
+`projects`.  This is where I put my project environment directories.  Note, the path
+`$HOME/projects` is built into some of the scripts in `project_share`.  Here is the
+expansion of just the project `ws4`:
+
+```
+   ws4_dev/
+     LICENSE
+     README.md
+     env/
+        bin/
+        include/
+        lib/
+     tmp/
+     uWebSockets/
+     ws4/
+```
+
+`ws4_dev` is a project environment. It is a repo. Inside this project environment we have a
+number a coupld of git submodule: `uWebSockets` and `ws4`.
+
+`ws4` is the project home. It contains the source code we are developing.  `uWebSockets` is
+someone elses github project which we are making use of.
+
+## Directory Naming
+
+The directory name for a project environment has two parts separated by an underscore, `<name>_<branch>`. 
+Conventionally I call the project environment that is actively being developed `<name>_master`.  Then
+I also call the repo that holds the project environment `<name>_env`.
+
+Here is another example listing of my projects directory
+
+```
+> cd ~/projects
+> ls
+    customer_gateway_master
+    customer_gateway_v1.0
+    customer_gateway_v2.0
+```
+
+The first directory was created with the commands:
+
+```
+> cd ~/projects
+> git clone git@github.com:Reasoning-Technology/customer_gateway_env.git
+> mv customer_gateway_env customer_gateway_master
+
+```
+
+The second directory was created with the commands:
+
+```
+> git clone git@github.com:Reasoning-Technology/customer_gateway_env.git
+> mv customer_gateway_env customer_gateway_v1.0
+> cd customer_gateway_v1.0
+> git checkout v1.0
+
+```
+
+So you ask why do we need more than one directory for the same repo? Well in this case I
+am running a web server against the v2.0 branch, and it needs to see the files the v2.0.
+In general this approach makes it easy to make changes against released code, where those
+changes are not immediately, if ever, folded back into the master version.
+
+
+## How To
 --------
 
 1. to make the directory structure:
@@ -62,47 +194,39 @@ directory.
     > mkdir ~/projects  # literally called projects
   ```
 
-  Then,
+  Then, 
   ```
     > cd ~/projects
-    > mkdir <project_name>_dev   # that is the project name with a suffix of '_dev'
-    > cd <project>_dev
-    > mkdir tmp env env/bin env/lib env/include
+    > git clone .../<project>_env
+    > cd <project>_env
+    > 
   ```
 
-
-2. install the generic project scripts
-
-  ```
-    > git clone https://github.com/Thomas-Walker-Lynch/project.git
-    > cd project
-    > git branch <project_name>
-    > git checkout <project_name>
-  ```
-
-    Note, in the start script there is a PROJECT= variable.  Set that to <project_name>.
-    Chances are that is the only changed needed, but review the contents just to be sure.
-
-    .. Gosh I should make that variable part of environment launch command pcd_<p>,
-    .. this has been planeed for a long time ... right now pcd is an alias
-    
-    Go back to the project environment directory
-    
-  ```
-    > cd ..
-  ```
-
-3. install the project 'repo' from github
+2. for submodules that have not yet been added:
 
   ```
-    > git clone https://github.com/.../<project_name>.git
+    > git submodule add https://github.com/Thomas-Walker-Lynch/project_share.git
+    > git submodule add https://github.com/../<project>
+    ...
+
+  ```
+   Etc. for the other modules
+
+   Note that we add the submodule <project> here,  *not* <project>_<version>. That
+   is the actual code we are developing, what we normally think of as a project.
+
+
+3. for submodules were added before but appear as empty directories:
+
+  ```
+    > git submodule init
+    > git submodule update
   ```
 
 4. be careful about executables and scripts
 
   There should be no direct to run executables or libraries that come with a pull or clone
-  of the repo.  If there are, there is a problem and we should figure out where it is
-  coming from.  git rm them.
+  of the repo.
 
   .gitignore does not prevent files from being pulled, so .. other project members
   are able to put executables in the repo accidentally (or gosh, hopefully not on
@@ -112,20 +236,15 @@ directory.
   contain the dot directory '.'.   This will prevent accidentally picking up such an
   executable.
 
-  Executables and libraries that we build, and scripts that come with the repo have two
-  types.  One type are those that we should install.  After a review, put them in ../env/bin
-  ../env/lib ../env/include directories as appropriate.  Others are repo specific, for
-  example for building code or testing.  Execute those directly by name, and not through
-  your path.
 
 5. check the .gitignore
 
  Conversely, we also do not want to add clutter to the repo ourselves.
 
- .gitignore goes in: ~/<project_name>_dev/<project_name>/.gitignore.  You mightshould get one
- when pulling the project repo.  This file lists things that will not be added when you
- do a git add. (or a push from the bin project scripts).  So no backup files, no test
- executables that are built as part of testing.
+ .gitignore can be found both in the project environment and the project home directories.  
+ You mightshould get one when pulling the project repo.  This file lists things that will
+ not be added when you do a git add. (or a push from the bin project scripts).  So no
+ backup files, no test executables that are built as part of testing.
 
  It should contain:
 
@@ -160,14 +279,38 @@ directory.
 
 6. To work in the project:
 
-   add an alias in your .bashrc file analogous to this one:
+   First enter a shell with a dedicated environment
 
   ```
-     alias pcd_pn="/home/thomas/projects/<project_name>/bin/start"
+     start <project> <branch>
   ```
 
-   here pn stands for 'project name', so you will probably want to change that.
-   The command:
+  So for the `ws4` project mentioned above:
+
+  ```
+     start ws4
+  ```
+
+  The branch defaults to master.  After start runs you will see this prompt:
+  
+  ```
+      2020-12-01T14:56:31Z [ws4_dev]
+      thomas@localhost§~/projects/ws4_dev§
+      > 
+  ```
+   
+  On the first line, the time shown is UTC in standard iso8601 format.  We use timestamps
+  of this form for transcripts and logs.  Following in square brackets you will see the
+  name of the project environment directory.
+
+  On the second line we have the user name, machine name, and current working directory.
+
+  Then on the third line we have the prompt. Anything you type appears after that.
+
+  When transcripts appear in this form we can hopefully make sense of what happened if
+  we examine them later.
+
+  
 
   ```
     > pcd_pn
