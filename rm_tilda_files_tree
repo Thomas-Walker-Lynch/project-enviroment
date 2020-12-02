@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# rm_tilda_files_tree .
+#
+
+if [ ! -d "$1" ]; then
+  echo "expected first arg to be a directory where rm_tilda_files_tree is to be applied, but found: " "$1"
+  exit 1
+fi
+
+find "$1" -not -path '*/\.git/*' -name '*~' -exec rm {} \;
+
