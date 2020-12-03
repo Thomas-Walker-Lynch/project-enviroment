@@ -4,8 +4,8 @@ if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
     exit 1;
 fi
-if [ -z "$PREPO" ]; then
-    echo "can't $0, no PREPO found in the environment"
+if [ -z "$PHOME" ]; then
+    echo "can't $0, no PHOME found in the environment"
     exit 1;
 fi
 if [ -z "$ENV" ]; then
@@ -16,7 +16,7 @@ TimeStamp="$TMP"/git_pull_timestamp
 
 
 touch "$TimeStamp"
-pushd "$PREPO" > /dev/null
+pushd "$PHOME" > /dev/null
 git pull || echo "git pull failed"
 
 # make a file that looks like a newly pulled executable for testing purposes
@@ -30,7 +30,7 @@ if [ -f "$TimeStamp" ]; then
        -newer "$TimeStamp" \
        -not -type d \
        -executable \
-       -exec echo "moving newly pulled executable file" {} "to $PREPO/tmp/"\; \
+       -exec echo "moving newly pulled executable file" {} "to $PHOME/tmp/"\; \
        -exec mv {} tmp/ \;
 else
   find . \

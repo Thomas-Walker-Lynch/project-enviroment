@@ -13,9 +13,6 @@ if [ -z "$2" ]; then
 else
    version="$2"
 fi
-# script puts the project and version into the prompt, so don't need this
-# echo "$project" "$version"
-
 
 # makes an init file for bash. Variables from the environment of 'start' will not expand
 # within this heredoc because of the quotes around the EOF.  Yes, that is a thing.
@@ -25,15 +22,15 @@ read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
-     export PHOME="$HOME"/projects/"$PROJECT"_"$VERSION"
-     export PREPO="$PHOME"/"$PROJECT"
-     export TMP="$PHOME"/tmp
-     export PATH="$PHOME"/project/:"$PHOME"/env/bin:$PATH
+     export PENV="$HOME"/projects/"$PROJECT"_"$VERSION"
+     export PHOME="$PENV"/"$PROJECT"
+     export TMP="$PENV"/tmp
+     export "$PENV"/env/bin:$PATH
      export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT"_"$VERSION")]\n\u@\h§\w§\n> '
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
-     cd "$PREPO"
+     cd "$PHOME"
      echo $PATH
 EOF
 

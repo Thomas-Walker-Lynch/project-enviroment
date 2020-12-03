@@ -1,0 +1,11 @@
+
+tmp/
+lib/
+exec/
+.*
+!.gitignore
+*~
+*.o
+*.i
+*.s
+a.out

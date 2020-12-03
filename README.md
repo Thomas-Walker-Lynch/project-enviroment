@@ -2,9 +2,10 @@
 
 This document explains how Thomas sets up his projects.
 
-A project is something that a group of people may work on simultaneously, or in series, while each does
-small tasks.  Some tasks may be done in parallel, while others have dependencies.  Specifically in 
-this case we are talking about projects for developing software.
+A ‘project’ is something that a group of people may work on simultaneously, or in series,
+while each person does small tasks.  Some tasks may be done in parallel, while others have
+dependencies.  Specifically in this case we are talking about projects for developing
+software.
 
 ## Where code goes
 --------
@@ -30,8 +31,7 @@ We have various places where we might put code:
 
 Unforunately it is hard to give these one word short names because the term ‘project’
 appears in two places, and because the term ‘environment’ already has overloaded meaning.
-I see a lot of programmers struggling with the resulting abiguity. Hence we will use some
-two word short names:
+We will resolve this problem by using a couple of two word short names:
 
 1. system
 2. user
@@ -65,7 +65,7 @@ Here is an example of what this looks like on disk:
     cargo/
     rustup/
     ssh_sunshine.sh
-    project_share/
+    project_share/   <--- resources and tools under the user directory
         LICENSE
         README.md
         makefile-cc
@@ -81,10 +81,10 @@ Here is an example of what this looks like on disk:
   Downloads/
   projects/
     chessgame/
-    customer_gateway_dev/
+    customer_gateway_master/
     subu/ 
     tm/
-    ws4_dev/
+    ws4_master/   <--- a project environment directory
       LICENSE
       README.md
       env/
@@ -93,11 +93,11 @@ Here is an example of what this looks like on disk:
          include/
       tmp/
       uWebSockets/
-      ws4/
+      ws4/   <--- a project home environment
 ```
-I can use a lot of my scripts on many projects, so I put it under my home directory. 
-`project_share` consists mostly of scripts, so I stuck it under
-`bin`, then added this to my `.bashrc`:
+
+Scripts common to all of my projects are in `project_share`. This consists mostly of
+executables, so I stuck it under `bin`.  I added the following to my `.bashrc`:
 
 ```
  export PATH=~/bin:~/bin/project_share:"$PATH"
@@ -113,16 +113,11 @@ I can use a lot of my scripts on many projects, so I put it under my home direct
 ```
 
 It is important that each time `project_share` is updated from the repo that an audit is
-done.  This is to hopefully prevent mischief from fellow developers.  For example we
-wouldn't want `pull` to put use curses to draw chu-chu train in the terminal while email
-spaming all your colleauges, or worse. Pay close attention to the messages printed out by
-git so that you know which files to look at during the audit.  Chances are you will not pull
-`project_share` very often.
-
-The other thing to note about this directory listing is the subdirectory called
-`projects`.  This is where I put my project environment directories.  Note, the path
-`$HOME/projects` is built into some of the scripts in `project_share`.  Here is the
-expansion of just the project `ws4`:
+done.  This is an attempt to prevent mischief from fellow developers.  For example we
+wouldn't want `pull` to instead run a program that draws a chu-chu train in the terminal
+while email spaming all our colleauges, or worse. Pay close attention to the messages
+printed out by git so that you know which files to look at during the audit.  Chances are
+you will not pull `project_share` very often.
 
 ```
    ws4_dev/
@@ -137,17 +132,18 @@ expansion of just the project `ws4`:
      ws4/
 ```
 
-`ws4_dev` is a project environment. It is a repo. Inside this project environment we have a
-number a coupld of git submodule: `uWebSockets` and `ws4`.
+`ws4_dev` is a project environment. It also comes from a git repo. Inside this project
+environment we have a couple of git submodule: `uWebSockets` and `ws4`.
 
 `ws4` is the project home. It contains the source code we are developing.  `uWebSockets` is
 someone elses github project which we are making use of.
 
-## Directory Naming
+## Repo and Directory Naming
 
-The directory name for a project environment has two parts separated by an underscore, `<name>_<branch>`. 
-Conventionally I call the project environment that is actively being developed `<name>_master`.  Then
-I also call the repo that holds the project environment `<name>_env`.
+The directory name for a project environment has two parts separated by an underscore,
+`<name>_<version>`.  Conventionally I call the project environment directory for the code
+that is actively being developed `<name>_master` (in older code it is called
+`<name>_dev`).  
 
 Here is another example listing of my projects directory
 
@@ -159,7 +155,12 @@ Here is another example listing of my projects directory
     customer_gateway_v2.0
 ```
 
-The first directory was created with the commands:
+These all come from the repo named `customer_gateway_env` on github.  All my repos for
+project environments have a `_env` suffix.  I follow the convention of first expanding the
+project environment repo and then changing the suffix to be the same as the branch if that
+is practical, otherwise some variation of that.
+
+This is how the `customer_gateway_master` project environment directory was made:
 
 ```
 > cd ~/projects
@@ -189,31 +190,35 @@ changes are not immediately, if ever, folded back into the master version.
 
 1. to make the directory structure:
 
-  If there is not already a projects directory in your home directory:
+  If there is not already a `projects` directory in your home directory:
   ```
-    > mkdir ~/projects  # literally called projects
+    > mkdir ~/projects
   ```
 
   Then, 
   ```
     > cd ~/projects
-    > git clone .../<project>_env
-    > cd <project>_env
+    > git clone git@github.com/<user>/<project>_env.git
+    > mv <project>_env <project>_master 
+    > cd <project>_master
     > 
   ```
+
+  Note in the line that moves the cloned repo `<project>_master` you might use a different
+  suffix than `master`.  Conventionally the suffix is the branch to be checked out and
+  worked on inside the project home directory, which in turn is the release version or ‘master’ 
+  for unreleased code, but the suffix could be anything.
+
 
 2. for submodules that have not yet been added:
 
   ```
-    > git submodule add https://github.com/Thomas-Walker-Lynch/project_share.git
-    > git submodule add https://github.com/../<project>
+    > git submodule add https://github.com/../<resource_project>
+    > git submodule add https://github.com/../<resource_project>
     ...
 
   ```
    Etc. for the other modules
-
-   Note that we add the submodule <project> here,  *not* <project>_<version>. That
-   is the actual code we are developing, what we normally think of as a project.
 
 
 3. for submodules were added before but appear as empty directories:
@@ -223,32 +228,50 @@ changes are not immediately, if ever, folded back into the master version.
     > git submodule update
   ```
 
-4. be careful about executables and scripts
+4. audit, legible scripts, and binary executables
 
-  There should be no direct to run executables or libraries that come with a pull or clone
-  of the repo.
+  These rules are best practice.
+  
+  New files on a clone or pull should be audited.  
 
-  .gitignore does not prevent files from being pulled, so .. other project members
-  are able to put executables in the repo accidentally (or gosh, hopefully not on
-  purpose). 
+  It is best to not have any executables pulled in the repo, text or binary. 
 
-  Your PATH variable should not point to any directory in the repo, and it should not
-  contain the dot directory '.'.   This will prevent accidentally picking up such an
-  executable.
+  The `project_share` repo has executable text scripts. You know this when you download
+  it, and should do a careful audit.  Unlike a project under development, this repo does
+  not change often, so a careful audit is possible.
+  
+  Binary executables are unauditable, consequently they are barred from the repos. It is
+  permissible, of course, for a build process to create a binary executable from source
+  files in a repo.  Source files are auditable.  Often times this is the whole point of
+  a repo.
+
+  `<project>_env` repos most typically have an `env` subdirectory, which in turn has `bin`
+  and `lib` subdirectories. The language environment might put executables into these
+  directories. Consequently, we typically do not put the `env` file nor its contents into
+  a repo.  You will typically find it listed in `.gitignore`.
+
+  However, there is a security hole in that `.gitignore` does not apply to pulled content,
+  so another developer with access to the repo could make it so that when we pull, the `env`
+  directory is given executable contents.  git gives us no feature to prevent this.  So
+  when you do a `git pull`, or `git clone`, for a `<project>_env` repo be careful to check
+  that nothing is pulled into `env` subdirectory. Chances are this is not too much trouble
+  as `<project>_env` is typically cloned once and then used there after.  The action occurs
+  in the project's home directory.
+
+  If you use the `push` and `pull` wrappers in `project_share`, they will scan for
+  executables and block them from being pushed/pulled to/from the repo for the project.
+
 
 
 5. check the .gitignore
 
- Conversely, we also do not want to add clutter to the repo ourselves.
-
- .gitignore can be found both in the project environment and the project home directories.  
- You mightshould get one when pulling the project repo.  This file lists things that will
- not be added when you do a git add. (or a push from the bin project scripts).  So no
- backup files, no test executables that are built as part of testing.
+ Conversely, we also do not want to add clutter to the repo ourselves, so you will
+ want to have a .gitignore.  This might be part of the project, check after a clone.
 
  It should contain:
 
   ```
+      env/
       tmp/
       .*
       !.gitignore
@@ -256,7 +279,10 @@ changes are not immediately, if ever, folded back into the master version.
       *.o
   ```
 
-    And for a python project:
+  This is setup to exclude the env and tmp directories, hidden files (except for .gitignore),
+  files suffixed by a tilda, and compiler object files.
+
+    Additionally for a python project:
   ```
       __pycache__/
       **/*.pyc
@@ -269,21 +295,18 @@ changes are not immediately, if ever, folded back into the master version.
       .vscode
   ```
 
-  This is setup by default to exclude tmp directories, files who's name starts with
-  temp, dot files (except for .gitignore), and files suffixed by a tilda.
-
-  Note, edits to this file will be shared with others on the project. This can
-  lead to accidents where a change by one user causes another user's files not
-  to get checked into the repo.  Check with git status what files will be
-  pushed.
+  Note, unless you explicitly disallow it, .gitignore will be pushed back to the repo.
 
 6. To work in the project:
 
    First enter a shell with a dedicated environment
 
   ```
-     start <project> <branch>
+     start <project> <version>
   ```
+
+  As noted above `<version>` is typically the name of the branch that will be expanded out
+  in the project home directory.
 
   So for the `ws4` project mentioned above:
 
@@ -337,5 +360,5 @@ changes are not immediately, if ever, folded back into the master version.
    git push to get the code pushed.
 
 
-
+(`push` and `pull` have not been updated to work with the new project tree yet.)
 

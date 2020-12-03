@@ -5,8 +5,8 @@ if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
     exit 1;
 fi
-if [ -z "$PREPO" ]; then
-    echo "can't $0, no PREPO found in the environment"
+if [ -z "$PHOME" ]; then
+    echo "can't $0, no PHOME found in the environment"
     exit 1;
 fi
 CommitMessage="$1"
@@ -19,8 +19,8 @@ if [ -z "$CommitMessage" ]; then
      fi
 fi
 
-pushd "$PREPO" > /dev/null
-#pushd "$PREPO" 
+pushd "$PHOME" > /dev/null
+#pushd "$PHOME" 
 
 # make clean any directories with a make file
 find . \
