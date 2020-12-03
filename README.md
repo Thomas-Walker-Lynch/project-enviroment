@@ -7,6 +7,8 @@ while each person does small tasks.  Some tasks may be done in parallel, while o
 dependencies.  Specifically in this case we are talking about projects for developing
 software.
 
+(push pull need to be updated for the submodules stuff)
+
 ## Where code goes
 --------
 
