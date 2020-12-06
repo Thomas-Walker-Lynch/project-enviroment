@@ -402,8 +402,8 @@ analogous actions for a pull.
   The `<version>` defaults to ‘master’.  After `start` runs you will see this prompt:
   
   ```
-      2020-12-01T14:56:31Z [ws4_dev]
-      thomas@localhost§~/projects/ws4_dev§
+      2020-12-01T14:56:31Z [ws4_master]
+      thomas@localhost§~/projects/ws4_master§
       > 
   ```
    
