@@ -415,11 +415,8 @@ analogous actions for a pull.
 
   On the second line we have the user name, machine name, and current working directory.
 
-  Then on the third line we have the prompt, `>`. Anything you type appears after that is
+  Then on the third line we have the prompt, `>`. Anything you type after the prompt is
   taken as the command for the shell.
-
-  When transcripts appear in this form we can hopefully make sense of what happened and in
-  what order when reading them later.
 
   When you have made changes in the project home directory and want to push them back to 
   the repo, first pull on the work from other team members:
