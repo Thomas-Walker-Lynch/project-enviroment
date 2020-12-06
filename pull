@@ -4,48 +4,65 @@ if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
     exit 1;
 fi
+if [ -z "$PENV" ]; then
+    echo "can't $0, no PENV project environment directory found."
+    exit 1;
+fi
 if [ -z "$PHOME" ]; then
-    echo "can't $0, no PHOME found in the environment"
+    echo "can't $0, no PHOME project home directory found in the environment"
     exit 1;
 fi
-if [ -z "$ENV" ]; then
-    echo "can't $0, no configuration directory, ENV, found in the environment"
-    exit 1;
-fi
-TimeStamp="$TMP"/git_pull_timestamp
 
-
+# don't want the pull to clobber this, and gosh, what if there are multiple pulls
+# simultaneously?  this is a bit of a hack but good enough for now ..
+TimeStamp="$TMP"/git_pull_timestamp_"$(od -A n -t x -N 8 /dev/urandom |tr -d ' ')"
 touch "$TimeStamp"
-pushd "$PHOME" > /dev/null
-git pull || echo "git pull failed"
+
+# would be better to make this project specific so we don't pull other submodules than the
+# project ..  or do we want the latest in the other submodules also?
+pushd "$PENV" > /dev/null
+git pull --recurse-submodules || echo "git pull failed"
 
 # make a file that looks like a newly pulled executable for testing purposes
 #  touch temp
 #  chmod +x temp
 
-if [ -f "$TimeStamp" ]; then
-  find . \
-       -not -path "./.git/*" \
-       -not -path "./tmp/*" \
-       -newer "$TimeStamp" \
-       -not -type d \
-       -executable \
-       -exec echo "moving newly pulled executable file" {} "to $PHOME/tmp/"\; \
-       -exec mv {} tmp/ \;
-else
-  find . \
-       -not -path "./.git/*" \
-       -not -path "./tmp/*" \
-       -newer "$TimeStamp" \
-       -not -type d \
-       -executable \
-       -exec echo "deleting newly pulled file because it is executable:" {}; \
-       -exec rm {}/ \;
-fi
+find . \
+     -newer "$TimeStamp" \
+     -not -path "./.git/*" \
+     -not -type d \
+     -executable \
+     -exec echo "Pulled file is executable, removing x flag: {}" \; \
+     -exec chmod -x {} \;
+
+find . \
+     -newer "$TimeStamp" \
+     -not -type d \
+     -not -name "\.git" \
+     -not -path "./.git/*" \
+     -exec echo "New file: {}" \;
+
+find . \
+     -newer "$TimeStamp" \
+     -not -path "./.git/*" \
+     -path "./tmp/*" \
+     -exec echo "Error, this file was pulled into a tmp directory: {}" \; 
+
+find env \
+     -newer "$TimeStamp" \
+     -exec echo "Error, this file was pulled into the env directory: {}" \; 
+
+find . \
+     -newer "$TimeStamp" \
+     -not -path "./.git/*" \
+     -not -name "\.git" \
+     -name "\.*" \
+     -exec echo "Error, hidden file was pulled: {}" \; 
 
 if [ .gitignore -nt "$TimeStamp" ]; then
     echo "Warning, .gitignore was modified."
 fi
 
+rm "$TimeStamp"
 popd > /dev/null
 #set +x

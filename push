@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -x
 
 if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
@@ -20,9 +19,8 @@ if [ -z "$CommitMessage" ]; then
 fi
 
 pushd "$PHOME" > /dev/null
-#pushd "$PHOME" 
 
-# make clean any directories with a make file
+# make clean any directories with a makefile
 find . \
      -not -path "./.git/*" \
      -not -path "./tmp/*" \
@@ -40,9 +38,17 @@ find . \
      -exec echo "suffixing ~ to executable " {} \; \
      -execdir mv {} {}~ \;
 
-git add . && git commit -m "$CommitMessage" && git push || echo "push failed"
+set -x
+git add . \
+    && git commit -m "$CommitMessage" \
+    && git push \
+    && cd "$PENV" \
+    && git add "$PROJECT" \
+    && git commit -m "$CommitMessage" \
+    && git push \
+    || echo "push failed"
+set +x
 
 popd > /dev/null
-#popd
 
-#set +x
+
