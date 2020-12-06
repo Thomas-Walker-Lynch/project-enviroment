@@ -8,12 +8,12 @@ Django, Common Lisp, Racket, and some other things.
 
 The term 'project' occurs over and over again so we best define it.
 
-Generally speaking, a ‘project’ consists of a number of tasks.  Some tasks may be done in
-parallel, while others have dependencies. There is a science for managing a team of people
-who are working tasks so as to get a project done.
+Generally speaking, a ‘project’ consists of a number of tasks for humans to perform.  Some
+tasks may be done in parallel, while others have dependencies. There is a science for
+managing a team of people who are working on tasks so as to get a project done.
 
 This document describes creating a development tree for a software project.  The directory
-is created by git cloning one more more shared git repositories.
+is created by expanding one or more git repos.
 
 
 ## Where code goes
@@ -38,9 +38,9 @@ We have various places where we might put code:
 3. in a project environment directory
 4. in a project's home directory.
 
-Unforunately it is hard to give these one word short names because the term ‘project’
-appears in two places, and because the term ‘environment’ already has overloaded meaning.
-We will resolve this problem by using a couple of two word short names:
+It is hard to give these one word short names because the term ‘project’ appears in two
+places, and because the term ‘environment’ already has overloaded meaning.  We will
+resolve this problem by using a couple of two word short names:
 
 1. system
 2. user
@@ -100,7 +100,7 @@ Here is an example of what this looks like on disk:
          include/
       tmp/
       uWebSockets/
-      ws4/   <--- a project home environment
+      ws4/   <--- a project home directory
 ```
 
 Scripts common to all of my projects are in `project_share`. This consists mostly of
@@ -112,10 +112,12 @@ following to my `.bashrc`:
 
 ```
 
-If you need to modify a script in `project_share` and do not want to shar the changes with
+If you need to modify a script in `project_share` and do not want to share the changes with
 the team, make a copy of the script in your own bin directory and modify it there.  note
-~/bin: will appear before ~/bin/project_share, so the changed script will get picked up
-instead of the `project_share` version.
+`~/bin` appears before `~/bin/project_share`, so the changed script will get picked up
+instead of the `project_share` version. For project specific scripts put them in 
+the project environment `env/bin`.  Be sure to add `env/bin` to the path in the 
+`env/bin/init.sh` script.
 
 `project_share` is a repo, and I created it with the commands:
 
@@ -155,12 +157,20 @@ developing.
 
 `ws4_master/uWebSockets` is someone else's github project which we are making use of.
 
+Also inside of `ws4_master` we have a directory called `env`. This is used to hold
+project specific resources and tools.  Note that the contents of `env` are *not* 
+pushed to the repo. Normally `env` holds the results of tool builds.
+
 
 ## Repo and Directory Naming
 
+All my repos for project environments have a `_env` suffix.  Hence they will clone
+into directores named `<project>_env`.  After cloning I rename the directory to
+`<project>_<version>`, where `<version>` is typically the same name as the branch
+that is most commonly checked out in the directory.
+
 The directory name for a project environment has two parts separated by an underscore,
-`<name>_<version>`.  Conventionally I call the project environment directory for the code
-that is actively being developed `<name>_master`.  
+`<name>_<version>`.
 
 Here is another example listing of a projects directory:
 
@@ -172,11 +182,6 @@ Here is another example listing of a projects directory:
     customer_gateway_v2.0
 ```
 
-These all come from the repo named `customer_gateway_env` on github.  All my repos for
-project environments have a `_env` suffix.  I follow the convention of first expanding the
-project environment repo and then changing the suffix to be the same as the branch when that
-is practical, otherwise some variation of that.
-
 This is how the `customer_gateway_master` project environment directory was made:
 
 ```
@@ -185,8 +190,9 @@ This is how the `customer_gateway_master` project environment directory was made
 > mv customer_gateway_env customer_gateway_master
 
 ```
-When downloading an `<project>_env` repo, we can expand the submodules at the same time
-by including the --recusive switch.
+When downloading a `<project>_env` repo, we can expand the submodules at the same time
+by including the --recusive switch, as was shown above.  If the `--recurisve` switch
+is not given, the submodules will have to be initialized and updated.
 
 The second directory was then created with the commands:
 
@@ -200,20 +206,18 @@ The second directory was then created with the commands:
 
 So you ask why do we need more than one directory for the same repo? Well in this case I
 am running a web server against the v2.0 branch, and it needs to see the files the v2.0.
-The v1.0 directory was the one that was formally being served. It is nice to be able to
-see the difference between the old and new sites.  In general this approach makes it easy
-to make changes against released code, where those changes are not immediately, if ever,
-folded back into the master version.
+The v1.0 directory was the one that was formally being served. There are no servers
+pointed at it now, so I should probably delete it.  If I ever need v1.0 again I can always
+check it out. 
 
 
 ## Git Modules and Submodules
 
-When we clone a `git` repository that we get a directory tree which in git speak is
-apparently called a `module`.  (I suppose had it been Python it would have been called a
-‘package’).
+Clone a `git` repository produces a directory tree, which in git speak is
+apparently called a `module`.
 
-We may change directory into a module and clone another module, this will be called
-a ‘submodule’.  This second clone must be done with this command:
+We may `cd` into a module and clone another module, this will be called a ‘submodule’.  A
+submodule clone requires a special command so that the module will know it is there:
 
 ```
 git submodule add <repo>
@@ -324,9 +328,11 @@ analogous actions for a pull.
 5. check the .gitignore
 
  Conversely, we also do not want to add clutter to the repo ourselves, so you will
- want to have a .gitignore.  This might be part of the project, check after a clone.
+ want to have a `.gitignore`.  This might be part of the project, check after a clone.
 
- It should contain:
+ A project environment `.gitignore` will have the `env` and `tmp` files init.  We
+ don't want hidden files in the environment, except for .gitignore, which we have no
+ choice over. By convention files ending in a ‘~’ character are ignored.
 
   ```
       env/
@@ -334,26 +340,43 @@ analogous actions for a pull.
       .*
       !.gitignore
       *~
+  ```
+
+  For a C or C++ project home directory we will also ignore various intermediate files,
+
+  ```
+      tmp/
+      .*
+      !.gitignore
+      *~
       *.o
+      *.i
+      *.s
+      a.out
   ```
 
-  This is setup to exclude the env and tmp directories, hidden files (except for .gitignore),
-  files suffixed by a tilda, and compiler object files.
 
-    Additionally for a python project:
+  For a python project:
   ```
+      tmp/
+      .*
+      !.gitignore
       __pycache__/
       **/*.pyc
   ```
  
     And for a django project:
+
   ```
+      tmp/
+      .*
+      !.gitignore
+      __pycache__/
+      **/*.pyc
       manage.py
       **/migrations
       .vscode
   ```
-
-  Note, unless you explicitly disallow it, .gitignore will be pushed back to the repo.
 
 6. To work in the project:
 
@@ -365,6 +388,10 @@ analogous actions for a pull.
 
   As noted above `<version>` is typically the name of the branch that will be expanded out
   in the project home directory.
+
+  This command will open a new shell with the environment setup for the project.  The
+  new shell will source your user directory `.bashrc` file, and will source the project
+  environment's `env/bin/init.sh` file.
 
   So for the `ws4` project mentioned above:
 
@@ -381,42 +408,39 @@ analogous actions for a pull.
   ```
    
   On the first line, the time shown is UTC in standard iso8601 format.  We use timestamps
-  of this form for transcripts and logs.  Following in square brackets you will see the
+  of this form for transcripts and logs. Following in square brackets you will see the
   name of the project environment directory.
+
+  If the time does not show as above, copy the `Z` command in `project_share` to `/usr/local/bin`.
 
   On the second line we have the user name, machine name, and current working directory.
 
-  Then on the third line we have the prompt. Anything you type appears after that.
+  Then on the third line we have the prompt, `>`. Anything you type appears after that is
+  taken as the command for the shell.
 
-  When transcripts appear in this form we can hopefully make sense of what happened if
-  we examine them later.
+  When transcripts appear in this form we can hopefully make sense of what happened and in
+  what order when reading them later.
 
-  
-
-  ```
-    > pcd_pn
-  ```
-
-   will then open a new shell with the pwd set to the project repo directory and the PATH
-   setup to pull commands from the project environment.  When finished with the project,
-   exit the shell.
-
-   One in the project directory you should use the command
+  When you have made changes in the project home directory and want to push them back to 
+  the repo, first pull on the work from other team members:
 
   ```
      > pull
   ```
 
-   to pull from the repo.  And
+  You will have to work out any conflicts.
+
+
+  The push your work back to the repo:
 
   ```
      > push
   ```
 
-   to add, commit, and push to the repo.  If things get out of sync, fix them using
-   the usual git commands.  For example, if push fails you might have to git commit -m and
-   git push to get the code pushed.
+  Those scripts do the intermediate staging, commit, and push/pull, both for the project
+  and the project environment.  If things go wrong, you will have to read through the
+  transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
+  and use `git` directly.
+  
 
-
-(`push` and `pull` have not been updated to work with the new project tree yet.)
 

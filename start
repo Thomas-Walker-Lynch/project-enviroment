@@ -31,6 +31,7 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PHOME"
+     . "$PENV"/env/bin/init.sh
      echo $PATH
 EOF
 
