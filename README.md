@@ -1,6 +1,6 @@
 
 
-Share is a collection of scripts and resources that are common to my projects. Scripts
+Share is a collection of scripts and resources I use for multiple github projects. Scripts
 include such things as ‘start’, ’push’, and ‘pull’.  Built into the scripts are
 assumptions on the structure of the directory used for holding a project.
 
@@ -8,13 +8,9 @@ assumptions on the structure of the directory used for holding a project.
 
 The term ‘project’ occurs repeatedly in this document and generally when we talk about
 code, so it is best to start by nailing that term down.  Generally speaking, a ‘project’
-has a well defined set of resource needs ends and tasks to perform so as to produce a
-deliverable on schedule.  Yes there are many people now rolling on the floor in laughter, as
-all these things are known to evolve. 
-
-What we have in our code repository are source files, libraries, and tools. It is
-fashionable these days to install the tools along with the rest of the project.  This
-leads to a two layer directory structure.
+has a well defined final product, along with a list resource needs, tasks, task
+dependencies, and a tasks schedule.  It is the job of the team members to execute said
+tasks.
 
 In project management parlance, a group of related projects is called a ‘program’. Well
 that sure is an unfortunate choice of term for us CS people, so instead we will call a
@@ -26,6 +22,9 @@ Projects are held in git repositories, as project ensembles are also projects, t
 also held in git repositories. When we clone a project ensemble we will find other git
 repositories have been expanded inside the directory tree.  Those are for the component
 projects.  In git speak we call these component project directory trees ‘submodules’.
+
+When a project ensemble is expanded out, we end up with a directory tree structure where
+project resources, tools, and work products are stored.
 
 ## Where code goes
 --------
@@ -133,8 +132,8 @@ This is how to clone the `share` project:
 It is important that each time `share` is updated from the repo that an audit is done.
 With this audit we hope to prevent mischief from fellow developers.  For example we
 wouldn't want the `pull` to run a program that draws a chu-chu train in the terminal while
-email spamming all our colleagues, or worse. Pay close attention to the messages printed
-out by git so that you know which files to look at during the audit.
+emailing itself to everyone on your contacts list, or worse. Pay close attention to the
+messages printed out by git so that you know which files to look at during the audit.
 
 Now looking under my `projects` directory, and expanding out `ws4_master`:
 
@@ -159,13 +158,15 @@ Now looking under my `projects` directory, and expanding out `ws4_master`:
 We know it is the active project because it has the same name as the ensemble prefix.
 Whereas `ws4_master/uWebSockets` is someone else's github project. There are other people
 working that, but it is not us, and it is being developed in a different
-environment. Rather we are just making use of the results of that project.
+environment. Rather we are just making use of the work product of that project.
 
 Also inside of `ws4_master` we have a directory called `env`. Frankly, I don't like the
-name.  I have toyed with calling it `share`, but this is the name that python expects.
-Perhaps make it a symbol link?  This directory is used to hold project specific resources
-and tools.  Note that the contents of `env` are *not* pushed to the repo. Normally `env`
-holds the results of tool builds.
+name.  I have toyed with calling it `share`, but `env` is the name that Python and others
+expect.  Perhaps make it a symbol link?  This directory is used to hold project specific
+resources and tools.  Note that the contents of `env` are *not* pushed to the repo. This
+means that custom edits you make to scripts will not be backed up to the repo.  I also do
+not like `env` because it is not pushed to the repo, but it might be *pulled* from it.
+`.gitignore` does not affect pulls.  This is a security hazard.
 
 
 ## Repo and Directory Naming
@@ -229,7 +230,7 @@ git submodule add <repo>
 
 We might do this because our project depends on other projects, and those other projects
 have their own git repositories, or because we are developing more than one project
-together under one shared environment.
+together with one shared environment.
 
 We then use the submodule just like we would use any other git module.  I.e. after we make
 changes we must add the changes, then commit them, and then push the submodule.
@@ -242,7 +243,7 @@ We truly have two layers, and we have to maintain them individually. Luckily we 
 scripts so that we don't to type stuff twice. In the `share` project there are two
 scripts, one called `push` the other called `pull`.  When we run the `push` script it goes
 into the project home and does an add, commit, and push.  It then goes up to the ensemble
-directory and `git add`s the project submodule, commits the change, and the pushes. Finally
+directory and `git add`s the project submodule, commits the change, and then pushes. Finally
 it pops directory back to the project.  The current `pull` script pulls down all the
 submodules and the ensemble.
 
@@ -309,8 +310,8 @@ submodules and the ensemble.
   
   Binary executables are unauditable, consequently they are barred from the repos. It is
   permissible, of course, for a build process to create a binary executable from source
-  files in a repo.  Source files are auditable.  Often times this is the whole point of
-  a repo.
+  files and put it within the directory structure for the project, it is just that the
+  executable should not be pushed to the repo.  Source files are auditable.
 
   `<project>_ensemble` repos most typically have an `env` sub-directory, which in turn has
   `bin` and `lib` sub-directories. Local builds might put executables into these
@@ -322,7 +323,7 @@ submodules and the ensemble.
   directory is given executable contents.  git gives us no feature to prevent this.  So
   when you do a `git pull`, or `git clone`, for a `<project>_ensemble` repo be careful to check
   that nothing is pulled into `env` sub-directory. Chances are this is not too much trouble
-  as `<project>_ensemble` is typically cloned once and then used there after.  The action occurs
+  as `<project>_ensemble` is typically cloned once and then used thereafter.  The action occurs
   in the project's home directory.
 
   If you use the `push` and `pull` wrappers in `share`, they will scan for executables and
@@ -384,7 +385,10 @@ submodules and the ensemble.
 
 6. To work in the project:
 
-   First enter a shell with a dedicated environment
+  This command will open a new shell with the environment setup for the project.  The
+  new shell will source your user directory `.bashrc` file, and will source the project
+  environment's `env/bin/init.sh` file.
+
 
   ```
      start <project> <version>
@@ -392,10 +396,6 @@ submodules and the ensemble.
 
   As noted above `<version>` is typically the name of the branch that will be expanded out
   in the project home directory.
-
-  This command will open a new shell with the environment setup for the project.  The
-  new shell will source your user directory `.bashrc` file, and will source the project
-  environment's `env/bin/init.sh` file.
 
   So for the `ws4` project mentioned above:
 
