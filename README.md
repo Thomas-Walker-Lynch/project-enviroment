@@ -1,20 +1,31 @@
-# Project Share
 
-This document explains how I setup my projects both personally and for RT.  This has
-evolved into place over some years.  I use git or hg, C, C++, Python, and occasionally Rust,
-Django, Common Lisp, Racket, and some other things.
+
+Share is a collection of scripts and resources that are common to my projects. Scripts
+include such things as ‘start’, ’push’, and ‘pull’.  Built into the scripts are
+assumptions on the structure of the directory used for holding a project.
 
 ## What is a ‘project’
 
-The term 'project' occurs over and over again so we best define it.
+The term ‘project’ occurs repeatedly in this document and generally when we talk about
+code, so it is best to start by nailing that term down.  Generally speaking, a ‘project’
+has a well defined set of resource needs ends and tasks to perform so as to produce a
+deliverable on schedule.  Yes there are many people now rolling on the floor in laughter, as
+all these things are known to evolve. 
 
-Generally speaking, a ‘project’ consists of a number of tasks for humans to perform.  Some
-tasks may be done in parallel, while others have dependencies. There is a science for
-managing a team of people who are working on tasks so as to get a project done.
+What we have in our code repository are source files, libraries, and tools. It is
+fashionable these days to install the tools along with the rest of the project.  This
+leads to a two layer directory structure.
 
-This document describes creating a development tree for a software project.  The directory
-is created by expanding one or more git repos.
+In project management parlance, a group of related projects is called a ‘program’. Well
+that sure is an unfortunate choice of term for us CS people, so instead we will call a
+group of related projects a ‘project ensemble’.  A project ensemble itself is also a kind
+of project, where the tasks are the component projects.  Hence we have a recursive
+structure. CS people like recursive structures ;-)  
 
+Projects are held in git repositories, as project ensembles are also projects, they are
+also held in git repositories. When we clone a project ensemble we will find other git
+repositories have been expanded inside the directory tree.  Those are for the component
+projects.  In git speak we call these component project directory trees ‘submodules’.
 
 ## Where code goes
 --------
@@ -31,47 +42,49 @@ Let's give these code types short names:
 2. resources
 3. tools
 
-We have various places where we might put code:
+We have various places where we might put code that we need in a program:
 
 1. in the system
 2. in the developer's user directory
-3. in a project environment directory
+3. in a project ensemble
 4. in a project's home directory.
 
-It is hard to give these one word short names because the term ‘project’ appears in two
-places, and because the term ‘environment’ already has overloaded meaning.  We will
-resolve this problem by using a couple of two word short names:
+We shorten these to
 
 1. system
 2. user
-3. project environment
-4. project home
+3. ensemble
+4. project
 
 Now combining our code and locations into one list:
 
 1. source
-   1. project home
+   1. project
 2. resources
    1. system
    2. user
-   3. project environment
+   3. ensemble
 3. tools
    1. system
    2. user
-   3. project environment
+   3. ensemble
    
 So there is only one place we will find the application source code that we are
-developing, and that is under the project home directory. Resources that we may need in
+developing, and that is under the project directory. Resources that we may need in
 order to compile our code will be found either in the system, the user directory, or in
-the project environment. The same can be said for the tools we will use.
+the ensemble. The same can be said for the tools we will use.
 
-Here is an example of what this looks like on disk:
+This is what my home directory looks like:
 
 ```
 /home/thomas/
   bin/
-    cargo/
-    project_share/   <--- resources and tools under the user directory
+  Desktop/
+  Documents/
+  Downloads/
+  projects/
+    chessgame/
+    share/      <--- place for resources and tools shared by all projects
         LICENSE
         README.md
         makefile-cc
@@ -79,58 +92,48 @@ Here is an example of what this looks like on disk:
         push
         rm_tilda_files_tree
         start
-    RT-RPC/
-    rustup/
-    ssh_shine.sh
-    sed_tree
-  Desktop/
-  Documents/
-  Downloads/
-  projects/
-    chessgame/
-    customer_gateway_master/
     subu/ 
     tm/
-    ws4_master/   <--- a project environment directory
+    ws4_master/   <--- an ensemble directory
       LICENSE
       README.md
-      env/
-         bin/
-         lib/
-         include/
+      env/  <--- place to put stuff shared within the ensemble
+          bin/
+          lib/
+          include/
       tmp/
-      uWebSockets/
-      ws4/   <--- a project home directory
+      uWebSockets/ <--- resource project directory
+      ws4/   <--- target project directory
 ```
 
-Scripts common to all of my projects are in `project_share`. This consists mostly of
-executables, so I stuck `project_share` under my user `bin` directory.  I added the
-following to my `.bashrc`:
+Scripts common to all of my projects are in the project `share`.  I added the following to my
+`.bashrc`:
 
 ```
- export PATH=~/bin:~/bin/project_share:"$PATH"
+ export PATH=~/bin:~/projects/share:"$PATH"
 
 ```
 
-If you need to modify a script in `project_share` and do not want to share the changes with
-the team, make a copy of the script in your own bin directory and modify it there.  note
-`~/bin` appears before `~/bin/project_share`, so the changed script will get picked up
-instead of the `project_share` version. For project specific scripts put them in 
-the project environment `env/bin`.  Be sure to add `env/bin` to the path in the 
-`env/bin/init.sh` script.
+If you need to modify a script in the `share` project and do not want to distribute the
+changes to the team, make a copy of the script in your own bin directory and modify it
+there.  note `~/bin` appears before `~/projects/share`, so the changed script will get
+picked up instead of the `share` version. For custom project specific scripts put them in
+the project environment `env/bin`.  Be sure modify the default `env/bin/init.sh` script to
+add `env/bin` to the executables search path.  Also note, that the contents of the `env`
+directory do not get pushed back to the repo, so you will need to make copies of your `env`
+stuff if you want to keep them.
 
-`project_share` is a repo, and I created it with the commands:
-
+This is how to clone the `share` project:
 
 ```
-> cd ~/bin
-> git clone git@github.com:Thomas-Walker-Lynch/project_share.git
+> cd ~/projects
+> git clone git@github.com:Thomas-Walker-Lynch/share.git
 ```
 
-It is important that each time `project_share` is updated from the repo that an audit is
-done.  This is an attempt to prevent mischief from fellow developers.  For example we
+It is important that each time `share` is updated from the repo that an audit is done.
+With this audit we hope to prevent mischief from fellow developers.  For example we
 wouldn't want the `pull` to run a program that draws a chu-chu train in the terminal while
-email spaming all our colleauges, or worse. Pay close attention to the messages printed
+email spamming all our colleagues, or worse. Pay close attention to the messages printed
 out by git so that you know which files to look at during the audit.
 
 Now looking under my `projects` directory, and expanding out `ws4_master`:
@@ -149,28 +152,28 @@ Now looking under my `projects` directory, and expanding out `ws4_master`:
      ws4/
 ```
 
-`ws4_master` is a project environment. It also comes from a git repo. Inside this project
-environment we have a couple of git submodule: `uWebSockets` and `ws4`.
+`ws4_master` is a project ensemble. The component projects include `uWebSockets` and
+`ws4`. This project ensemble also comes from a git repo.
 
-`ws4_master/ws4` is the project home directory. It contains the source code we are
-developing.  
+`ws4_master/ws4` is the home directory for the project this team is actively working on.
+We know it is the active project because it has the same name as the ensemble prefix.
+Whereas `ws4_master/uWebSockets` is someone else's github project. There are other people
+working that, but it is not us, and it is being developed in a different
+environment. Rather we are just making use of the results of that project.
 
-`ws4_master/uWebSockets` is someone else's github project which we are making use of.
-
-Also inside of `ws4_master` we have a directory called `env`. This is used to hold
-project specific resources and tools.  Note that the contents of `env` are *not* 
-pushed to the repo. Normally `env` holds the results of tool builds.
+Also inside of `ws4_master` we have a directory called `env`. Frankly, I don't like the
+name.  I have toyed with calling it `share`, but this is the name that python expects.
+Perhaps make it a symbol link?  This directory is used to hold project specific resources
+and tools.  Note that the contents of `env` are *not* pushed to the repo. Normally `env`
+holds the results of tool builds.
 
 
 ## Repo and Directory Naming
 
-All my repos for project environments have a `_env` suffix.  Hence they will clone
-into directores named `<project>_env`.  After cloning I rename the directory to
+All my repos for project ensembles have a `_ensemble` suffix.  Hence they will clone
+into directories named `<project>_ensemble`.  After cloning I rename the directory to
 `<project>_<version>`, where `<version>` is typically the same name as the branch
 that is most commonly checked out in the directory.
-
-The directory name for a project environment has two parts separated by an underscore,
-`<name>_<version>`.
 
 Here is another example listing of a projects directory:
 
@@ -186,19 +189,19 @@ This is how the `customer_gateway_master` project environment directory was made
 
 ```
 > cd ~/projects
-> git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_env.git
-> mv customer_gateway_env customer_gateway_master
+> git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
+> mv customer_gateway_ensemble customer_gateway_master
 
 ```
-When downloading a `<project>_env` repo, we can expand the submodules at the same time
-by including the --recusive switch, as was shown above.  If the `--recurisve` switch
+When downloading a `<project>_ensemble` repo, we can expand the submodules at the same time
+by including the --recursive switch, as was shown above.  If the `--recursive` switch
 is not given, the submodules will have to be initialized and updated.
 
 The second directory was then created with the commands:
 
 ```
-> git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_env.git
-> mv customer_gateway_env customer_gateway_v1.0
+> git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
+> mv customer_gateway_ensemble customer_gateway_v1.0
 > cd customer_gateway_v1.0
 > git checkout v1.0
 
@@ -213,11 +216,12 @@ check it out.
 
 ## Git Modules and Submodules
 
-Clone a `git` repository produces a directory tree, which in git speak is
+Cloning a `git` repository produces a directory tree, which in git speak is
 apparently called a `module`.
 
 We may `cd` into a module and clone another module, this will be called a ‘submodule’.  A
-submodule clone requires a special command so that the module will know it is there:
+submodule clone operation requires a special command so that the module will know it is
+there:
 
 ```
 git submodule add <repo>
@@ -235,11 +239,12 @@ submodule.  Hence, after there is a commit in a submodule, we must go up to the 
 then add the submodule, commit, then push the module.
 
 We truly have two layers, and we have to maintain them individually. Luckily we have some
-scripts so that we don't to type stuff twice. In `project_share` there are two
-scripts, one called `push` the other called `pull`.  The `push`script goes to the project
-home and does an add, commit, and push.  It then goes up to the environment directory and
-adds the project submodule, commits the change, and the pushes.  The `pull` script takes
-analogous actions for a pull.
+scripts so that we don't to type stuff twice. In the `share` project there are two
+scripts, one called `push` the other called `pull`.  When we run the `push` script it goes
+into the project home and does an add, commit, and push.  It then goes up to the ensemble
+directory and `git add`s the project submodule, commits the change, and the pushes. Finally
+it pops directory back to the project.  The current `pull` script pulls down all the
+submodules and the ensemble.
 
 
 ## How To
@@ -255,8 +260,8 @@ analogous actions for a pull.
   Then, 
   ```
     > cd ~/projects
-    > git clone git@github.com/<user>/<project>_env.git
-    > mv <project>_env <project>_master 
+    > git clone git@github.com/<user>/<project>_ensemble.git
+    > mv <project>_ensemble <project>_master 
     > cd <project>_master
     > 
   ```
@@ -286,8 +291,7 @@ analogous actions for a pull.
 
    Submodules directories will be empty when the `--recursive` switch is not provided with
    the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
-   `init` and `update` so that it is easier to tell what caused errors.  See the git man
-   pages for more details.
+   `init` and `update` so that it is easier to tell what caused errors.
 
 
 4. audit, legible scripts, and binary executables
@@ -296,33 +300,33 @@ analogous actions for a pull.
   
   New files on a clone or pull should be audited.
 
-  It is best to not have any executables pulled in the repo, text or binary. No executables
-  should appear in a project home directory.
+  It is best to not have any executables pulled in the repo, text or binary. There should be
+  no executables in a project home directory.
 
-  The whole point of the `project_share` repo is to provide executable text scripts, so of
+  The whole point of the `share` repo is to provide executable text scripts, so of
   course it does not follow this rule.  There should be a careful audit after a pull into 
-  `project_share`.
+  `share`.
   
   Binary executables are unauditable, consequently they are barred from the repos. It is
   permissible, of course, for a build process to create a binary executable from source
   files in a repo.  Source files are auditable.  Often times this is the whole point of
   a repo.
 
-  `<project>_env` repos most typically have an `env` subdirectory, which in turn has `bin`
-  and `lib` subdirectories. The language environment might put executables into these
-  directories. Consequently, we typically do not put the `env` file nor its contents into
-  a repo.  You will typically find it listed in `.gitignore`.
+  `<project>_ensemble` repos most typically have an `env` sub-directory, which in turn has
+  `bin` and `lib` sub-directories. Local builds might put executables into these
+  directories. Consequently, we do not put the `env` file nor its contents into a repo.
+  You should find `env/` listed in `.gitignore` for the project ensemble.
 
   However, there is a security hole in that `.gitignore` does not apply to pulled content,
   so another developer with access to the repo could make it so that when we pull, the `env`
   directory is given executable contents.  git gives us no feature to prevent this.  So
-  when you do a `git pull`, or `git clone`, for a `<project>_env` repo be careful to check
-  that nothing is pulled into `env` subdirectory. Chances are this is not too much trouble
-  as `<project>_env` is typically cloned once and then used there after.  The action occurs
+  when you do a `git pull`, or `git clone`, for a `<project>_ensemble` repo be careful to check
+  that nothing is pulled into `env` sub-directory. Chances are this is not too much trouble
+  as `<project>_ensemble` is typically cloned once and then used there after.  The action occurs
   in the project's home directory.
 
-  If you use the `push` and `pull` wrappers in `project_share`, they will scan for
-  executables and block them from being pushed/pulled to/from the repo for the project.
+  If you use the `push` and `pull` wrappers in `share`, they will scan for executables and
+  warn you about them.
 
 
 5. check the .gitignore
@@ -407,11 +411,11 @@ analogous actions for a pull.
       > 
   ```
    
-  On the first line, the time shown is UTC in standard iso8601 format.  We use timestamps
+  On the first line, the time shown is UTC in standard iso8601 format.  We use time stamps
   of this form for transcripts and logs. Following in square brackets you will see the
   name of the project environment directory.
 
-  If the time does not show as above, copy the `Z` command in `project_share` to `/usr/local/bin`.
+  If the time does not show as above, copy the `Z` command in `share` to `/usr/local/bin`.
 
   On the second line we have the user name, machine name, and current working directory.
 
