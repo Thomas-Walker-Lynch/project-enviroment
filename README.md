@@ -1,8 +1,15 @@
 
 
-Share is a collection of scripts and resources I use for multiple github projects. Scripts
-include such things as ‘start’, ’push’, and ‘pull’.  Built into the scripts are
-assumptions on the structure of the directory used for holding a project.
+# `share`
+
+`share` is a collection of scripts and resources I use for multiple github
+projects. Scripts include such things as ‘start’, ’push’, and ‘pull’.  Built into the
+scripts are assumptions on the structure of the directory used for holding a
+project.
+
+Although `share` is a repo, and a project, the scripts in `share` do not work with
+`share`. In case you want to modify the `share` project, there is a `share_init.sh` script
+which you may move to your ~/bin and customize.
 
 ## What is a ‘project’
 
@@ -26,10 +33,33 @@ projects.  In git speak we call these component project directory trees ‘submo
 When a project ensemble is expanded out, we end up with a directory tree structure where
 project resources, tools, and work products are stored.
 
-## Where code goes
+## `Z`
+
+‘Z’ stands for ‘zulu time’ an antiquated term for UTC time.  Probably because it is
+nostalgic and convenient the abbreviation `Z`has been maintained as part of ISO 8601.
+
+The script Z prints a timestamp.  Scripts in `share` make use of it.  An admin
+should change its ownership to root and install it in `/usr/local/bin`.  Script
+reference it through an absolute path.
+
+## `home`
+
+`home` is binary executable for getting the user's home directory from `/etc/passwd`.
+This is used for security reasons in bash scripts, because `$HOME` is inherited 
+from the environment and thus might not be the home directory.
+
+The source and makefile are in `share/src/home`.  However an admin really needs to install
+this program.  If the program is owned by the same user it is used by, then it might be
+overwritten to give different answers. 
+
+To use `home` place it at the top of your script and overwrite the `HOME` variable
+from the environment. Something like: `HOME=$(/usr/local/bin/home)`.
+
+
+## Where project code goes
 --------
 
-We have three distinct types of code:
+On a typical project we will have three distinct types of code:
 
 1. the application source code
 2. the libraries and other resources the application makes use of
