@@ -35,11 +35,11 @@ project resources, tools, and work products are stored.
 
 ## `Z`
 
-‘Z’ stands for ‘zulu time’ an antiquated term for UTC time.  Probably because it is
-nostalgic and convenient the abbreviation `Z`has been maintained as part of ISO 8601.
+‘Z’ stands for ‘Zulu time’ an antiquated term for UTC time.  Probably because it is
+nostalgic and convenient the abbreviation `Z` has been maintained as part of ISO 8601.
 
-The script Z prints a timestamp.  Scripts in `share` make use of it.  An admin
-should change its ownership to root and install it in `/usr/local/bin`.  Script
+The script Z prints a time stamp.  Scripts in `share` make use of it.  An admin
+should change its ownership to root and install it in `/usr/local/bin`.  Scripts may
 reference it through an absolute path.
 
 ## `home`
@@ -48,9 +48,9 @@ reference it through an absolute path.
 This is used for security reasons in bash scripts, because `$HOME` is inherited 
 from the environment and thus might not be the home directory.
 
-The source and makefile are in `share/src/home`.  However an admin really needs to install
-this program.  If the program is owned by the same user it is used by, then it might be
-overwritten to give different answers. 
+The source and makefile for building home are in `share/src/home`.  However an admin needs
+to install this program.  If the program is owned by the same user it is used by, then it
+might be overwritten to give different answers.
 
 To use `home` place it at the top of your script and overwrite the `HOME` variable
 from the environment. Something like: `HOME=$(/usr/local/bin/home)`.
