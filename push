@@ -42,7 +42,7 @@ set -x
 git add . \
     && git commit -m "$CommitMessage" \
     && git push \
-    && cd "$PENV" \
+    && cd "$PENS" \
     && git add "$PROJECT" \
     && git commit -m "$CommitMessage" \
     && git push \

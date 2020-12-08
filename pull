@@ -4,8 +4,8 @@ if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
     exit 1;
 fi
-if [ -z "$PENV" ]; then
-    echo "can't $0, no PENV project environment directory found."
+if [ -z "$PENS" ]; then
+    echo "can't $0, no PENS project environment directory found."
     exit 1;
 fi
 if [ -z "$PHOME" ]; then
@@ -20,7 +20,7 @@ touch "$TimeStamp"
 
 # would be better to make this project specific so we don't pull other submodules than the
 # project ..  or do we want the latest in the other submodules also?
-pushd "$PENV" > /dev/null
+pushd "$PENS" > /dev/null
 git pull --recurse-submodules || echo "git pull failed"
 
 # make a file that looks like a newly pulled executable for testing purposes

@@ -22,16 +22,16 @@ read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
-     export PENV="$HOME"/projects/"$PROJECT"_"$VERSION"
-     export PHOME="$PENV"/"$PROJECT"
-     export TMP="$PENV"/tmp
-     export "$PENV"/env/bin:$PATH
+     export PENS="$HOME"/projects/"$PROJECT"_"$VERSION"
+     export PHOME="$PENS"/"$PROJECT"
+     export TMP="$PENS"/tmp
+     export "$PENS"/env/bin:$PATH
      export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT"_"$VERSION")]\n\u@\h§\w§\n> '
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
      cd "$PHOME"
-     . "$PENV"/env/bin/init.sh
+     . "$PENS"/env/bin/init.sh
      echo $PATH
 EOF
 
