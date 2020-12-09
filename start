@@ -21,6 +21,7 @@ fi
 read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
      export HOME=$(/usr/local/bin/home)
+     export USER=$(/usr/local/bin/user)
      export SHELL=/bin/bash
      export PENS="$HOME"/projects/"$PROJECT"_"$VERSION"
      export PHOME="$PENS"/"$PROJECT"
@@ -31,7 +32,7 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PHOME"
-     . "$PENS"/env/bin/init.sh
+     . "$PENS"/user/morpheus/init.sh
      echo $PATH
 EOF
 
