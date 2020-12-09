@@ -32,7 +32,7 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PHOME"
-     . "$PENS"/user/morpheus/init.sh
+     . "$PENS"/users/morpheus/init.sh
      echo $PATH
 EOF
 
