@@ -9,4 +9,3 @@ exec/
 *.i
 *.s
 a.out
-project-environment_init.sh

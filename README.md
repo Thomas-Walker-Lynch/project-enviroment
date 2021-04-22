@@ -16,7 +16,7 @@ dependencies, and a tasks schedule.  It is the job of the team members to execut
 tasks.
 
 In project management parlance, a group of related projects is called a ‘program’. Well
-that sure is an unfortunate choice of term for us CS people, so instead we will call a
+that sure is an unfortunate choice of terminology for us CS people, so instead we will call a
 group of related projects a ‘project ensemble’.  A project ensemble itself is also a kind
 of project, where the tasks are the component projects.  Hence we have a recursive
 structure. CS people like recursive structures ;-)  
@@ -74,7 +74,7 @@ We have various places where we might put code that we need in a program:
 3. in a project ensemble
 4. in a project's home directory.
 
-We shorten these to
+We shorten this list of places to:
 
 1. system
 2. user
@@ -131,8 +131,7 @@ This is what my home directory looks like:
       ws4/   <--- target project directory
 ```
 
-Scripts common to all of my projects are in the project `project-share`.  I added the following to my
-`.bashrc`:
+I added the following to my `.bashrc`:
 
 ```
  export PATH=~/bin:~/projects/share:"$PATH"
