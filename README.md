@@ -1,8 +1,8 @@
 
 
-# `share`
+# `project-environment`
 
-`share` is a collection of scripts and resources I use for multiple github
+`project-environment` is a collection of scripts and resources I use for multiple github
 projects. Scripts include such things as ‘start’, ’push’, and ‘pull’.  Built into the
 scripts are assumptions on the structure of the directory used for holding a
 project.
