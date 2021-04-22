@@ -4,3 +4,4 @@ tmp/
 .*
 !.gitignore
 *~
+project-environment_init.sh

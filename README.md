@@ -7,10 +7,6 @@ projects. Scripts include such things as ‘start’, ’push’, and ‘pull’
 scripts are assumptions on the structure of the directory used for holding a
 project.
 
-Although `project-environment` is a repo, and a project, the scripts in `project-environment` do not work with
-`project-environment`. In case you want to modify the `project-environment` project, there is a `share_init.sh` script
-which you may move to your ~/bin and customize.
-
 ## What is a ‘project’
 
 The term ‘project’ occurs repeatedly in this document and generally when we talk about
@@ -39,7 +35,7 @@ project resources, tools, and work products are stored.
 nostalgic and convenient the abbreviation `Z` has been maintained as part of ISO 8601.
 
 The script Z prints a time stamp.  Scripts in `project-environment` make use of it.  An admin
-should change its ownership to root and install it in `/usr/local/bin`.  Scripts may
+should change its ownership to root and install it in `/usr/local/bin`.  Some scripts here might
 reference it through an absolute path.
 
 ## `home`
@@ -48,7 +44,7 @@ reference it through an absolute path.
 This is used for security reasons in bash scripts, because `$HOME` is inherited 
 from the environment and thus might not be the home directory.
 
-The source and makefile for building home are in `share/src/home`.  However an admin needs
+The source and makefile for building home are in `project-environment/src/home`.  However an admin needs
 to install this program.  If the program is owned by the same user it is used by, then it
 might be overwritten to give different answers.
 
