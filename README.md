@@ -29,7 +29,7 @@ projects.  In git speak we call these component project directory trees ‘submo
 When a project ensemble is expanded out, we end up with a directory tree structure where
 project resources, tools, and work products are stored.
 
-## `Z`
+## About the `Z` script.
 
 ‘Z’ stands for ‘Zulu time’ an antiquated term for UTC time.  Probably because it is
 nostalgic and convenient the abbreviation `Z` has been maintained as part of ISO 8601.
@@ -38,7 +38,7 @@ The script Z prints a time stamp.  Scripts in `project-environment` make use of 
 should change its ownership to root and install it in `/usr/local/bin`.  Some scripts here might
 reference it through an absolute path.
 
-## `home`
+## About the `home` script
 
 `home` is binary executable for getting the user's home directory from `/etc/passwd`.
 This is used for security reasons in bash scripts, because `$HOME` is inherited 
