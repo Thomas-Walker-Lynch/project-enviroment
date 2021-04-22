@@ -1,8 +1,8 @@
 
 
-# `project-environment`
+# `project-share`
 
-`project-environment` is a collection of scripts and resources I use for multiple github
+`project-share` is a collection of scripts and resources I use for multiple github
 projects. Scripts include such things as ‘start’, ’push’, and ‘pull’.  Built into the
 scripts are assumptions on the structure of the directory used for holding a
 project.
@@ -34,7 +34,7 @@ project resources, tools, and work products are stored.
 ‘Z’ stands for ‘Zulu time’ an antiquated term for UTC time.  Probably because it is
 nostalgic and convenient the abbreviation `Z` has been maintained as part of ISO 8601.
 
-The script Z prints a time stamp.  Scripts in `project-environment` make use of it.  An admin
+The script Z prints a time stamp.  Scripts in `project-share` make use of it.  An admin
 should change its ownership to root and install it in `/usr/local/bin`.  Some scripts here might
 reference it through an absolute path.
 
@@ -44,7 +44,7 @@ reference it through an absolute path.
 This is used for security reasons in bash scripts, because `$HOME` is inherited 
 from the environment and thus might not be the home directory.
 
-The source and makefile for building home are in `project-environment/src/home`.  However an admin needs
+The source and makefile for building home are in `project-share/src/home`.  However an admin needs
 to install this program.  If the program is owned by the same user it is used by, then it
 might be overwritten to give different answers.
 
@@ -131,7 +131,7 @@ This is what my home directory looks like:
       ws4/   <--- target project directory
 ```
 
-Scripts common to all of my projects are in the project `project-environment`.  I added the following to my
+Scripts common to all of my projects are in the project `project-share`.  I added the following to my
 `.bashrc`:
 
 ```
@@ -139,23 +139,23 @@ Scripts common to all of my projects are in the project `project-environment`.  
 
 ```
 
-If you need to modify a script in the `project-environment` project and do not want to distribute the
+If you need to modify a script in the `project-share` project and do not want to distribute the
 changes to the team, make a copy of the script in your own bin directory and modify it
 there.  note `~/bin` appears before `~/projects/share`, so the changed script will get
-picked up instead of the `project-environment` version. For custom project specific scripts put them in
+picked up instead of the `project-share` version. For custom project specific scripts put them in
 the project environment `env/bin`.  Be sure modify the default `env/bin/init.sh` script to
 add `env/bin` to the executables search path.  Also note, that the contents of the `env`
 directory do not get pushed back to the repo, so you will need to make copies of your `env`
 stuff if you want to keep them.
 
-This is how to clone the `project-environment` project:
+This is how to clone the `project-share` project:
 
 ```
 > cd ~/projects
 > git clone git@github.com:Thomas-Walker-Lynch/share.git
 ```
 
-It is important that each time `project-environment` is updated from the repo that an audit is done.
+It is important that each time `project-share` is updated from the repo that an audit is done.
 With this audit we hope to prevent mischief from fellow developers.  For example we
 wouldn't want the `pull` to run a program that draws a chu-chu train in the terminal while
 emailing itself to everyone on your contacts list, or worse. Pay close attention to the
@@ -187,7 +187,7 @@ working that, but it is not us, and it is being developed in a different
 environment. Rather we are just making use of the work product of that project.
 
 Also inside of `ws4_master` we have a directory called `env`. Frankly, I don't like the
-name.  I have toyed with calling it `project-environment`, but `env` is the name that Python and others
+name.  I have toyed with calling it `project-share`, but `env` is the name that Python and others
 expect.  Perhaps make it a symbol link?  This directory is used to hold project specific
 resources and tools.  Note that the contents of `env` are *not* pushed to the repo. This
 means that custom edits you make to scripts will not be backed up to the repo.  I also do
@@ -266,7 +266,7 @@ submodule.  Hence, after there is a commit in a submodule, we must go up to the 
 then add the submodule, commit, then push the module.
 
 We truly have two layers, and we have to maintain them individually. Luckily we have some
-scripts so that we don't to type stuff twice. In the `project-environment` project there are two
+scripts so that we don't to type stuff twice. In the `project-share` project there are two
 scripts, one called `push` the other called `pull`.  When we run the `push` script it goes
 into the project home and does an add, commit, and push.  It then goes up to the ensemble
 directory and `git add`s the project submodule, commits the change, and then pushes. Finally
@@ -330,9 +330,9 @@ submodules and the ensemble.
   It is best to not have any executables pulled in the repo, text or binary. There should be
   no executables in a project home directory.
 
-  The whole point of the `project-environment` repo is to provide executable text scripts, so of
+  The whole point of the `project-share` repo is to provide executable text scripts, so of
   course it does not follow this rule.  There should be a careful audit after a pull into 
-  `project-environment`.
+  `project-share`.
   
   Binary executables are unauditable, consequently they are barred from the repos. It is
   permissible, of course, for a build process to create a binary executable from source
@@ -352,7 +352,7 @@ submodules and the ensemble.
   as `<project>_ensemble` is typically cloned once and then used thereafter.  The action occurs
   in the project's home directory.
 
-  If you use the `push` and `pull` wrappers in `project-environment`, they will scan for executables and
+  If you use the `push` and `pull` wrappers in `project-share`, they will scan for executables and
   warn you about them.
 
 
@@ -441,7 +441,7 @@ submodules and the ensemble.
   of this form for transcripts and logs. Following in square brackets you will see the
   name of the project environment directory.
 
-  If the time does not show as above, copy the `Z` command in `project-environment` to `/usr/local/bin`.
+  If the time does not show as above, copy the `Z` command in `project-share` to `/usr/local/bin`.
 
   On the second line we have the user name, machine name, and current working directory.
 
