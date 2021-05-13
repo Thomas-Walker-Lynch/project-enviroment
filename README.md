@@ -2,32 +2,30 @@
 
 # `project-share`
 
-`project-share` is a collection of scripts and resources I use for multiple github
-projects. Scripts include such things as ‘start’, ’push’, and ‘pull’.  Built into the
-scripts are assumptions on the structure of the directory used for holding a
-project.
+`project-share` is a collection of scripts and resources I use for multiple github projects. Scripts include such things
+as ‘start’, ’push’, and ‘pull’.  Built into the scripts are assumptions on the structure of the directory used for
+holding a project.
+
+related local customization scripts may be found in the project 'usr-local-bin'. Examples include 'Z' and 'home'.
 
 ## What is a ‘project’
 
-The term ‘project’ occurs repeatedly in this document and generally when we talk about
-code, so it is best to start by nailing that term down.  Generally speaking, a ‘project’
-has a well defined final product, along with a list resource needs, tasks, task
-dependencies, and a tasks schedule.  It is the job of the team members to execute said
-tasks.
+The term ‘project’ occurs repeatedly in this document and generally when we talk about code, so it is best to start by
+nailing that term down.  Generally speaking, a ‘project’ has a well defined final product, along with a list resource
+needs, tasks, task dependencies, and a tasks schedule.  It is the job of the team members to execute said tasks.
 
-In project management parlance, a group of related projects is called a ‘program’. Well
-that sure is an unfortunate choice of terminology for us CS people, so instead we will call a
-group of related projects a ‘project ensemble’.  A project ensemble itself is also a kind
-of project, where the tasks are the component projects.  Hence we have a recursive
-structure. CS people like recursive structures ;-)  
+In project management parlance, a group of related projects is called a ‘program’. Well that sure is an unfortunate
+choice of terminology for us CS people, so instead we will call a group of related projects a ‘project ensemble’.  A
+project ensemble itself is also a kind of project, where the tasks are the component projects.  Hence we have a
+recursive structure. CS people like recursive structures ;-)
 
-Projects are held in git repositories, as project ensembles are also projects, they are
-also held in git repositories. When we clone a project ensemble we will find other git
-repositories have been expanded inside the directory tree.  Those are for the component
-projects.  In git speak we call these component project directory trees ‘submodules’.
+Projects are held in git repositories, as project ensembles are also projects, they are also held in git
+repositories. When we clone a project ensemble we will find other git repositories have been expanded inside the
+directory tree.  Those are for the component projects.  In git speak we call these component project directory trees
+‘submodules’.
 
-When a project ensemble is expanded out, we end up with a directory tree structure where
-project resources, tools, and work products are stored.
+When a project ensemble is expanded out, we end up with a directory tree structure where project resources, tools, and
+work products are stored.
 
 ## About the `Z` script.
 
