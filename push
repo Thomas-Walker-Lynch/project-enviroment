@@ -21,33 +21,32 @@ fi
 
 pushd "$PHOME" > /dev/null
 
-# make clean any directories with a makefile
-find . \
-     -not -path "./.git/*" \
-     -not -path "./tmp/*" \
-     -type f \
-     -name 'makefile' \
-     -execdir make clean \;
+  # make clean any directories with a makefile
+  find . \
+       -not -path "./.git/*" \
+       -not -path "./tmp/*" \
+       -type f \
+       -name 'makefile' \
+       -execdir make clean \;
 
-# executables should not be checked into the repo, yet we found these:
-find . \
-     -not -path "./.git/*" \
-     -not -path "./tmp/*" \
-     -not -name '*~'\
-     -type f \
-     -executable \
-     -exec echo "found executable" {} \; 
-#     -execdir mv {} {}~ \;
+  # executables should not be checked into the repo, yet we found these:
+  find . \
+       -not -path "./.git/*" \
+       -not -path "./tmp/*" \
+       -not -name '*~'\
+       -type f \
+       -executable \
+       -exec echo "found executable" {} \; 
+  #     -execdir mv {} {}~ \;
 
-set -x
-git add . \
-    && git commit -m "$CommitMessage" \
-    && git pull \
-    && git add . \
-    && git commit -m "$CommitMessage" \
-    && git push \
-    || echo "push failed"
-set +x
+  set -x
+  git stash
+  git pull
+  git stash apply
+  git add .
+  git commit
+  git push
+  set +x
 
 popd > /dev/null
 
