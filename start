@@ -32,8 +32,9 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PHOME"
-     if [ -f "$HOME"/bin/"$PROJECT".sh ]; then
-       . "$HOME"/bin/"$PROJECT".sh
+     INITF="$HOME"/bin/"$PROJECT".sh
+     if [ -f "$INITF" ]; then
+       . "$INITF"
      fi
      echo $PATH
 EOF
