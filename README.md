@@ -1,12 +1,265 @@
 
 
-# `project-share`
+# `resources`
 
-`project-share` is a collection of scripts and resources I use for multiple github projects. Scripts include such things
-as ‘start’, ’push’, and ‘pull’.  Built into the scripts are assumptions on the structure of the directory used for
+This repo contains various scripts that are used by a group of projects. These include such things
+as ‘start’, ’push’, ‘pull’, and a generic make file.
+
+Built into the scripts are assumptions on the structure of the directory used for
 holding a project.
 
-related local customization scripts may be found in the project 'usr-local-bin'. Examples include 'Z' and 'home'.
+
+## How To Install the ‘resources’ repo
+--------
+
+1. find a or make a place to put all of the projects you are working on.  These projects might be in
+  different languages, etc. 
+
+  ```
+    > mkdir ~/repos
+  ```
+
+2. install the system scripts used by the scripts in this repo
+
+
+  ```
+    > cd ~/repos
+    > git clone git@github.com:Thomas-Walker-Lynch/usr-local-bin
+  ```
+
+  The follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
+
+  ‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
+
+3. clone this repo to get the shared resources
+
+  ```
+    > cd ~/repos
+    > git clone git@github.com:Thomas-Walker-Lynch/resources.git
+  ```
+
+4. set the executables PATH
+
+I added the following to my `.bashrc`:
+
+```
+ export PATH=~/bin:~/repos/resources:"$PATH"
+
+``
+
+[//]: # end of list
+
+That is it for installing this repo.
+
+## How to install a project that has sub-modules.
+
+1. install the project
+
+  Suppose the project with submodules is called <project>_ensemble
+
+  ```
+    > cd ~/repos
+    > git clone git@github.com/<user>/<project>_ensemble.git
+    > mv <project>_ensemble <project>_master 
+    > cd <project>_master
+    > 
+  ```
+
+  Note in the line that moves the cloned repo directory to `<project>_master`, you might
+  use a different suffix than `master`.  Conventionally the suffix is the branch to be
+  checked out and worked on, but the scripts do not care what it is set to. Inside the
+  scripts this suffix is called the project ‘version’.
+
+2. for submodules that have not yet been added:
+
+  ```
+    > git submodule add https://github.com/../<resource_project>
+    > git submodule add https://github.com/../<resource_project>
+    ...
+
+  ```
+   Etc. for the other modules
+
+
+3. if a submodule is empty, then do the following:
+
+  ```
+    > git submodule init
+    > git submodule update
+  ```
+
+   Submodules directories will be empty when the `--recursive` switch is not provided with
+   the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
+   `init` and `update` so that it is easier to tell what caused errors.
+
+[//]: # end of list
+
+
+## Generally About Project Security
+
+1. audit source files and legible scripts
+
+  Watch what git installs.  For new things that are source code or scripts, audit those.
+
+2. PATH
+
+   Do not have the repo in your execution PATH.
+
+2. binary executbles
+
+  It is best to not have binary executables in the repo.  Instead, build anything executable
+  from local audited source code.
+
+  It is a common error for co-developers to compile and get an executable, and then not
+  add that to the .gitignore, so it poisons the repo.  Watch your pulls and clones,
+  and remove those from the repo, and complain about them.
+
+  Edit your .gitignore so that you will not be the bad guy.
+
+  If you must run an executable from a repo, then you surely trust the source.  Make
+  sure there is a cryptographic signature provided for checking it.  Make sure the
+  permissions and user and group membership are correct. Consider running it in a
+  container.
+  
+3. .gitignore does not help for pulls
+
+  ‘.gitignore’ does not apply to pulled content.  If another developer failed to
+  ignore executables on a push, you will get them on a pull even if they are
+  listed in ‘.gitignore’
+
+4. check for the .gitignore and audit it, add to it
+
+ Conversely, we do not want to add clutter to the repo ourselves, so you will
+ want to have a `.gitignore`.  This might be part of the project, check for it
+ after cloning a new repo.
+
+ Typical .gitignore files:
+
+  ```
+      env/
+      tmp/
+      .*
+      !.gitignore
+      *~
+  ```
+
+  For a C or C++ project home directory we will also ignore various intermediate files,
+
+  ```
+      tmp/
+      .*
+      !.gitignore
+      *~
+      *.o
+      *.i
+      *.s
+      a.out
+  ```
+
+
+  For a python project:
+  ```
+      tmp/
+      .*
+      !.gitignore
+      __pycache__/
+      **/*.pyc
+  ```
+ 
+    And for a django project:
+
+  ```
+      tmp/
+      .*
+      !.gitignore
+      __pycache__/
+      **/*.pyc
+      manage.py
+      **/migrations
+      .vscode
+  ```
+
+5. no hidden files
+
+ Git already messes this up with their ‘.git’ directory and ‘.gitignore’.  Don't
+ add any more.
+
+ By convention files ending in a ‘~’ character are to be ignored.
+
+ Consider adding a tmp directory where its contents are ignored.
+
+[//]: # end of list
+
+## Some of the scripts found in this repo
+
+### start
+
+  This replaces any other script you might be accustom to for entering a ‘virtual environment’.
+  (Note ‘virtual’ is a misnomer.  An environment is just what it is.  What we are doing is
+  changing the environment.  There is nothing ‘virtual’ about it.)
+
+  This following command will open a new shell with the environment setup for the project.  The new shell will source
+  your user directory `.bashrc` file, and will source the project environment's `env/bin/init.sh` file.
+
+
+  ```
+     start <project> <version>
+  ```
+
+  As noted above `<version>` is typically the name of the branch that will be expanded out
+  in the project home directory.
+
+  So for my `ws4` project:
+
+  ```
+     start ws4
+  ```
+
+  The `<version>` defaults to ‘master’.  If you are making use of my .bashrc prompt,
+  after `start` runs you will see this prompt:
+  
+  ```
+      2020-12-01T14:56:31Z [ws4_master]
+      thomas@localhost§~/projects/ws4_master§
+      > 
+  ```
+   
+  On the first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script.  We use
+  time stamps of this form for transcripts and logs.
+
+  On the same line following the time, in square brackets you will see the name of the project.
+
+  On the second line we have the user name, machine name, and current working directory.
+
+  Then on the third line we have the prompt, `>`. Anything you type after the prompt is
+  taken as the command for the shell.
+
+### pull and push
+
+  These are short cuts for the git repo commands.  It is best to use these as it allows us to wrap up
+  other work to be done along with the git repo command.  
+
+  When you have made changes in the project home directory and want to push them back to 
+  the repo, first pull on the work from other team members:
+
+  ```
+     > pull
+  ```
+
+  You will then have to work out any conflicts if any, as for any git pull.
+
+
+  Then push your work back to the repo:
+
+  ```
+     > push
+  ```
+
+  Those scripts do the intermediate staging, commit, and push/pull, both for the project
+  and the project environment.  If things go wrong, you will have to read through the
+  transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
+  and use `git` directly.
+  
 
 ## General info and concepts
 
@@ -38,12 +291,15 @@ On a typical project we will have three distinct types of code:
 1. the application source code
 2. the libraries and other resources the application makes use of
 3. the tools used for building the source code
+[//]: # end of list
 
 Let's give these code types short names:
 
 1. source
 2. resources
 3. tools
+
+[//]: # end of list
 
 We have various places where we might put code that we need in a program:
 
@@ -52,12 +308,16 @@ We have various places where we might put code that we need in a program:
 3. in a project ensemble
 4. in a project's home directory.
 
+[//]: # end of list
+
 We shorten this list of places to:
 
 1. system
 2. user
 3. ensemble
 4. project
+
+[//]: # end of list
 
 Now combining our code and locations into one list:
 
@@ -71,6 +331,9 @@ Now combining our code and locations into one list:
    1. system
    2. user
    3. ensemble
+
+[//]: # end of list
+
    
 So there is only one place we will find the application source code that we are
 developing, and that is under the project directory. Resources that we may need in
@@ -87,7 +350,7 @@ This is what my home directory looks like:
   Downloads/
   repos/
     chessgame/
-    resources/      <--- resources for all projects - expand this repo here
+    resources/  <--- resources for all projects - expand this repo here
         LICENSE
         README.md
         makefile-cc
@@ -100,7 +363,7 @@ This is what my home directory looks like:
     ws4_master/   <--- an ensemble directory
       LICENSE
       README.md
-      env/  <--- a resources specific to the ensemble
+      env/  <--- resources specific to the ensemble (wish this was called ‘resources’
           bin/
           lib/
           include/
@@ -108,35 +371,6 @@ This is what my home directory looks like:
       uWebSockets/ <--- resource project directory
       ws4/   <--- target project directory
 ```
-
-I added the following to my `.bashrc`:
-
-```
- export PATH=~/bin:~/projects/share:"$PATH"
-
-```
-
-If you need to modify a script in the `project-share` project and do not want to distribute the
-changes to the team, make a copy of the script in your own bin directory and modify it
-there.  note `~/bin` appears before `~/projects/share`, so the changed script will get
-picked up instead of the `project-share` version. For custom project specific scripts put them in
-the project environment `env/bin`.  Be sure modify the default `env/bin/init.sh` script to
-add `env/bin` to the executables search path.  Also note, that the contents of the `env`
-directory do not get pushed back to the repo, so you will need to make copies of your `env`
-stuff if you want to keep them.
-
-This is how to clone the `project-share` project:
-
-```
-> cd ~/projects
-> git clone git@github.com:Thomas-Walker-Lynch/share.git
-```
-
-It is important that each time `project-share` is updated from the repo that an audit is done.
-With this audit we hope to prevent mischief from fellow developers.  For example we
-wouldn't want the `pull` to run a program that draws a chu-chu train in the terminal while
-emailing itself to everyone on your contacts list, or worse. Pay close attention to the
-messages printed out by git so that you know which files to look at during the audit.
 
 Now looking under my `projects` directory, and expanding out `ws4_master`:
 
@@ -170,6 +404,18 @@ resources and tools.  Note that the contents of `env` are *not* pushed to the re
 means that custom edits you make to scripts will not be backed up to the repo.  I also do
 not like `env` because it is not pushed to the repo, but it might be *pulled* from it.
 `.gitignore` does not affect pulls.  This is a security hazard.
+
+## Modifying your resources
+
+If you need to modify a script in the `resources` project and do not want to distribute the
+changes to the team, make a copy of the script in your own bin directory and modify it
+there.  note `~/bin` appears before `~/projects/share`, so the changed script will get
+picked up instead of the `project-share` version. 
+
+For project specific scripts put them in the project environment `env/bin`.  Be sure to modify the default
+`env/bin/init.sh` script to add `env/bin` to the executables search path.  Also note, that the contents of the `env`
+directory do not get pushed back to the repo, so you will need to make copies of your `env` stuff if you want to keep
+them.
 
 
 ### Repo and Directory Naming
@@ -249,210 +495,5 @@ into the project home and does an add, commit, and push.  It then goes up to the
 directory and `git add`s the project submodule, commits the change, and then pushes. Finally
 it pops directory back to the project.  The current `pull` script pulls down all the
 submodules and the ensemble.
-
-
-## How To
---------
-
-### Makes use of 'usr-local-bin' scripts
-
-
-
-This code uses the system programs ‘Z’ and ‘home’, which must be installed in /usr/local/bin.   Find those in the repo usr-local-bin at github.com/Thomas-Walker-Lynch/usr-local-bin.
-
-
-
-1. to make the directory structure:
-
-  If there is not already a `projects` directory in your home directory:
-  ```
-    > mkdir ~/repos
-  ```
-
-  Then, 
-  ```
-    > cd ~/projects
-    > git clone git@github.com/<user>/<project>_ensemble.git
-    > mv <project>_ensemble <project>_master 
-    > cd <project>_master
-    > 
-  ```
-
-  Note in the line that moves the cloned repo directory to `<project>_master`, you might
-  use a different suffix than `master`.  Conventionally the suffix is the branch to be
-  checked out and worked on, but the scripts do not care what it is set to. Inside the
-  scripts this suffix is called the project ‘version’.
-
-2. for submodules that have not yet been added:
-
-  ```
-    > git submodule add https://github.com/../<resource_project>
-    > git submodule add https://github.com/../<resource_project>
-    ...
-
-  ```
-   Etc. for the other modules
-
-
-3. if a submodule is empty, then do the following:
-
-  ```
-    > git submodule init
-    > git submodule update
-  ```
-
-   Submodules directories will be empty when the `--recursive` switch is not provided with
-   the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
-   `init` and `update` so that it is easier to tell what caused errors.
-
-
-4. audit, legible scripts, and binary executables
-
-  These rules are best practice.
-  
-  New files on a clone or pull should be audited.
-
-  It is best to not have any executables pulled in the repo, text or binary. There should be
-  no executables in a project home directory.
-
-  The whole point of the `project-share` repo is to provide executable text scripts, so of
-  course it does not follow this rule.  There should be a careful audit after a pull into 
-  `project-share`.
-  
-  Binary executables are unauditable, consequently they are barred from the repos. It is
-  permissible, of course, for a build process to create a binary executable from source
-  files and put it within the directory structure for the project, it is just that the
-  executable should not be pushed to the repo.  Source files are auditable.
-
-  `<project>_ensemble` repos most typically have an `env` sub-directory, which in turn has
-  `bin` and `lib` sub-directories. Local builds might put executables into these
-  directories. Consequently, we do not put the `env` file nor its contents into a repo.
-  You should find `env/` listed in `.gitignore` for the project ensemble.
-
-  However, there is a security hole in that `.gitignore` does not apply to pulled content,
-  so another developer with access to the repo could make it so that when we pull, the `env`
-  directory is given executable contents.  git gives us no feature to prevent this.  So
-  when you do a `git pull`, or `git clone`, for a `<project>_ensemble` repo be careful to check
-  that nothing is pulled into `env` sub-directory. Chances are this is not too much trouble
-  as `<project>_ensemble` is typically cloned once and then used thereafter.  The action occurs
-  in the project's home directory.
-
-  If you use the `push` and `pull` wrappers in `project-share`, they will scan for executables and
-  warn you about them.
-
-
-5. check the .gitignore
-
- Conversely, we also do not want to add clutter to the repo ourselves, so you will
- want to have a `.gitignore`.  This might be part of the project, check after a clone.
-
- A project environment `.gitignore` will have the `env` and `tmp` files init.  We
- don't want hidden files in the environment, except for .gitignore, which we have no
- choice over. By convention files ending in a ‘~’ character are ignored.
-
-  ```
-      env/
-      tmp/
-      .*
-      !.gitignore
-      *~
-  ```
-
-  For a C or C++ project home directory we will also ignore various intermediate files,
-
-  ```
-      tmp/
-      .*
-      !.gitignore
-      *~
-      *.o
-      *.i
-      *.s
-      a.out
-  ```
-
-
-  For a python project:
-  ```
-      tmp/
-      .*
-      !.gitignore
-      __pycache__/
-      **/*.pyc
-  ```
- 
-    And for a django project:
-
-  ```
-      tmp/
-      .*
-      !.gitignore
-      __pycache__/
-      **/*.pyc
-      manage.py
-      **/migrations
-      .vscode
-  ```
-
-6. To work in the project:
-
-  This command will open a new shell with the environment setup for the project.  The
-  new shell will source your user directory `.bashrc` file, and will source the project
-  environment's `env/bin/init.sh` file.
-
-
-  ```
-     start <project> <version>
-  ```
-
-  As noted above `<version>` is typically the name of the branch that will be expanded out
-  in the project home directory.
-
-  So for the `ws4` project mentioned above:
-
-  ```
-     start ws4
-  ```
-
-  The `<version>` defaults to ‘master’.  After `start` runs you will see this prompt:
-  
-  ```
-      2020-12-01T14:56:31Z [ws4_master]
-      thomas@localhost§~/projects/ws4_master§
-      > 
-  ```
-   
-  On the first line, the time shown is UTC in standard iso8601 format.  We use time stamps
-  of this form for transcripts and logs. Following in square brackets you will see the
-  name of the project environment directory.
-
-  If the time does not show as above, copy the `Z` command in `project-share` to `/usr/local/bin`.
-
-  On the second line we have the user name, machine name, and current working directory.
-
-  Then on the third line we have the prompt, `>`. Anything you type after the prompt is
-  taken as the command for the shell.
-
-  When you have made changes in the project home directory and want to push them back to 
-  the repo, first pull on the work from other team members:
-
-  ```
-     > pull
-  ```
-
-  You will have to work out any conflicts.
-
-
-  The push your work back to the repo:
-
-  ```
-     > push
-  ```
-
-  Those scripts do the intermediate staging, commit, and push/pull, both for the project
-  and the project environment.  If things go wrong, you will have to read through the
-  transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
-  and use `git` directly.
-  
 
 
