@@ -27,7 +27,7 @@ directory tree.  Those are for the component projects.  In git speak we call the
 When a project ensemble is expanded out, we end up with a directory tree structure where project resources, tools, and
 work products are stored.
 
-## Users 'usr-local-bin' scripts
+## Makes use of 'usr-local-bin' scripts
 
 This code uses the system programs ‘Z’ and ‘home’, which must be installed in /usr/local/bin.   Find those in the repo usr-local-bin at github.com/Thomas-Walker-Lynch/usr-local-bin.
 
