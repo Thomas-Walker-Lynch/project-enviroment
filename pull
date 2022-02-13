@@ -45,9 +45,11 @@ pushd "$PHOME" > /dev/null
        -path "./tmp/*" \
        -execdir echo "Error, this file was pulled into a tmp directory: {}" \; 
 
-  find env \
-       -newer "$TimeStamp" \
-       -execdir echo "Error, this file was pulled into the env directory: {}" \; 
+  if [ -d env ]; then
+    find env \
+         -newer "$TimeStamp" \
+         -execdir echo "Error, this file was pulled into the env directory: {}" \; 
+  fi
 
   find . \
        -newer "$TimeStamp" \
