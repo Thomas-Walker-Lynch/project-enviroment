@@ -8,7 +8,9 @@ holding a project.
 
 related local customization scripts may be found in the project 'usr-local-bin'. Examples include 'Z' and 'home'.
 
-## What is a ‘project’
+## General info and concepts
+
+### What is a ‘project’
 
 The term ‘project’ occurs repeatedly in this document and generally when we talk about code, so it is best to start by
 nailing that term down.  Generally speaking, a ‘project’ has a well defined final product, along with a list resource
@@ -27,25 +29,8 @@ directory tree.  Those are for the component projects.  In git speak we call the
 When a project ensemble is expanded out, we end up with a directory tree structure where project resources, tools, and
 work products are stored.
 
-## Makes use of 'usr-local-bin' scripts
 
-This code uses the system programs ‘Z’ and ‘home’, which must be installed in /usr/local/bin.   Find those in the repo usr-local-bin at github.com/Thomas-Walker-Lynch/usr-local-bin.
-
-## About the `home` script
-
-`home` is binary executable for getting the user's home directory from `/etc/passwd`.
-This is used for security reasons in bash scripts, because `$HOME` is inherited 
-from the environment and thus might not be the home directory.
-
-The source and makefile for building home are in `project-share/src/home`.  However an admin needs
-to install this program.  If the program is owned by the same user it is used by, then it
-might be overwritten to give different answers.
-
-To use `home` place it at the top of your script and overwrite the `HOME` variable
-from the environment. Something like: `HOME=$(/usr/local/bin/home)`.
-
-
-## Where project code goes
+### Where project code goes
 --------
 
 On a typical project we will have three distinct types of code:
@@ -100,9 +85,9 @@ This is what my home directory looks like:
   Desktop/
   Documents/
   Downloads/
-  projects/
+  repos/
     chessgame/
-    share/      <--- place for resources and tools shared by all projects
+    resources/      <--- resources for all projects - expand this repo here
         LICENSE
         README.md
         makefile-cc
@@ -115,7 +100,7 @@ This is what my home directory looks like:
     ws4_master/   <--- an ensemble directory
       LICENSE
       README.md
-      env/  <--- place to put stuff shared within the ensemble
+      env/  <--- a resources specific to the ensemble
           bin/
           lib/
           include/
@@ -187,7 +172,7 @@ not like `env` because it is not pushed to the repo, but it might be *pulled* fr
 `.gitignore` does not affect pulls.  This is a security hazard.
 
 
-## Repo and Directory Naming
+### Repo and Directory Naming
 
 All my repos for project ensembles have a `_ensemble` suffix.  Hence they will clone
 into directories named `<project>_ensemble`.  After cloning I rename the directory to
@@ -197,7 +182,7 @@ that is most commonly checked out in the directory.
 Here is another example listing of a projects directory:
 
 ```
-> cd ~/projects
+> cd ~/repos
 > ls
     customer_gateway_master
     customer_gateway_v1.0
@@ -207,7 +192,7 @@ Here is another example listing of a projects directory:
 This is how the `customer_gateway_master` project environment directory was made:
 
 ```
-> cd ~/projects
+> cd ~/repos
 > git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
 > mv customer_gateway_ensemble customer_gateway_master
 
@@ -233,7 +218,7 @@ pointed at it now, so I should probably delete it.  If I ever need v1.0 again I 
 check it out. 
 
 
-## Git Modules and Submodules
+### Git Modules and Submodules
 
 Cloning a `git` repository produces a directory tree, which in git speak is
 apparently called a `module`.
@@ -269,11 +254,19 @@ submodules and the ensemble.
 ## How To
 --------
 
+### Makes use of 'usr-local-bin' scripts
+
+
+
+This code uses the system programs ‘Z’ and ‘home’, which must be installed in /usr/local/bin.   Find those in the repo usr-local-bin at github.com/Thomas-Walker-Lynch/usr-local-bin.
+
+
+
 1. to make the directory structure:
 
   If there is not already a `projects` directory in your home directory:
   ```
-    > mkdir ~/projects
+    > mkdir ~/repos
   ```
 
   Then, 
