@@ -41,9 +41,8 @@ find . \
 set -x
 git add . \
     && git commit -m "$CommitMessage" \
-    && git push \
-    && cd "$PENS" \
-    && git add "$PROJECT" \
+    && git pull \
+    && git add . \
     && git commit -m "$CommitMessage" \
     && git push \
     || echo "push failed"
