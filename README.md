@@ -27,7 +27,7 @@ holding a project.
     > git clone git@github.com:Thomas-Walker-Lynch/usr-local-bin
   ```
 
-  The follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
+  Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
 
   ‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
@@ -47,7 +47,7 @@ I added the following to my `.bashrc`:
 
 ``
 
-[//]: # end of list
+<!-- end of list -->
 
 That is it for installing this repo.
 
@@ -92,8 +92,7 @@ That is it for installing this repo.
    the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
    `init` and `update` so that it is easier to tell what caused errors.
 
-[//]: # end of list
-
+<!-- end of list -->
 
 ## Generally About Project Security
 
@@ -188,7 +187,7 @@ That is it for installing this repo.
 
  Consider adding a tmp directory where its contents are ignored.
 
-[//]: # end of list
+<!-- end of list -->
 
 ## Some of the scripts found in this repo
 
@@ -291,7 +290,8 @@ On a typical project we will have three distinct types of code:
 1. the application source code
 2. the libraries and other resources the application makes use of
 3. the tools used for building the source code
-[//]: # end of list
+
+<!-- end of list -->
 
 Let's give these code types short names:
 
@@ -299,7 +299,7 @@ Let's give these code types short names:
 2. resources
 3. tools
 
-[//]: # end of list
+<!-- end of list -->
 
 We have various places where we might put code that we need in a program:
 
@@ -308,7 +308,7 @@ We have various places where we might put code that we need in a program:
 3. in a project ensemble
 4. in a project's home directory.
 
-[//]: # end of list
+<!-- end of list -->
 
 We shorten this list of places to:
 
@@ -317,7 +317,7 @@ We shorten this list of places to:
 3. ensemble
 4. project
 
-[//]: # end of list
+<!-- end of list -->
 
 Now combining our code and locations into one list:
 
@@ -332,8 +332,7 @@ Now combining our code and locations into one list:
    2. user
    3. ensemble
 
-[//]: # end of list
-
+<!-- end of list -->
    
 So there is only one place we will find the application source code that we are
 developing, and that is under the project directory. Resources that we may need in
