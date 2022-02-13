@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
     exit 1;
