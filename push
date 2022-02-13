@@ -44,7 +44,7 @@ pushd "$PHOME" > /dev/null
   git pull
   git stash apply
   git add .
-  git commit
+  git commit -m "$CommitMessage"
   git push
   set +x
 
