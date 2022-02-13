@@ -1,15 +1,11 @@
 #!/bin/bash
 #set -x
-if [ -z "$PROJECT" ]; then
-    echo "can't $0, no PROJECT found in the environment"
-    exit 1;
-fi
-if [ -z "$PENS" ]; then
-    echo "can't $0, no PENS project environment directory found."
-    exit 1;
-fi
 if [ -z "$PHOME" ]; then
     echo "can't $0, no PHOME project home directory found in the environment"
+    exit 1;
+fi
+if [ -z "$TMP" ]; then
+    echo "can't $0, no tmp directory found in the environment"
     exit 1;
 fi
 
@@ -20,49 +16,51 @@ touch "$TimeStamp"
 
 # would be better to make this project specific so we don't pull other submodules than the
 # project ..  or do we want the latest in the other submodules also?
-pushd "$PENS" > /dev/null
-git pull --recurse-submodules || echo "git pull failed"
+pushd "$PHOME" > /dev/null
 
-# make a file that looks like a newly pulled executable for testing purposes
-#  touch temp
-#  chmod +x temp
+  git pull --recurse-submodules || echo "git pull failed"
 
-find . \
-     -newer "$TimeStamp" \
-     -not -path "./.git/*" \
-     -not -type d \
-     -executable \
-     -exec echo "Pulled file is executable, removing x flag: {}" \; \
-     -exec chmod -x {} \;
+  # make a file that looks like a newly pulled executable for testing purposes
+  #  touch temp
+  #  chmod +x temp
 
-find . \
-     -newer "$TimeStamp" \
-     -not -type d \
-     -not -name "\.git" \
-     -not -path "./.git/*" \
-     -exec echo "New file: {}" \;
+  find . \
+       -newer "$TimeStamp" \
+       -not -path "./.git/*" \
+       -not -type d \
+       -executable \
+       -execdir echo "Pulled file is executable, removing x flag: {}" \; \
+       -execdir chmod -x {} \;
 
-find . \
-     -newer "$TimeStamp" \
-     -not -path "./.git/*" \
-     -path "./tmp/*" \
-     -exec echo "Error, this file was pulled into a tmp directory: {}" \; 
+  find . \
+       -newer "$TimeStamp" \
+       -not -type d \
+       -not -name "\.git" \
+       -not -path "./.git/*" \
+       -execdir echo "New file: {}" \;
 
-find env \
-     -newer "$TimeStamp" \
-     -exec echo "Error, this file was pulled into the env directory: {}" \; 
+  find . \
+       -newer "$TimeStamp" \
+       -not -path "./.git/*" \
+       -path "./tmp/*" \
+       -execdir echo "Error, this file was pulled into a tmp directory: {}" \; 
 
-find . \
-     -newer "$TimeStamp" \
-     -not -path "./.git/*" \
-     -not -name "\.git" \
-     -name "\.*" \
-     -exec echo "Error, hidden file was pulled: {}" \; 
+  find env \
+       -newer "$TimeStamp" \
+       -execdir echo "Error, this file was pulled into the env directory: {}" \; 
 
-if [ .gitignore -nt "$TimeStamp" ]; then
-    echo "Warning, .gitignore was modified."
-fi
+  find . \
+       -newer "$TimeStamp" \
+       -not -path "./.git/*" \
+       -not -name "\.git" \
+       -name "\.*" \
+       -execdir echo "Error, hidden file was pulled: {}" \; 
 
-rm "$TimeStamp"
+  if [ .gitignore -nt "$TimeStamp" ]; then
+      echo "Warning, .gitignore was modified."
+  fi
+
+  rm "$TimeStamp"
+
 popd > /dev/null
 #set +x

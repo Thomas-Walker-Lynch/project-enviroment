@@ -36,8 +36,11 @@ pushd "$PHOME" > /dev/null
        -not -name '*~'\
        -type f \
        -executable \
-       -exec echo "found executable" {} \; 
+       -execdir echo "found executable, removing x flag" {} \; 
+       -execdir chmod -x {} \;
+
   #     -execdir mv {} {}~ \;
+
 
   set -x
   git stash
