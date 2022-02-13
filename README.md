@@ -27,14 +27,9 @@ directory tree.  Those are for the component projects.  In git speak we call the
 When a project ensemble is expanded out, we end up with a directory tree structure where project resources, tools, and
 work products are stored.
 
-## About the `Z` script.
+## Users 'usr-local-bin' scripts
 
-‘Z’ stands for ‘Zulu time’ an antiquated term for UTC time.  Probably because it is
-nostalgic and convenient the abbreviation `Z` has been maintained as part of ISO 8601.
-
-The script Z prints a time stamp.  Scripts in `project-share` make use of it.  An admin
-should change its ownership to root and install it in `/usr/local/bin`.  Some scripts here might
-reference it through an absolute path.
+This code uses the system programs ‘Z’ and ‘home’, which must be installed in /usr/local/bin.   Find those in the repo usr-local-bin at github.com/Thomas-Walker-Lynch/usr-local-bin.
 
 ## About the `home` script
 
