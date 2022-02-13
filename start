@@ -1,4 +1,5 @@
 #!/bin/bash
+# 2022-02-13 removed the branch/version stuff
 # this will start a new shell that has an environment appropriate for the project
 # set -x
 
@@ -9,30 +10,31 @@ fi
 project="$1"
 
 if [ -z "$2" ]; then
-   version='master'
+   project_path="$project"
 else
-   version="$2"
+   project_path="$2"
 fi
+
 
 # makes an init file for bash. Variables from the environment of 'start' will not expand
 # within this heredoc because of the quotes around the EOF.  Yes, that is a thing.
-# cat comes from the files sytem, might be better to use read
+# cat comes from the file system, might be better to use read
 # InitFile=$(cat <<-"EOF"
 read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
      export HOME=$(/usr/local/bin/home)
-     export USER=$(/usr/local/bin/user)
+     export USERNAME=$(/usr/local/bin/user)
      export SHELL=/bin/bash
-     export PENS="$HOME"/projects/"$PROJECT"_"$VERSION"
-     export PHOME="$PENS"/"$PROJECT"
-     export TMP="$PENS"/tmp
-     export "$PENS"/env/bin:$PATH
-     export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT"_"$VERSION")]\n\u@\h§\w§\n> '
+     export PHOME="$HOME"/repos/"$PROJECT_PATH"
+     export TMP="$PHOME"/tmp
+     export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT")]\n\u@\h§\w§\n> '
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
      cd "$PHOME"
-     . "$PENS"/users/morpheus/init.sh
+     if [ -f "$HOME"/bin/"$PROJECT".sh ]; then
+       . "$HOME"/bin/"$PROJECT".sh
+     fi
      echo $PATH
 EOF
 
@@ -44,10 +46,9 @@ EOF
 env -i \
     INSIDE_EMACS="$INSIDE_EMACS" \
     PROJECT="$project"\
-    VERSION="$version"\
+    PROJECT_PATH="$project_path"\
     HOSTNAME="$HOSTNAME" \
     LOGNAME="$LOGNAME" \
-    USERNAME="$USERNAME" \
     DISPLAY="$DISPLAY" \
     LANG="$LANG"\
     TERM="$TERM" \

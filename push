@@ -28,15 +28,15 @@ find . \
      -name 'makefile' \
      -execdir make clean \;
 
-# suffix a '~' to any executables that don't already have one
+# executables should not be checked into the repo, yet we found these:
 find . \
      -not -path "./.git/*" \
      -not -path "./tmp/*" \
      -not -name '*~'\
      -type f \
      -executable \
-     -exec echo "suffixing ~ to executable " {} \; \
-     -execdir mv {} {}~ \;
+     -exec echo "found executable" {} \; 
+#     -execdir mv {} {}~ \;
 
 set -x
 git add . \
