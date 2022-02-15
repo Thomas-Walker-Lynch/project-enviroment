@@ -27,7 +27,7 @@ TESTDIR=test
 TMPDIR=tmp
 TRYDIR=try
 #   this will not be created by the setup target:
-SHAREDIR=$(ENVDIR)
+DIST_TARGET=$(ENVDIR)
 
 # prevent make from subsittuing its default for CC
 C=
@@ -168,9 +168,9 @@ sub_exec: $(EXEC)
 
 .PHONY: share
 share:
-	if [ ! -z "$(wildcard $(LIBDIR)/*)" ]; then cp $(LIBDIR)/* $(SHAREDIR)/lib; fi
-	if [ ! -z "$(wildcard $(INCDIR)/*)" ]; then cp $(INCDIR)/* $(SHAREDIR)/include; fi
-	if [ ! -z "$(wildcard $(EXECDIR)/*)" ]; then cp $(EXECDIR)/* $(SHAREDIR)/bin; fi
+	if [ ! -z "$(wildcard $(LIBDIR)/*)" ]; then cp $(LIBDIR)/* $(DIST_TARGET)/lib; fi
+	if [ ! -z "$(wildcard $(INCDIR)/*)" ]; then cp $(INCDIR)/* $(DIST_TARGET)/include; fi
+	if [ ! -z "$(wildcard $(EXECDIR)/*)" ]; then cp $(EXECDIR)/* $(DIST_TARGET)/bin; fi
 
 .PHONY: clean
 clean:
