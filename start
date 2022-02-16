@@ -22,17 +22,19 @@ fi
 # InitFile=$(cat <<-"EOF"
 read -r -d '' InitFile <<-"EOF"
      . $(/usr/local/bin/home)/.bashrc
-     export HOME=$(/usr/local/bin/home)
-     export USERNAME=$(/usr/local/bin/user)
      export SHELL=/bin/bash
-     export PHOME="$HOME"/repos/"$PROJECT_PATH"
-     export TMP="$PHOME"/tmp
+     export USERNAME=$(/usr/local/bin/user)
+     export HOME=$(/usr/local/bin/home)
+     export REPOS="$HOME/repos"
+     export RESOURCES="$HOME/repos/resources"
+     export PROJECT_HOME="$REPOS/$PROJECT_PATH"
+     export TMP="$RESOURCES/tmp"
      export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT")]\n\u@\h§\w§\n> '
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
-     cd "$PHOME"
-     INITF="$HOME"/bin/"$PROJECT".sh
+     cd "$PROJECT_HOME"
+     INITF="$RESOURCES/bin/$PROJECT.sh"
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi

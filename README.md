@@ -2,22 +2,16 @@
 
 # `resources`
 
-This repo contains various scripts that are used by a group of projects. These include such things
-as ‘start’, ’push’, ‘pull’, and a generic make file.
-
-Built into the scripts are assumptions on the structure of the directory used for
-holding a project.
-
 ## How To Install the ‘resources’ repo
 
-  1. find a or make a place to put all of the projects you are working on.  These projects might be in
-    different languages, etc. 
+  1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
     ```
       > mkdir ~/repos
     ```
 
-  2. install the system scripts used by the scripts in this repo
+  2. expand the 'system'  repo, then inspect and install those script in the system
+
     ```
       > cd ~/repos
       > git clone git@github.com:Thomas-Walker-Lynch/usr-local-bin
@@ -25,21 +19,48 @@ holding a project.
     <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
-  3. clone this repo to get the shared resources
+
+  3. make a directory for resources that are shared among the various project
+
+     ```
+      > cd ~/repos
+      > mkdir resources
+      > cd resources
+      > mkdir lib bin include tmp media
+    ```
+
+  4. get some project resources
 
     ```
       > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources.git
+      > git clone git@github.com:Thomas-Walker-Lynch/resources_repo.git
     ```
 
-  4. set the executables PATH
+  5. set the executables PATH
 
   I added the following to my `.bashrc`:
 
   ```
-   export PATH=~/bin:~/repos/resources:"$PATH"
+   export PATH=~/repos/resources/bin:"$PATH"
 
   ``
+  5. install project resources
+
+    ```
+      > cd ~/repos/resources_repo
+      > cp pull  push  rm_tilda_files_tree  start  ~/repos/resources/bin
+      #inspect executables
+      > cd ~/repos/resources/bin
+      # do not edit files here
+      # make a branch on resources_repo if you need local changes
+      > chmod -rwx,ug+rx *
+      > cd ~/repos/resources_repo
+      #inspect makefile-cc
+      > cp makefile-cc ~/repos/resources/lib
+    ```
+   
+    etc. depending on the resources you will use
+
 
   <!--- end of list --->
 
@@ -90,32 +111,33 @@ holding a project.
 
   1. audit source files and legible scripts
 
-    Watch what git installs.  For new things that are source code or scripts, audit those.
+    Watch what git pulls.  For new things that are source code or scripts, audit those.
+
+    Note! ‘.gitignore’ does not apply to pulled content.
 
   2. PATH
 
-     Do not have the repo in your execution PATH.
+     Do not have a repo in your execution PATH.  (The ~/repos/resources directory is not a repo.)
 
-  2. binary executbles
+  3. binary executbles
 
-    No binary executables in the repo.  Instead, build anything executable from local audited source code.
+    It is best to not pull executables then run them!
 
-    It is a common error for co-developers to compile and get an executable, and then not add that to the .gitignore, so
-    it poisons the repo.  Watch your pulls and clones, and remove those from the repo, and complain about them.
-
-    Edit your .gitignore so that you will not be the bad guy.
-
-    If you must run an executable from a repo, then you surely trust the source.  Make sure there is a cryptographic
+    (If you must run an executable from a repo, then you surely trust the source.  Make sure there is a cryptographic
     signature provided - and that signature is from another source than the repo!  Make sure the permissions and user and
-    group membership are correct. Consider running it in a container.
+    group membership are correct. Consider running it in a container.)
 
-  3. .gitignore does not help for pulls
+    It sometimes happens that a co-developers will compile and create an executable, and then not clean it,
+    so it poisons the repo.  Watch your pulls and clones, and remove executables from the repo, and complain
+    them.
 
-    ‘.gitignore’ does not apply to pulled content.  If another developer failed to
-    ignore executables on a push, you will get them on a pull even if they are
-    listed in ‘.gitignore’
+    Make sure make clean removes executables before a push.
+
 
   4. check for the .gitignore and audit it, add to it
+
+   In some cases this is less important if make clean is working, and the user makes use
+   of the ‘push’ script to push new content.
 
    Conversely, we do not want to add clutter to the repo ourselves, so you will
    want to have a `.gitignore`.  This might be part of the project, check for it
@@ -184,9 +206,9 @@ holding a project.
 
     This replaces any other script you might be accustom to for entering a ‘virtual environment’.
 
-    This following command will open a new shell with the environment setup for the project. 
+    This following command will open a new shell with the environment in that shell setup for the project. 
 
-    ‘start’ runs your .bashrc file and cds to ~/repos/<project_path>. It sources `~/bin/<project>.sh`
+    ‘start’ runs your .bashrc file and cds to ~/repos/<project_path>. It sources `~/repos/bin/<project>.sh`
     to setup the environment.
 
     if <project_path> is not given, then <project_path> is set to <project>.
