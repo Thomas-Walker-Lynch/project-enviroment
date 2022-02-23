@@ -34,20 +34,12 @@ C=
 CC=
 
 #--------------------------------------------------------------------------------
-# local customization
-#  user must define things needed by the local makefile, the compiler, and flags
-
-include makefile-flags
--include $(DEPFILE)
-
-
-#--------------------------------------------------------------------------------
 # files
 #
 
 DEPFILE=$(TMPDIR)/makefile-cc.deps
-LIBFILE=$(LIBDIR)/lib$(MODULE).a
-INCFILE=$(INCDIR)/$(MODULE).h
+LIBFILE=$(LIBDIR)/lib$(PROJECT).a
+INCFILE=$(INCDIR)/$(PROJECT).h
 
 # these are the sources edited by the programmer
 C_SOURCE_LIB=  $(wildcard $(SRCDIR)/*.lib.c)
@@ -68,6 +60,13 @@ OBJECT_CLI= $(patsubst %, $(TMPDIR)/%.cli.o, $(C_BASE_CLI) $(CC_BASE_CLI))
 # executables are made from CLI sources
 EXEC= $(patsubst %, $(EXECDIR)/%, $(C_BASE_CLI) $(CC_BASE_CLI))
 
+#--------------------------------------------------------------------------------
+# local customization
+#  user must define things needed by the local makefile, the compiler, and flags
+
+-include makefile-flags
+-include $(DEPFILE)
+
 
 #--------------------------------------------------------------------------------
 # targets
@@ -78,12 +77,19 @@ all: version
 .PHONY: version
 version:
 	@echo makefile version 6.0
-	gcc -v
-	g++ -v
+	if [ ! -z "$(C)" ]; then $(C) -v; fi
+	if [ ! -z "$(CC)" ]; then $(CC) -v; fi
 	make -v
 
 .PHONY: info
 info:
+	@echo "SHELL: " $(SHELL)
+	@echo "ECHO: " $(ECHO)
+	@echo "C: " $(C)
+	@echo "CFLAGS: " $(CFLAGS)
+	@echo "CC: " $(CC)
+	@echo "CCFLAGS: " $(CCFLAGS)
+	@echo "LINKFLAGS: " $(LINKFLAGS)
 	@echo "DEPRDIR: " $(DEPRDIR)
 	@echo "DOCDIR: " $(DOCDIR)
 	@echo "EXECDIR: " $(EXECDIR)
@@ -124,7 +130,7 @@ setup:
 .PHONY: dep
 dep:
 	@if [ -z "$(CC)" ]; then\
-	  if [ -z "$C()" ]; then\
+	  if [ -z "$(C)" ]; then\
 	    $(ECHO) "No compiler specified";\
 	    exit 1;\
 	  else\
