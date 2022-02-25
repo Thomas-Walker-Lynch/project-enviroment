@@ -1,0 +1,55 @@
+SHELL=/bin/bash
+
+#--------------------------------------------------------------------------------
+# useful macros
+#
+
+# a single space literal, for example if you wanted to subsitute commas to
+# spaces: $(subst $(space),;,$(string))
+
+blank :=s
+pace :=$(blank)  $(blank)
+
+
+
+#--------------------------------------------------------------------------------
+# Programs make uses.  
+#
+
+ECHO= echo
+#ECHO= echo -e
+
+#If not using C, or C++, set the variable to a blank value
+C=
+CC=
+
+#--------------------------------------------------------------------------------
+# main directories
+#   these may be created by make setup, which can be useful as git doesn't keep empty directories
+#
+
+DEPRDIR=deprecated
+DOCDIR=doc
+EXECDIR=exec
+INCDIR=include
+LIBDIR=lib
+SRCDIR=src
+TESTDIR=test
+TMPDIR=tmp
+TRYDIR=try
+
+#--------------------------------------------------------------------------------
+# local targets
+#
+
+DEPFILE=$(TMPDIR)/makefile-cc.deps
+LIBFILE=$(LIBDIR)/lib$(PROJECT).a
+INCFILE=$(INCDIR)/$(PROJECT).h
+
+#--------------------------------------------------------------------------------
+# install target
+#   make install has not implemented yet, so no matter
+#
+
+DIST_TARGET=
+

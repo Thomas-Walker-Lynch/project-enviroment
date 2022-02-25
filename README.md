@@ -2,7 +2,39 @@
 
 # `resources`
 
-## How To Install the ‘resources’ repo
+## What the heck is this
+
+This is for developing C and C++ projects that are placed in .git repos.
+
+It contains these files, and perhaps others:
+
+setup        - sets up the environment for a project
+pull         - fancy shortcut for git pull 
+push         - fancy shortcut for git push
+makefile     - a genetic makefile
+makefile-env - default variables for make
+
+## Installing the ‘resources_repo'
+
+Assume we have a top level directory called 'repos', and we have expanded resources_repo into it.  
+
+/home/Thomas/repos/
+ ..
+ resources_repo/
+   bin/
+   include/
+   lib/
+   media/
+   tmp/
+   LICENSE
+   README.md
+   projects-init.sh
+
+
+
+
+
+We are generally allergic to executables in repos, so we begin 
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
@@ -65,6 +97,30 @@
   <!--- end of list --->
 
   That is it for installing this repo.
+
+## project setup
+
+By default project should have this directory structure:
+
+repos/
+        project_name/
+                doc/
+                exec/
+                lib/
+                src/
+                test/
+                tmp/
+                try/
+
+        project_name
+             ...
+
+The doc, exec, lib, etc. subdirectories can be made with
+  > make setup
+
+Then to
+
+
 
 ## How to install a project that has sub-modules.
 

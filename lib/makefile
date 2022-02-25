@@ -5,41 +5,21 @@
 # file. Currently it is working for us despite this problem because dist-clean is
 # looking for $(module).h while the include file is always $(module).lib.h.
 
-SHELL=/bin/bash
-
-# a single space literal, for example if you wanted to subsitute commas to
-# spaces: $(subst $(space),;,$(string))
-blank :=
-space :=$(blank)  $(blank)
-
 #--------------------------------------------------------------------------------
-# defaults
-
-# default directory seteup
-#   these will be created by the setup target (if they were empty git will not keep them)
-DEPRDIR=deprecated
-DOCDIR=doc
-EXECDIR=exec
-INCDIR=include
-LIBDIR=lib
-SRCDIR=src
-TESTDIR=test
-TMPDIR=tmp
-TRYDIR=try
-#   this will not be created by the setup target:
-DIST_TARGET=$(ENVDIR)
-
-# prevent make from subsittuing its default for CC
-C=
-CC=
-
-#--------------------------------------------------------------------------------
-# files
+# useful macros, defines the directory structure, local targets, install target
 #
+-include $(RESOURCES)/lib/makefile-env
 
-DEPFILE=$(TMPDIR)/makefile-cc.deps
-LIBFILE=$(LIBDIR)/lib$(PROJECT).a
-INCFILE=$(INCDIR)/$(PROJECT).h
+#--------------------------------------------------------------------------------
+# local customizations
+#  user must define things needed by the local makefile, the compiler, and flags
+
+-include makefile-env
+
+#--------------------------------------------------------------------------------
+# files named by convention
+#   this implements the .lib.c  and the .cli.c convention
+#
 
 # these are the sources edited by the programmer
 C_SOURCE_LIB=  $(wildcard $(SRCDIR)/*.lib.c)
@@ -60,11 +40,11 @@ OBJECT_CLI= $(patsubst %, $(TMPDIR)/%.cli.o, $(C_BASE_CLI) $(CC_BASE_CLI))
 # executables are made from CLI sources
 EXEC= $(patsubst %, $(EXECDIR)/%, $(C_BASE_CLI) $(CC_BASE_CLI))
 
-#--------------------------------------------------------------------------------
-# local customization
-#  user must define things needed by the local makefile, the compiler, and flags
 
--include makefile-flags
+#--------------------------------------------------------------------------------
+# import the rules
+#
+
 -include $(DEPFILE)
 
 

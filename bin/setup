@@ -25,7 +25,7 @@ read -r -d '' InitFile <<-"EOF"
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
      export HOME=$(/usr/local/bin/home)
-     export REPOS="$HOME"/repos
+     export REPOS="$HOME"
      export RESOURCES="$REPOS"/resources
      export PROJECT_HOME="$REPOS"/"$PROJECT_PATH"
      export TMP="$RESOURCES/tmp"
@@ -34,7 +34,7 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PROJECT_HOME"
-     INITF="$RESOURCES/bin/$PROJECT.sh"
+     INITF="$PROJECT_HOME"/bin/setup_project.sh
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi
