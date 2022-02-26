@@ -4,14 +4,14 @@
 
 ## What the heck is this
 
-This is for developing C and C++ projects that are placed in .git repos.
+This is a set of scripts I use for most software development projects. I have used it with C, C++, Python, Django, and Rust.  The scrpts are still evolving, its eems that every time I do a new project I end up changing them, but the goal is that they become generic.
 
 It contains these files, and perhaps others:<br>
 <br>
 setup        - sets up the environment for a project<br>
 pull         - fancy shortcut for git pull<br>
 push         - fancy shortcut for git push<br>
-makefile     - a genetic makefile<br>
+makefile     - a genetic makefile for C/C++ projects<br>
 makefile-env - default variables for make<br>
 <br>
 
@@ -32,7 +32,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
    projects-init.sh
 ```
 
-## starting from scratch - setting up a project directory
+## setting up a directory to hold multiple projects
 
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
@@ -47,6 +47,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       > cd ~/repos
       > git clone git@github.com:Thomas-Walker-Lynch/system
     ```
+    
     <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
@@ -58,10 +59,9 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       > git clone git@github.com:Thomas-Walker-Lynch/resources
     ```
    
-   <p> be sure to inspect the scripts as they will get executed
-   <p> if you need to customize the script make a branch and put your customizations on that
-   <p> after doing a pull be sure to inspect anything newly downloaded
-
+     <p> be sure to inspect the scripts as they will get executed
+     <p> if you need to customize the script make a branch and put your customizations on that
+     <p> after doing a pull be sure to inspect anything newly downloaded
 
   4. add the following to `.bashrc`:
 
