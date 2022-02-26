@@ -1,5 +1,11 @@
+1.
 
 https://pdf2md.morethan.io/
 https://github.com/jzillmann/pdf-to-markdown
-added copy to my repos
+
+It put every line in a paragraph into a separate paragraph.  So trying:
+
+2. https://products.aspose.app/words/conversion/pdf-to-md
+
+the output looks much better
 
