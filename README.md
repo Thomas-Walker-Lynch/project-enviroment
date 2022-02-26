@@ -6,7 +6,7 @@
 <p>A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been
 adopted.  These apply to C, C++, Python, Django, and Rust. This replaces any other script you might be accustom to for
 entering a ‘virtual environment’.  
-
+<br>
 <br>
 setup        - sets up the environment for a project<br>
 pull         - fancy shortcut for git pull<br>
