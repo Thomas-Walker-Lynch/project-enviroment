@@ -1,8 +1,8 @@
-Find the source for this document in the docs directory.
-
+```
+2022-02-26 TWL brought the README.md info doc/README.odt (still converting), then using
+online tool to convert the pdf to README.md
+```
 # The ‘resources’ Project
-
-2022-02-26 TWL imported from README markdown, still in process of conversion
 
 ## What is it?
 
@@ -41,12 +41,12 @@ it is tested.
 
 If you do something to the resources repo of general interest, then check it in to master.
 
+
 If you need special modifications specific to your needs, i.e. not of general interest even to those
 
 who might come in the future and be working in the same language, etc., then make your very
 
 own branch.
-
 
 If you have a fundamentally different way of going about this, some people want it, others don't -
 
@@ -88,12 +88,12 @@ This command will open a new shell with the environment in that shell setup for 
 2022-02-25T13:06:24Z
 lander10@beast§~/§
 > setup Endian
+
+
 Hello Emacs
 /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/usr/local/bin:/usr/bin:/bin
 
 2022-02-25T13:06:28Z [Endian]
-
-
 lander10@beast§~/repos/Endian§
 >
 
@@ -135,12 +135,12 @@ tmp/
 try/
 LICENSE
 makefile
+
+
 makefile-env
 resources/
 system/
 tmp/
-
-
 Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to
 
 override defaults on the <tt>resources</tt> versions of those files. They are stubs tweak a couple
@@ -188,10 +188,10 @@ Other useful things will be found in the resource tree.
 
 By convention, projects with submodules have the suffix <tt>_ensemble</tt>.
 
+
 1. install the project
 
 Suppose the project with submodules is called <project>_ensemble
-
 
 > cd ~/repos
 > git clone git@github.com/<user>/<project>_ensemble.git
@@ -226,10 +226,11 @@ the clone. Actually, I prefer not to use `--recursive` and then to follow up wit
 0. Contain your development work
 
 Consdider giving the repos directory its own user. If you do add this link so that
+
+
 the scripts can still have a 'repos' target.
 
 > ln -s. repos
-
 
 Alternatively put them in a container or a virtual machine.
 
@@ -267,10 +268,9 @@ If we want to 'unhide' dot file from a file glob, then we rename it. That is bes
 and then
 link <tt>.gitignore</tt> to it, git will yell at us "too many symbolic links!".
 
+
 Hence, we can expose a file like <tt>.gitignore</tt> by linking to it (rather than the other way
 around).
-
-
 When doing this, typically the link name is the same but without the dot in front of it. Here I
 expose the
 <tt>.gitignore</tt>.
@@ -307,12 +307,11 @@ maintaing the projects themselves. Be careful to audit any changes to this <tt>r
 
 It is best to not pull binary executables then run them, because they can not be audited.
 
+
 It sometimes happens that a co-developers will compile and create an executable, and then not
 clean it, and then
 accidentally the user poisons the repo with them. Watch your pulls and clones, and remove
 executables from the
-
-
 repo, and complain about them. The generic makefile, push, and pull scripts can help with this.
 
 When an unauditable executable arrives in a pull it creates a trust problem. We distrist both the
@@ -351,13 +350,11 @@ exec/
 *.s
 a.out
 
+
 For a python project:
 
 tmp/
-
-
-### .*
-
+.*
 !.gitignore
 __pycache__/
 **/*.pyc
@@ -392,12 +389,11 @@ project ensemble itself is also a kind of project, where the tasks are the compo
 Hence we have a
 recursive structure. CS people like recursive structures ;-)
 
+
 Projects are held in git repositories, as project ensembles are also projects, they are also held in
 git
 repositories. When we clone a project ensemble we will find other git repositories have been
 expanded inside the
-
-
 directory tree. Those are for the component projects. In git speak we call these component
 project directory trees
 ‘submodules’.
@@ -434,10 +430,11 @@ We shorten this list of places to:
 1. system
 2. user
 3. ensemble
+
+
 4. project
 
 Now combining our code and locations into one list:
-
 
 1. source
 1. project
@@ -478,12 +475,12 @@ tm/
 ws4_master/ <--- an ensemble directory
 LICENSE
 README.md
+
+
 env/ <--- resources specific to the ensemble (wish this was called ‘resources’
 bin/
 lib/
 include/
-
-
 tmp/
 uWebSockets/ <--- resource project directory
 ws4/ <--- target project directory
@@ -519,10 +516,10 @@ means that custom edits you make to scripts will not be backed up to the repo. I
 not like `env` because it is not pushed to the repo, but it might be *pulled* from it.
 `.gitignore` does not affect pulls. This is a security hazard.
 
+
 ## ## Repo and Directory Naming (again)
 
 If a repo has submodules in it, I generally give the repo name a suffix of ‘_ensemble’.
-
 
 After cloning, if I am only going to work on a given breanch within that clone, I will change
 the suffix to the branch name, <project>_<branch>.
@@ -559,9 +556,9 @@ git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
 > cd customer_gateway_v1.
 > git checkout v1.
 
+
 Cloning a `git` repository produces a directory tree, which in git speak is
 apparently called a `module`.
-
 
 We may `cd` into a module and clone another module, this will be called a ‘submodule’. A
 submodule clone operation requires a special command so that the module will know it is
@@ -587,5 +584,3 @@ into the project home and does an add, commit, and push. It then goes up to the 
 directory and `git add`s the project submodule, commits the change, and then pushes. Finally
 it pops directory back to the project. The current `pull` script pulls down all the
 submodules and the ensemble.
-
-
