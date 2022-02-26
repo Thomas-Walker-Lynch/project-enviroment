@@ -18,7 +18,7 @@ makefile-env - default variables for make<br>
 ## Installing the ‘resources_repo'
 
 Assume we have a top level directory called 'repos', and we have expanded resources<br>
-'''
+```
 /home/Thomas/repos/
  ..
  resources_repo/
@@ -30,7 +30,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
    LICENSE
    README.md
    projects-init.sh
-'''
+```
 
 
 
