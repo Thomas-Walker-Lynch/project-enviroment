@@ -3,93 +3,100 @@
 
 ## What is it?
 
-  These are programs for developing C and C++ projects.
+<p> A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been
+adopted.  These apply to C, C++, Python, Django, and Rust. This replaces any other script you might be accustom to for
+entering a ‘virtual environment’.  
 
-  setup        - sets up the environment for a project
-  pull         - fancy shortcut for git pull 
-  push         - fancy shortcut for git push
-  makefile     - a genetic makefile
-  makefile-env - default variables for make
+<br>
+setup        - sets up the environment for a project<br>
+pull         - fancy shortcut for git pull<br>
+push         - fancy shortcut for git push<br>
+makefile     - a genetic makefile for C/C++ projects<br>
+makefile-env - default variables for make<br>
+... <br>
 
-  ### setup
+<p> They have been evolving, so tweaks migh be required. If in doubt, create another branch before doing
+so.  If you need changes specific to a project, make a new branch.
 
-    This replaces any other script you might be accustom to for entering a ‘virtual environment’.
+Assume we have a top level directory called 'repos', and we have expanded resources<br>
+
+```
+/home/Thomas/repos/
+ ..
+ resources_repo/
+   bin/<br>
+   include/
+   lib/
+   media/
+   tmp/
+   LICENSE
+   README.md
+   projects-init.sh
+```
+>>>>>>> 22cc6dac6245707bb6f38adf7cf95ca49c7e95e8
+
+## setup
 
     This command will open a new shell with the environment in that shell setup for the project.
 
     ```
       2022-02-25T13:06:24Z
-      lander10@beast§~/resources§
+      lander10@beast§~/§
       > setup Endian
       Hello Emacs
-      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/home/Thomas/repos/bin:/home/Morpheus/.local/bin:/usr/local/bin:/usr/bin:/bin
-      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/home/Thomas/repos/bin:/home/Morpheus/.local/bin:/usr/local/bin:/usr/bin:/bin
+      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/usr/local/bin:/usr/bin:/bin
 
       2022-02-25T13:06:28Z [Endian]
-      lander10@beast§~/Endian§
+      lander10@beast§~/repos/Endian§
       > 
     ```
 
-    So for my `ws4` project:
+    <p>Currently <tt>setup</tt> echos the path so that they user will understand where the executables
+    come from. 
 
-       > setup ws4
-       >
+    <p> The prompt carries sufficient information for making sense of the transcript when it is read later.
 
-    ```
-       st <project> [<project_path>] 
-    ```
-    if <project_path> is not given, then <project_path> is set to <project>.
+    <p> On the
+    first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script. 
+    Following the time, in square brackets you will see the name of the project. If the square brackes are
+    not ther, then no project environment has been setup.  If a user attempts to work on a project that has not
+    been setup, he or she is likely to experience many errors.
 
+    <p> On the second line we have the user name, machine name, and current working directory.
 
+    <p>On the third line the familiar `>` appears. Anything you type after the prompt is taken as the command for the
+    shell. It is conventional for script run as root user that this will instead be '#'.
 
-    If you use the prompt from usr-local-includ dot_bashrc a shell will open with this prompt:
+## the makefile
 
-    ```
-        2020-12-01T14:56:31Z [ws4_master]
-        thomas@localhost§~/projects/ws4_master§
-        > 
-    ``` 
-
-    On the first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script.  We use
-    time stamps of this form for transcripts and logs.
-
-    On the same line following the time, in square brackets you will see the name of the project.
-
-    On the second line we have the user name, machine name, and current working directory.
-
-    Then on the third line we have the prompt, `>`. Anything you type after the prompt is
-    taken as the command for the shell.
-
-  ### pull and push
-
-    These are short cuts for the git repo commands.  It is best to use these as it allows us to wrap up
-    other work to be done along with the git repo command.  
-
-    When you have made changes in the project home directory and want to push them back to 
-    the repo, first pull on the work from other team members:
+    This is a generic C/C++ makefile.  When used source files end with two suffixes. For example the Endian project
+    source directory appears as:
 
     ```
-       > pull
+     2022-02-26T10:54:55Z [Endian]
+     Thomas-repos@Turbine§~/resources§
+     > cd $PROJECT_HOME
+
+     2022-02-26T10:55:47Z [Endian]
+     Thomas-repos@Turbine§~/Endian§
+     > ls src
+     endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c
     ```
 
-    You will then have to work out any conflicts if any, as for any git pull.
+    The compiled lib files will go into the $PROJECT_lib.a while the cli files will be made stand alone.  Presumably
+    they have a main call.
+
+## push and pull
+
+     These are git command sequence short cuts.  They do the usual things when pushing and pulling from
+     a git repo and also do some checks.
+
+## other things
+
+     Other useful things will be found in the resource tree.
 
 
-    Then push your work back to the repo:
-
-    ```
-       > push
-    ```
-
-    Those scripts do the intermediate staging, commit, and push/pull, both for the project
-    and the project environment.  If things go wrong, you will have to read through the
-    transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
-    and use `git` directly.
-
-
-
-## Installing
-
+## setting up a directory to hold multiple projects
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
@@ -101,20 +108,34 @@
 
     ```
       > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/usr-local-bin
+      > git clone git@github.com:Thomas-Walker-Lynch/system
     ```
+    
     <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
-  3.
+  3. expand the resources repo
 
-    ```
+     ```
       > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources.git
+      > git clone git@github.com:Thomas-Walker-Lynch/resources
     ```
+   
+     <p> be sure to inspect the scripts as they will get executed
+     <p> if you need to customize the script make a branch and put your customizations on that
+     <p> after doing a pull be sure to inspect anything newly downloaded
 
-  That is it for installing this repo.
+  4. add the following to `.bashrc`:
 
+  ```
+   export PATH=~/repos/resources/bin:"$PATH"
+
+  `
+
+  <!--- end of list --->
+
+ 
+>>>>>>> 22cc6dac6245707bb6f38adf7cf95ca49c7e95e8
 ## project setup
 
   By default project should have this directory structure:
