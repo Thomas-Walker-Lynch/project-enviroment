@@ -6,13 +6,14 @@
 
 This is for developing C and C++ projects that are placed in .git repos.
 
-It contains these files, and perhaps others:
-
-setup        - sets up the environment for a project
-pull         - fancy shortcut for git pull 
-push         - fancy shortcut for git push
-makefile     - a genetic makefile
-makefile-env - default variables for make
+It contains these files, and perhaps others:<br>
+<br>
+setup        - sets up the environment for a project<br>
+pull         - fancy shortcut for git pull<br>
+push         - fancy shortcut for git push<br>
+makefile     - a genetic makefile<br>
+makefile-env - default variables for make<br>
+<br>
 
 ## Installing the ‘resources_repo'
 
