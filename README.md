@@ -1,40 +1,95 @@
  
-
 # `resources`
 
-## What the heck is this
+## What is it?
 
-This is for developing C and C++ projects that are placed in .git repos.
+  These are programs for developing C and C++ projects.
 
-It contains these files, and perhaps others:
+  setup        - sets up the environment for a project
+  pull         - fancy shortcut for git pull 
+  push         - fancy shortcut for git push
+  makefile     - a genetic makefile
+  makefile-env - default variables for make
 
-setup        - sets up the environment for a project
-pull         - fancy shortcut for git pull 
-push         - fancy shortcut for git push
-makefile     - a genetic makefile
-makefile-env - default variables for make
+  ### setup
 
-## Installing the ‘resources_repo'
+    This replaces any other script you might be accustom to for entering a ‘virtual environment’.
 
-Assume we have a top level directory called 'repos', and we have expanded resources_repo into it.  
+    This command will open a new shell with the environment in that shell setup for the project.
 
-/home/Thomas/repos/
- ..
- resources_repo/
-   bin/
-   include/
-   lib/
-   media/
-   tmp/
-   LICENSE
-   README.md
-   projects-init.sh
+    ```
+      2022-02-25T13:06:24Z
+      lander10@beast§~/resources§
+      > setup Endian
+      Hello Emacs
+      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/home/Thomas/repos/bin:/home/Morpheus/.local/bin:/usr/local/bin:/usr/bin:/bin
+      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/home/Thomas/repos/bin:/home/Morpheus/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+      2022-02-25T13:06:28Z [Endian]
+      lander10@beast§~/Endian§
+      > 
+    ```
+
+    So for my `ws4` project:
+
+       > setup ws4
+       >
+
+    ```
+       st <project> [<project_path>] 
+    ```
+    if <project_path> is not given, then <project_path> is set to <project>.
 
 
 
+    If you use the prompt from usr-local-includ dot_bashrc a shell will open with this prompt:
+
+    ```
+        2020-12-01T14:56:31Z [ws4_master]
+        thomas@localhost§~/projects/ws4_master§
+        > 
+    ``` 
+
+    On the first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script.  We use
+    time stamps of this form for transcripts and logs.
+
+    On the same line following the time, in square brackets you will see the name of the project.
+
+    On the second line we have the user name, machine name, and current working directory.
+
+    Then on the third line we have the prompt, `>`. Anything you type after the prompt is
+    taken as the command for the shell.
+
+  ### pull and push
+
+    These are short cuts for the git repo commands.  It is best to use these as it allows us to wrap up
+    other work to be done along with the git repo command.  
+
+    When you have made changes in the project home directory and want to push them back to 
+    the repo, first pull on the work from other team members:
+
+    ```
+       > pull
+    ```
+
+    You will then have to work out any conflicts if any, as for any git pull.
 
 
-We are generally allergic to executables in repos, so we begin 
+    Then push your work back to the repo:
+
+    ```
+       > push
+    ```
+
+    Those scripts do the intermediate staging, commit, and push/pull, both for the project
+    and the project environment.  If things go wrong, you will have to read through the
+    transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
+    and use `git` directly.
+
+
+
+## Installing
+
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
@@ -51,78 +106,39 @@ We are generally allergic to executables in repos, so we begin
     <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
-
-  3. make a directory for resources that are shared among the various project
-
-     ```
-      > cd ~/repos
-      > mkdir resources
-      > cd resources
-      > mkdir lib bin include tmp media
-    ```
-
-  4. get some project resources
+  3.
 
     ```
       > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources_repo.git
+      > git clone git@github.com:Thomas-Walker-Lynch/resources.git
     ```
-
-  5. set the executables PATH
-
-  I added the following to my `.bashrc`:
-
-  ```
-   export PATH=~/repos/resources/bin:"$PATH"
-
-  ``
-  5. install project resources
-
-    ```
-      > cd ~/repos/resources_repo
-      > cp pull  push  rm_tilda_files_tree  start  ~/repos/resources/bin
-      #inspect executables
-      > cd ~/repos/resources/bin
-      # do not edit files here
-      # make a branch on resources_repo if you need local changes
-      > chmod -rwx,ug+rx *
-      > cd ~/repos/resources_repo
-      #inspect makefile-cc
-      > cp makefile-cc ~/repos/resources/lib
-    ```
-   
-    etc. depending on the resources you will use
-
-
-  <!--- end of list --->
 
   That is it for installing this repo.
 
 ## project setup
 
-By default project should have this directory structure:
+  By default project should have this directory structure:
 
-repos/
-        project_name/
-                doc/
-                exec/
-                lib/
-                src/
-                test/
-                tmp/
-                try/
+     repos/
+          <a project_name>/
+                  doc/
+                  exec/
+                  lib/
+                  src/
+                  test/
+                  tmp/
+                  try/
 
-        project_name
-             ...
+          <another project_name>
+               ...
 
-The doc, exec, lib, etc. subdirectories can be made with
-  > make setup
+  The doc, exec, lib, etc. subdirectories can be made with
+    > make setup
 
-Then to
+  Before working on a project be sure to run
+    > setup <project_name>
 
-
-
-## How to install a project that has sub-modules.
+## How to install a project that has sub-modules and favored branches
 
   1. install the project
 
@@ -161,7 +177,6 @@ Then to
      the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
      `init` and `update` so that it is easier to tell what caused errors.
 
-  <!--- end of list --->
 
 ## Generally About Project Security
 
@@ -258,70 +273,6 @@ Then to
 
 ## Some of the scripts found in this repo
 
-  ### start
-
-    This replaces any other script you might be accustom to for entering a ‘virtual environment’.
-
-    This following command will open a new shell with the environment in that shell setup for the project. 
-
-    ‘start’ runs your .bashrc file and cds to ~/repos/<project_path>. It sources `~/repos/bin/<project>.sh`
-    to setup the environment.
-
-    if <project_path> is not given, then <project_path> is set to <project>.
-
-    ```
-       st <project> [<project_path>] 
-    ```
-
-    So for my `ws4` project:
-
-    ```
-       st ws4
-    ```
-
-    If you use the prompt from usr-local-includ dot_bashrc a shell will open with this prompt:
-
-    ```
-        2020-12-01T14:56:31Z [ws4_master]
-        thomas@localhost§~/projects/ws4_master§
-        > 
-    ``` 
-
-    On the first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script.  We use
-    time stamps of this form for transcripts and logs.
-
-    On the same line following the time, in square brackets you will see the name of the project.
-
-    On the second line we have the user name, machine name, and current working directory.
-
-    Then on the third line we have the prompt, `>`. Anything you type after the prompt is
-    taken as the command for the shell.
-
-  ### pull and push
-
-    These are short cuts for the git repo commands.  It is best to use these as it allows us to wrap up
-    other work to be done along with the git repo command.  
-
-    When you have made changes in the project home directory and want to push them back to 
-    the repo, first pull on the work from other team members:
-
-    ```
-       > pull
-    ```
-
-    You will then have to work out any conflicts if any, as for any git pull.
-
-
-    Then push your work back to the repo:
-
-    ```
-       > push
-    ```
-
-    Those scripts do the intermediate staging, commit, and push/pull, both for the project
-    and the project environment.  If things go wrong, you will have to read through the
-    transcripts.  Sometimes the scripts may be played again, sometime you have to drop back
-    and use `git` directly.
   
 
 ## General info and concepts
@@ -420,7 +371,7 @@ Then to
           pull
           push
           rm_tilda_files_tree
-          start
+          setup
       subu/ 
       tm/
       ws4_master/   <--- an ensemble directory
@@ -483,12 +434,17 @@ Then to
 
 ## Repo and Directory Naming
 
-  If a repos has submodules in it, I generally give the repo name a suffix of ‘_ensemble’.
+  If a repo has submodules in it, I generally give the repo name a suffix of ‘_ensemble’.
 
   After cloning, if I am only going to work on a given breanch within that clone, I will change
   the suffix to the branch name,  <project>_<branch>.
 
-  Here is example listing from a repos directory:
+  So you ask why do we need more than one directory for the same repo? Well in this case I
+  am running a web server against the v2.0 branch, and it needs to see the files the v2.0.
+  The v1.0 directory was the one that was formally being served. There are no servers
+  pointed at it now, so I should probably delete it.  If I ever need v1.0 again I can always
+  check it out. 
+
 
   ```
   > cd ~/repos
@@ -519,15 +475,6 @@ Then to
   > git checkout v1.0
 
   ```
-
-  So you ask why do we need more than one directory for the same repo? Well in this case I
-  am running a web server against the v2.0 branch, and it needs to see the files the v2.0.
-  The v1.0 directory was the one that was formally being served. There are no servers
-  pointed at it now, so I should probably delete it.  If I ever need v1.0 again I can always
-  check it out. 
-
-
-## Git Modules and Submodules
 
   Cloning a `git` repository produces a directory tree, which in git speak is
   apparently called a `module`.
