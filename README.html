@@ -101,7 +101,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 ```
 
 
-<p>Currently `setup` echos the path so that they user will understand where the executables
+<p>Currently <tt>setup</tt> echos the path so that they user will understand where the executables
 come from. 
 
 <p>The prompt carries sufficient information for making sense of the transcript when it is read later.
@@ -140,10 +140,10 @@ shell. It is conventional for script run as root user that this will instead be 
          tmp/
 ```
 
-    Note `makefile` and `makefile-env` inside the Endian project are there only to override defaults on
-    the `resources` versions of those files. They are stubs tweak a couple of things and then pass the heavy
-    lifting to `resources/lib/makefile` and `resources/lib/makefile-env`.  Leave the
-    `resources/lib/makefile` and `resources/lib/makefile-env` where they are and do not make copies.
+    Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to override defaults on
+    the <tt>resources</tt> versions of those files. They are stubs tweak a couple of things and then pass the heavy
+    lifting to <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt>.  Leave the
+    <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt> where they are and do not make copies.
 
     Give source files two suffixes. For example the Endian project source directory appears as:
 
@@ -158,12 +158,12 @@ shell. It is conventional for script run as root user that this will instead be 
      endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c
 ```
 
-    Endian is a C project. For C++ sources the suffix will be `.cc`.  I suppose the generic makefile should
+    Endian is a C project. For C++ sources the suffix will be <tt>.cc</tt>.  I suppose the generic makefile should
     be improved by adding a variable to configure the string used for suffixes.  Right now I think this convention
     is hard coded.
 
-    The compiled lib files will go into `lib/$PROJECT_lib.a` while the cli files will be made stand alone and
-    appear in the `exec` directory.  Presumably all the `.cli.c` files have a main function defined.
+    The compiled lib files will go into <tt>lib/$PROJECT_lib.a</tt> while the cli files will be made stand alone and
+    appear in the <tt>exec</tt> directory.  Presumably all the <tt>.cli.c</tt> files have a main function defined.
 
 ## push and pull scripts
 
@@ -176,7 +176,7 @@ shell. It is conventional for script run as root user that this will instead be 
 
 ## projects with submodules
 
-  By convention, projects with submodules have the suffix `_ensemble`.
+  By convention, projects with submodules have the suffix <tt>_ensemble</tt>.
 
   1. install the project
 
@@ -192,7 +192,7 @@ shell. It is conventional for script run as root user that this will instead be 
     use a different suffix than `master`.  Conventionally the suffix is the branch to be
     checked out and worked on, but the scripts do not care what it is set to. Inside the
     scripts this suffix is called the project ‘version’.  If this checkout is for
-    working on multiple branches, just leave the `_ensemble`.
+    working on multiple branches, just leave the <tt>_ensemble</tt>.
 
   2. for submodules that have not yet been added:
 
@@ -239,7 +239,7 @@ shell. It is conventional for script run as root user that this will instead be 
      Files that should be audited must not be hidden.  Otherwise they are too easy to miss during
      the audit.
 
-     Hidden files are not seen by file globs, so does not see the `.gitignore` file.
+     Hidden files are not seen by file globs, so does not see the <tt>.gitignore</tt> file.
 
 ```
       > ls -ld *
@@ -253,16 +253,16 @@ shell. It is conventional for script run as root user that this will instead be 
 ```
 
     Globs not seeing hidden files is generally considered to be a good thing when we do not want usual shell operations
-    to see it.  For example ` cp * ` a repo manually we often want a copy of the project, not a copy of the repo
-    administrative files.  There is a separate command for copying a repo, ` git clone `.
+    to see it.  For example <tt> cp * </tt> a repo manually we often want a copy of the project, not a copy of the repo
+    administrative files.  There is a separate command for copying a repo, <tt> git clone </tt>.
 
-    If we want to 'unhide' dot file from a file glob, then we rename it.  That is best. In the case `.gitignore`
-    `git` is expecting to see the file with that very name.  If we make a file that is not hidden and then
-    link `.gitignore` to it, git will yell at us "too many symbolic links!".
+    If we want to 'unhide' dot file from a file glob, then we rename it.  That is best. In the case <tt>.gitignore</tt>
+    <tt>git</tt> is expecting to see the file with that very name.  If we make a file that is not hidden and then
+    link <tt>.gitignore</tt> to it, git will yell at us "too many symbolic links!".
 
-     Hence, we can expose a file like `.gitignore` by linking to it (rather than the other way around).
+     Hence, we can expose a file like <tt>.gitignore</tt> by linking to it (rather than the other way around).
      When doing this, typically the link name is the same but without the dot in front of it.  Here I expose the
-     `.gitignore`.  
+     <tt>.gitignore</tt>.  
 
 ```
       2022-02-26T13:02:28Z [Endian]
@@ -287,11 +287,11 @@ shell. It is conventional for script run as root user that this will instead be 
 
   2. PATH
 
-     Do not put a repo in your execution PATH.  When running tests and such call them out locally, `./program`,
-     or through one of the environment variables initialized by the `setup`.
+     Do not put a repo in your execution PATH.  When running tests and such call them out locally, <tt>./program</tt>,
+     or through one of the environment variables initialized by the <tt>setup</tt>.
 
-     The `~/repos/resources/bin` directory is an exception to this. We need to maintain the executables used for
-     maintaing the projects themselves. Be careful to audit any changes to this `resources`.
+     The <tt>~/repos/resources/bin</tt> directory is an exception to this. We need to maintain the executables used for
+     maintaing the projects themselves. Be careful to audit any changes to this <tt>resources</tt>.
 
   3. pulled binary executbles
 
@@ -309,11 +309,11 @@ shell. It is conventional for script run as root user that this will instead be 
 
     Make sure make your clean targets remove executables before a push.
 
-    Be careful with the programs in `resources/bin`.
+    Be careful with the programs in <tt>resources/bin</tt>.
 
   4. check for the .gitignore and audit it, add to it
 
-   If you add the `exec`  or  `bin` directories to gitignore and then forget to
+   If you add the <tt>exec</tt>  or  <tt>bin</tt> directories to gitignore and then forget to
    run make clean, it might prevent accidentally adding executables.
 
    Typical .gitignore files:
