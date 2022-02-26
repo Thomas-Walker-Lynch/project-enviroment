@@ -7,5 +7,8 @@ It put every line in a paragraph into a separate paragraph.  So trying:
 
 2. https://products.aspose.app/words/conversion/pdf-to-md
 
-the output looks much better
+The output looks much better.  The same company has an .odt to .md converter:
+https://products.aspose.app/words/conversion/odt-to-md
+
+Another website also has an .odt to .md converter.
 
