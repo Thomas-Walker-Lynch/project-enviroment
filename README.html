@@ -1,0 +1,1130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.2.5.2.0 (Linux)"/>
+	<meta name="created" content="2022-02-26T16:38:37.443343346"/>
+	<meta name="changed" content="2022-02-26T17:47:14.006177708"/>
+	<style type="text/css">
+		@page { size: 8.5in 11in; margin: 0.79in }
+		p { line-height: 115%; orphans: 4; widows: 4; margin-bottom: 0.1in; background: transparent; page-break-before: auto }
+		p.western { font-family: "Noto Sans CJK JP", sans-serif; font-size: 11pt }
+		h1 { orphans: 4; widows: 4; margin-bottom: 0.08in; background: transparent; page-break-before: auto; page-break-after: avoid }
+		h1.western { font-family: "Liberation Sans", sans-serif; font-size: 18pt; font-weight: bold }
+		h1.cjk { font-family: "Noto Sans SC"; font-size: 18pt; font-weight: bold }
+		h1.ctl { font-family: "Lohit Devanagari"; font-size: 18pt; font-weight: bold }
+		pre { orphans: 4; widows: 4; background: transparent; page-break-before: auto }
+		pre.western { font-family: "Noto Sans Mono CJK JP", sans-serif; font-size: 10pt }
+		pre.cjk { font-family: "Noto Sans Mono CJK SC", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		code.western { font-family: "Noto Sans Mono CJK JP", sans-serif; font-size: 10pt }
+		code.cjk { font-family: "Noto Sans Mono CJK SC", monospace }
+		code.ctl { font-family: "Liberation Mono", monospace }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p class="western" style="line-height: 100%; margin-bottom: 0in">
+Find the source for this document in the docs directory. 
+</p>
+<p align="center" style="line-height: 100%; margin-top: 0.17in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="6" style="font-size: 28pt"><b>The
+‘resources’ Project</b></font></font></p>
+<p class="western">2022-02-26 TWL imported from README markdown,
+still in process of conversion</p>
+<h1 class="western">What is it?</h1>
+<p class="western">A set of scripts used for the projects found in
+'github.com/thomas-walker-lynch' and other places where it has been
+adopted.  These apply to C, C++, Python, Django, and Rust. This
+replaces any other script you might be accustom to for entering a
+‘virtual environment’.  
+</p>
+<table width="432" cellpadding="0" cellspacing="0">
+	<col width="168"/>
+
+	<col width="264"/>
+
+	<tr valign="top">
+		<td width="168" style="border: none; padding: 0in"><pre class="western">setup</pre>
+		</td>
+		<td width="264" style="border: none; padding: 0in"><p class="western">
+			sets up the environment for a project</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="168" style="border: none; padding: 0in"><pre class="western">pull</pre>
+		</td>
+		<td width="264" style="border: none; padding: 0in"><p class="western">
+			fancy shortcut for git pull</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="168" style="border: none; padding: 0in"><pre class="western">push</pre>
+		</td>
+		<td width="264" style="border: none; padding: 0in"><p class="western">
+			fancy shortcut for git push</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="168" style="border: none; padding: 0in"><pre class="western">makefile</pre>
+		</td>
+		<td width="264" style="border: none; padding: 0in"><p class="western">
+			a genetic makefile for C/C++ projects</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="168" style="border: none; padding: 0in"><pre class="western">makefil-env</pre>
+		</td>
+		<td width="264" style="border: none; padding: 0in"><p class="western">
+			default variables for make</p>
+		</td>
+	</tr>
+</table>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western">These scripts  have been evolving with each
+project, so tweaks might be required. 
+</p>
+<p class="western">Assume we have a top level directory called
+'repos', and we have expanded resources</p>
+<pre class="western">/home/Thomas/repos/
+  resources_repo/
+    bin/&lt;br&gt;
+    include/
+    lib/
+    media/
+    tmp/
+    LICENSE
+    README.md
+    projects-init.sh
+</pre><h1 class="western">
+Modifying the resources repo</h1>
+<p class="western">If you make some changes and are testing them,
+then do that on a branch. Merge the branch after it is tested.</p>
+<p class="western">If you do something to the resources repo of
+general interest, then check it in to master.</p>
+<p class="western">If you need special modifications specific to your
+needs, i.e. not of general interest even to those who might come in
+the future and be working in the same language, etc., then make your
+very own branch.</p>
+<p class="western"> If you have a fundamentally different way of
+going about this, some people want it, others don't - then that goes
+on a branch.</p>
+<p class="western"><br/>
+<br/>
+
+</p>
+<h1 class="western">Your local directory for holding project, ‘repos’</h1>
+<p class="western"><br/>
+<br/>
+
+</p>
+<ol>
+	<li><p class="western">make a top level directory for holding all
+	the repos you work on, independent of language, etc.</p>
+	<pre class="western"> &gt; mkdir ~/repos
+</pre>
+	<li><p class="western" style="line-height: 100%; margin-bottom: 0in">
+	expand the <font face="Noto Sans Mono CJK JP, sans-serif">system</font>
+	 repo, then inspect and install those script in the system</p>
+	<p class="western" style="line-height: 100%; margin-bottom: 0in"></p>
+	<pre class="western"><font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">&gt; cd ~/repos</font></font>
+<font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">&gt; git clone git@github.com:Thomas-Walker-Lynch/system</font></font>
+</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+	Follow the directions from the system repo for installing <font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">home</font></font>
+	and <font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">Z</font></font>.
+	 There is not really much to it. ‘<font face="Noto Sans Mono CJK JP, sans-serif">Z</font>’
+	is used for timestamps.  <font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">home</font></font><font face="Noto Sans Mono CJK JP, sans-serif">
+	</font>returns the home directory from <font face="Noto Sans Mono CJK JP, sans-serif"><font size="2" style="font-size: 10pt">/etc/passwd</font></font>.</p>
+</ol>
+<pre class="western"></pre>
+<ol start="3">
+	<li><p class="western">expand the <code class="western">resources</code>
+	repo</p>
+	<pre class="western">  &gt; cd ~/repos
+  &gt; git clone git@github.com:Thomas-Walker-Lynch/resources
+</pre>
+	<li><p class="western" style="line-height: 100%; margin-bottom: 0in">
+	add the following to .<code class="western">bashrc</code>.  Note the
+	file <code class="western">lib/bashrc</code> to get started.</p>
+	<p class="western" style="line-height: 100%; margin-bottom: 0in"></p>
+	<pre class="western"> &gt; export PATH=~/repos/resources/bin:&quot;$PATH&quot;</pre>
+</ol>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<h1 class="western">The setup script</h1>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western">    This command will open a new shell with the
+environment in that shell setup for the project.</p>
+<pre class="western">      2022-02-25T13:06:24Z
+      lander10@beast§~/§
+      &gt; setup Endian
+      Hello Emacs
+      /home/Thomas/repos/bin:/home/Thomas/repos/resources/bin:/usr/local/bin:/usr/bin:/bin
+
+      2022-02-25T13:06:28Z [Endian]
+      lander10@beast§~/repos/Endian§
+      &gt; </pre><p class="western">
+<br/>
+<br/>
+
+</p>
+<p class="western">Currently &lt;tt&gt;setup&lt;/tt&gt; echos the
+path so that they user will understand where the executables</p>
+<p class="western">come from. 
+</p>
+<p class="western">The prompt carries sufficient information for
+making sense of the transcript when it is read later.</p>
+<p class="western">On the first line, the time shown is UTC in
+standard iso8601 format. This comes from the ‘/usr/bin/Z’ script.
+</p>
+<p class="western">Following the time, in square brackets you will
+see the name of the project. If the square brackets are not there,
+then no project environment has been setup.  If a user attempts to
+work on a project that has not been setup, he or she is likely to
+experience many errors.</p>
+<p class="western">On the second line we have the user name, machine
+name, and current working directory.</p>
+<p class="western">On the third line the familiar `&gt;` appears.
+Anything you type after the prompt is taken as the command for the
+shell. It is conventional for script run as root user that this will
+instead be '#'.</p>
+<h1 class="western">The generic makefile</h1>
+<p class="western"><br/>
+<br/>
+
+</p>
+<p class="western">  By default a C/C++ project wil have this
+directory structure:</p>
+<p class="western"><br/>
+<br/>
+
+</p>
+<pre class="western">    ~/repos/
+         Endian/
+             deprecated/
+             doc/
+             exec/
+             lib/
+             src/
+             test/
+             tmp/
+             try/
+             LICENSE
+             makefile
+             makefile-env
+         resources/
+         system/
+         tmp/</pre><p class="western">
+Note &lt;tt&gt;makefile&lt;/tt&gt; and &lt;tt&gt;makefile-env&lt;/tt&gt;
+inside the Endian project are there only to override defaults on  the
+&lt;tt&gt;resources&lt;/tt&gt; versions of those files. They are
+stubs tweak a couple of things and then pass the heavy  lifting to
+&lt;tt&gt;resources/lib/makefile&lt;/tt&gt; and
+&lt;tt&gt;resources/lib/makefile-env&lt;/tt&gt;.  Leave the 
+&lt;tt&gt;resources/lib/makefile&lt;/tt&gt; and
+&lt;tt&gt;resources/lib/makefile-env&lt;/tt&gt; where they are and do
+not make copies.</p>
+<p class="western">Give source files two suffixes. For example the
+Endian project source directory appears as:</p>
+<pre class="western">     2022-02-26T10:54:55Z [Endian]
+     thomas@beast§~/resources§
+     &gt; cd $PROJECT_HOME
+
+     2022-02-26T10:55:47Z [Endian]
+     thomas@beast§~/Endian§
+     &gt; ls src
+     endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western">Endian is a C project. For C++ sources the suffix
+will be &lt;tt&gt;.cc&lt;/tt&gt;.  I suppose the generic makefile
+should  be improved by adding a variable to configure the string used
+for suffixes.  Right now I think this convention is hard coded.</p>
+<p class="western">The compiled lib files will go into
+&lt;tt&gt;lib/$PROJECT_lib.a&lt;/tt&gt; while the cli files will be
+made stand alone and appear in the &lt;tt&gt;exec&lt;/tt&gt;
+directory.  Presumably all the &lt;tt&gt;.cli.c&lt;/tt&gt; files have
+a main function defined.</p>
+<h1 class="western">Push and pull scripts</h1>
+<p class="western">These are git command sequence shortcuts.  They do
+the usual things when pushing and pulling from  a git repo and also
+do some checks.</p>
+<h1 class="western">Other things</h1>
+<p class="western">     Other useful things will be found in the
+resource tree.</p>
+<h1 class="western">Projects with submodules</h1>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  By
+convention, projects with submodules have the suffix
+&lt;tt&gt;_ensemble&lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+install the project</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Suppose the project with submodules is called &lt;project&gt;_ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      &gt; cd ~/repos
+      &gt; git clone git@github.com/&lt;user&gt;/&lt;project&gt;_ensemble.git
+      &gt; mv &lt;project&gt;_ensemble &lt;project&gt;_master 
+      &gt; cd &lt;project&gt;_master</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Note in the line that moves the cloned repo directory to
+`&lt;project&gt;_master`, you might</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+use a different suffix than `master`.  Conventionally the suffix is
+the branch to be</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+checked out and worked on, but the scripts do not care what it is set
+to. Inside the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+scripts this suffix is called the project ‘version’.  If this
+checkout is for</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+working on multiple branches, just leave the &lt;tt&gt;_ensemble&lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+for submodules that have not yet been added:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      &gt; git submodule add https://github.com/../&lt;resource_project&gt;
+      &gt; git submodule add https://github.com/../&lt;resource_project&gt;
+      ...</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Etc. for the other modules</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+if a submodule is empty, then do the following:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      &gt; git submodule init
+      &gt; git submodule update</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Submodules directories will be empty when the `--recursive` switch is
+not provided with</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+the clone. Actually, I prefer not to use `--recursive` and then to
+follow up with an</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+`init` and `update` so that it is easier to tell what caused errors.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<h1 class="western">## generally about project security</h1>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  0.
+Contain your development work</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Consdider giving the repos directory its own user.  If you do add
+this link so that</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+the scripts can still have a 'repos' target.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">    &gt; ln -s . repos</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Alternatively put them in a container or a virtual machine.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+audit source files and legible scripts</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Watch what git pulls.  For new things that are source code or
+scripts, audit those.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Note! ‘.gitignore’ does not apply to pulled content.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+hidden files 
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Files that should be audited must not be hidden.  Otherwise they are
+too easy to miss during</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+the audit.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Hidden files are not seen by file globs, so does not see the
+&lt;tt&gt;.gitignore&lt;/tt&gt; file.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      &gt; ls -ld *
+      drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
+      drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
+      -rw-rw----. 1 thomas thomas  1076 2022-02-25 07:25 LICENSE
+      drwxrwx---. 1 thomas thomas    20 2022-02-25 07:25 media
+      -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
+      -rw-rw----. 1 thomas thomas 18209 2022-02-26 08:02 README.md
+      drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Globs not seeing hidden files is generally considered to be a good
+thing when we do not want usual shell operations</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+to see it.  For example &lt;tt&gt; cp * &lt;/tt&gt; a repo manually
+we often want a copy of the project, not a copy of the repo</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+administrative files.  There is a separate command for copying a
+repo, &lt;tt&gt; git clone &lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+If we want to 'unhide' dot file from a file glob, then we rename it. 
+That is best. In the case &lt;tt&gt;.gitignore&lt;/tt&gt;</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+&lt;tt&gt;git&lt;/tt&gt; is expecting to see the file with that very
+name.  If we make a file that is not hidden and then</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+link &lt;tt&gt;.gitignore&lt;/tt&gt; to it, git will yell at us &quot;too
+many symbolic links!&quot;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Hence, we can expose a file like &lt;tt&gt;.gitignore&lt;/tt&gt; by
+linking to it (rather than the other way around).</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+When doing this, typically the link name is the same but without the
+dot in front of it.  Here I expose the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+&lt;tt&gt;.gitignore&lt;/tt&gt;.  
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      2022-02-26T13:02:28Z [Endian]
+      thomas@beast§~/resources§
+      &gt; ln -s .gitignore gitignore</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+ And now the file glob will pick it up.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">      2022-02-26T13:07:13Z [Endian]
+      thomas@beast§~/resources§
+      &gt; ls -ld *
+      drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
+      lrwxrwxrwx. 1 thomas thomas    10 2022-02-26 08:07 gitignore -&gt; .gitignore
+      drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
+      -rw-rw----. 1 thomas thomas  1076 2022-02-25 07:25 LICENSE
+      drwxrwx---. 1 thomas thomas    20 2022-02-25 07:25 media
+      -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
+      -rw-rw----. 1 thomas thomas 20454 2022-02-26 08:14 README.md
+      drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+PATH</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+Do not put a repo in your execution PATH.  When running tests and
+such call them out locally, &lt;tt&gt;./program&lt;/tt&gt;,</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+or through one of the environment variables initialized by the
+&lt;tt&gt;setup&lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+The &lt;tt&gt;~/repos/resources/bin&lt;/tt&gt; directory is an
+exception to this. We need to maintain the executables used for</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+maintaing the projects themselves. Be careful to audit any changes to
+this &lt;tt&gt;resources&lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+pulled binary executbles</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+It is best to not pull binary executables then run them, because they
+can not be audited.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+It sometimes happens that a co-developers will compile and create an
+executable, and then not clean it, and then</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+accidentally the user poisons the repo with them.  Watch your pulls
+and clones, and remove executables from the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+repo, and complain about them. The generic makefile, push, and pull
+scripts can help with this.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+When an unauditable executable arrives in a pull it creates a trust
+problem.  We distrist both the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+source and the integrity of the distribution process.  This latter
+problem can be mitigated if</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+cryptographic signatures are independently available.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Consider running such an executable in a container.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Make sure make your clean targets remove executables before a push.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+Be careful with the programs in &lt;tt&gt;resources/bin&lt;/tt&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  4.
+check for the .gitignore and audit it, add to it</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  
+If you add the &lt;tt&gt;exec&lt;/tt&gt;  or  &lt;tt&gt;bin&lt;/tt&gt;
+directories to gitignore and then forget to</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  
+run make clean, it might prevent accidentally adding executables.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  
+Typical .gitignore files:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">        env/
+        tmp/
+        .*
+        !.gitignore
+        *~</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+For a C or C++ project home directory we will also ignore various
+intermediate files,</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">        tmp/
+        bin/
+        exec/
+        .*
+        !.gitignore
+        *~
+        *.o
+        *.i
+        *.s
+        a.out</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">   
+For a python project:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">        tmp/
+        .*
+        !.gitignore
+        __pycache__/
+        **/*.pyc</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+ And for a django project:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">        tmp/
+        .*
+        !.gitignore
+        __pycache__/
+        **/*.pyc
+        manage.py
+        **/migrations
+        .vscode</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">##
+General info and concepts</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+### What is a ‘project’</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+The term ‘project’ occurs repeatedly in this document and
+generally when we talk about code, so it is best to start by</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+nailing that term down.  Generally speaking, a ‘project’ has a
+well defined final product, along with a list resource</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+needs, tasks, task dependencies, and a tasks schedule.  It is the job
+of the team members to execute said tasks.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  In
+project management parlance, a group of related projects is called a
+‘program’. Well that sure is an unfortunate</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+choice of terminology for us CS people, so instead we will call a
+group of related projects a ‘project ensemble’.  A</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+project ensemble itself is also a kind of project, where the tasks
+are the component projects.  Hence we have a</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+recursive structure. CS people like recursive structures ;-)</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Projects are held in git repositories, as project ensembles are also
+projects, they are also held in git</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+repositories. When we clone a project ensemble we will find other git
+repositories have been expanded inside the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+directory tree.  Those are for the component projects.  In git speak
+we call these component project directory trees</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+‘submodules’.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+When a project ensemble is expanded out, we end up with a directory
+tree structure where project resources, tools, and</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+work products are stored.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<h1 class="western">  ### Where project code goes</h1>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+--------</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  On
+a typical project we will have three distinct types of code:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+the application source code</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+the libraries and other resources the application makes use of</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+the tools used for building the source code</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Let's give these code types short names:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+source</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+resources</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+tools</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+have various places where we might put code that we need in a
+program:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+in the system</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+in the developer's user directory</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+in a project ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  4.
+in a project's home directory.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+shorten this list of places to:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+system</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+user</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  4.
+project</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Now combining our code and locations into one list:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  1.
+source</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+1. project</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  2.
+resources</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+1. system</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+2. user</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+3. ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  3.
+tools</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+1. system</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+2. user</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">    
+3. ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  So
+there is only one place we will find the application source code that
+we are</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+developing, and that is under the project directory. Resources that
+we may need in</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+order to compile our code will be found either in the system, the
+user directory, or in</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+the ensemble. The same can be said for the tools we will use.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+This is what my home directory looks like:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">  /home/thomas/
+    bin/
+    Desktop/
+    Documents/
+    Downloads/
+    repos/
+      chessgame/
+      resources/  &lt;--- resources for all projects - expand this repo here
+          LICENSE
+          README.md
+          bin/
+              makefile-cc
+              pull
+              push
+              rm_tilda_files_tree
+              setup
+      subu/ 
+      tm/
+      ws4_master/   &lt;--- an ensemble directory
+        LICENSE
+        README.md
+        env/  &lt;--- resources specific to the ensemble (wish this was called ‘resources’
+            bin/
+            lib/
+            include/
+        tmp/
+        uWebSockets/ &lt;--- resource project directory
+        ws4/   &lt;--- target project directory</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Now looking under my `projects` directory, and expanding out
+`ws4_master`:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">     ws4_master/
+       LICENSE
+       README.md
+       env/
+          bin/
+          include/
+          lib/
+       tmp/
+       uWebSockets/
+       ws4/</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+`ws4_master` is a project ensemble. The component projects include
+`uWebSockets` and</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+`ws4`. This project ensemble also comes from a git repo.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+`ws4_master/ws4` is the home directory for the project this team is
+actively working on.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+know it is the active project because it has the same name as the
+ensemble prefix.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Whereas `ws4_master/uWebSockets` is someone else's github project.
+There are other people</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+working that, but it is not us, and it is being developed in a
+different</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+environment. Rather we are just making use of the work product of
+that project.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Also inside of `ws4_master` we have a directory called `env`.
+Frankly, I don't like the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+name.  I have toyed with calling it `project-share`, but `env` is the
+name that Python and others</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+expect.  Perhaps make it a symbol link?  This directory is used to
+hold project specific</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+resources and tools.  Note that the contents of `env` are *not*
+pushed to the repo. This</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+means that custom edits you make to scripts will not be backed up to
+the repo.  I also do</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+not like `env` because it is not pushed to the repo, but it might be
+*pulled* from it.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+`.gitignore` does not affect pulls.  This is a security hazard.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<h1 class="western">## Repo and Directory Naming (again)</h1>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  If
+a repo has submodules in it, I generally give the repo name a suffix
+of ‘_ensemble’.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+After cloning, if I am only going to work on a given breanch within
+that clone, I will change</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+the suffix to the branch name,  &lt;project&gt;_&lt;branch&gt;.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  So
+you ask why do we need more than one directory for the same repo?
+Well in this case I</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  am
+running a web server against the v2.0 branch, and it needs to see the
+files the v2.0.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+The v1.0 directory was the one that was formally being served. There
+are no servers</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+pointed at it now, so I should probably delete it.  If I ever need
+v1.0 again I can always</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+check it out. 
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">  &gt; cd ~/repos
+  &gt; ls
+      customer_gateway_master
+      customer_gateway_v1.0
+      customer_gateway_v2.0</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+This is how the `customer_gateway_master` project environment
+directory was made:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">  &gt; cd ~/repos
+  &gt; git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
+  &gt; mv customer_gateway_ensemble customer_gateway_master</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+When downloading a `&lt;project&gt;_ensemble` repo, we can expand the
+submodules at the same time</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  by
+including the --recursive switch, as was shown above.  If the
+`--recursive` switch</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  is
+not given, the submodules will have to be initialized and updated.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+The second directory was then created with the commands:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">  &gt; git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
+  &gt; mv customer_gateway_ensemble customer_gateway_v1.0
+  &gt; cd customer_gateway_v1.0
+  &gt; git checkout v1.0</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+Cloning a `git` repository produces a directory tree, which in git
+speak is</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+apparently called a `module`.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+may `cd` into a module and clone another module, this will be called
+a ‘submodule’.  A</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+submodule clone operation requires a special command so that the
+module will know it is</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+there:</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western">  git submodule add &lt;repo&gt;</pre><p class="western" style="line-height: 100%; margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+might do this because our project depends on other projects, and
+those other projects</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+have their own git repositories, or because we are developing more
+than one project</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+together with one shared environment.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+then use the submodule just like we would use any other git module. 
+I.e. after we make</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+changes we must add the changes, then commit them, and then push the
+submodule.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+The parent module only sees the submodule changes when there is a
+commit in the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+submodule.  Hence, after there is a commit in a submodule, we must go
+up to the module, and</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+then add the submodule, commit, then push the module.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  We
+truly have two layers, and we have to maintain them individually.
+Luckily we have some</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+scripts so that we don't to type stuff twice. In the `project-share`
+project there are two</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+scripts, one called `push` the other called `pull`.  When we run the
+`push` script it goes</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+into the project home and does an add, commit, and push.  It then
+goes up to the ensemble</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+directory and `git add`s the project submodule, commits the change,
+and then pushes. Finally</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in">  it
+pops directory back to the project.  The current `pull` script pulls
+down all the</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"> 
+submodules and the ensemble.</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+<p class="western" style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+</body>
+</html>
