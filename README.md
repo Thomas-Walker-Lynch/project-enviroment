@@ -33,9 +33,56 @@ Assume we have a top level directory called 'repos', and we have expanded resour
    README.md
    projects-init.sh
 ```
->>>>>>> 22cc6dac6245707bb6f38adf7cf95ca49c7e95e8
+## Modifying the resources repo
 
-## setup
+  If you make some changes and are testing them, then do that on a branch. Merge the branch after
+  it is tested.
+
+  If you do something to the resources repo of general interest, then check it in to master.
+
+  If you need special modifications specific to your needs, i.e. not of general interest even
+  to those who might come in the future and be working in the same language, etc., then
+  make your very own branch.
+
+  If you have a fundamentally different way of going about this, some people want it, others
+  don't - then that goes on a branch.
+
+## setting up a directory to hold projects
+
+  1. make a top level directory for holding all the repos you work on, independent of language, etc.
+
+    ```
+      > mkdir ~/repos
+    ```
+
+  2. expand the 'system'  repo, then inspect and install those script in the system
+
+    ```
+      > cd ~/repos
+      > git clone git@github.com:Thomas-Walker-Lynch/system
+    ```
+    
+    <p>Follow the directions from the system repo for installing ‘home’ and ‘Z’.  There is not really much to it.
+    <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
+
+  3. expand the resources repo
+
+     ```
+      > cd ~/repos
+      > git clone git@github.com:Thomas-Walker-Lynch/resources
+    ```
+   
+     <p> be sure to inspect the scripts as they will get executed
+     <p> if you need to customize the script make a branch and put your customizations on that
+     <p> after doing a pull be sure to inspect anything newly downloaded
+
+  4. add the following to `.bashrc`.  Note the file lib/bashrc to get started
+
+  ```
+   export PATH=~/repos/resources/bin:"$PATH"
+  ```
+
+## the setup script
 
     This command will open a new shell with the environment in that shell setup for the project.
 
@@ -67,99 +114,63 @@ Assume we have a top level directory called 'repos', and we have expanded resour
     <p>On the third line the familiar `>` appears. Anything you type after the prompt is taken as the command for the
     shell. It is conventional for script run as root user that this will instead be '#'.
 
-## the makefile
+## the generic makefile
 
-    This is a generic C/C++ makefile.  When used source files end with two suffixes. For example the Endian project
-    source directory appears as:
+  By default a C/C++ project wil have this directory structure:
+
+    ~/repos/
+         Endian/
+             deprecated/
+             doc/
+             exec/
+             lib/
+             src/
+             test/
+             tmp/
+             try/
+             LICENSE
+             makefile
+             makefile-env
+         resources/
+         system/
+         tmp/
+
+    Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to override defaults on
+    the <tt>resources</tt> versions of those files. They are stubs tweak a couple of things and then pass the heavy
+    lifting to <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt>.  Leave the
+    <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt> where they are and do not make copies.
+
+    Give source files two suffixes. For example the Endian project source directory appears as:
 
     ```
      2022-02-26T10:54:55Z [Endian]
-     Thomas-repos@Turbine§~/resources§
+     thomas@beast§~/resources§
      > cd $PROJECT_HOME
 
      2022-02-26T10:55:47Z [Endian]
-     Thomas-repos@Turbine§~/Endian§
+     thomas@beast§~/Endian§
      > ls src
      endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c
     ```
+    Endian is a C project. For C++ sources the suffix will be <tt>.cc</tt>.  I suppose the generic makefile should
+    be improved by adding a variable to configure the string used for suffixes.  Right now I think this convention
+    is hard coded.
 
-    The compiled lib files will go into the $PROJECT_lib.a while the cli files will be made stand alone.  Presumably
-    they have a main call.
+    The compiled lib files will go into <tt>lib/$PROJECT_lib.a</tt> while the cli files will be made stand alone and
+    appear in the <tt>exec</tt> directory.  Presumably all the <tt>.cli.c</tt> files have a main function defined.
 
-## push and pull
+## push and pull scripts
 
-     These are git command sequence short cuts.  They do the usual things when pushing and pulling from
+     These are git command sequence shortcuts.  They do the usual things when pushing and pulling from
      a git repo and also do some checks.
 
 ## other things
 
      Other useful things will be found in the resource tree.
 
+## projects with submodules
 
-## setting up a directory to hold multiple projects
-
-  1. make a top level directory for holding all the repos you work on, independent of language, etc.
-
-    ```
-      > mkdir ~/repos
-    ```
-
-  2. expand the 'system'  repo, then inspect and install those script in the system
-
-    ```
-      > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/system
-    ```
-    
-    <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
-    <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
-
-  3. expand the resources repo
-
-     ```
-      > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources
-    ```
-   
-     <p> be sure to inspect the scripts as they will get executed
-     <p> if you need to customize the script make a branch and put your customizations on that
-     <p> after doing a pull be sure to inspect anything newly downloaded
-
-  4. add the following to `.bashrc`:
-
-  ```
-   export PATH=~/repos/resources/bin:"$PATH"
-
-  `
-
-  <!--- end of list --->
-
- 
->>>>>>> 22cc6dac6245707bb6f38adf7cf95ca49c7e95e8
-## project setup
-
-  By default project should have this directory structure:
-
-     repos/
-          <a project_name>/
-                  doc/
-                  exec/
-                  lib/
-                  src/
-                  test/
-                  tmp/
-                  try/
-
-          <another project_name>
-               ...
-
-  The doc, exec, lib, etc. subdirectories can be made with
-    > make setup
-
-  Before working on a project be sure to run
-    > setup <project_name>
-
-## How to install a project that has sub-modules and favored branches
+  By convention, projects with submodules have the suffix <tt>_ensemble</tt>.
 
   1. install the project
 
@@ -174,7 +185,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
     Note in the line that moves the cloned repo directory to `<project>_master`, you might
     use a different suffix than `master`.  Conventionally the suffix is the branch to be
     checked out and worked on, but the scripts do not care what it is set to. Inside the
-    scripts this suffix is called the project ‘version’.
+    scripts this suffix is called the project ‘version’.  If this checkout is for
+    working on multiple branches, just leave the <tt>_ensemble</tt>.
 
   2. for submodules that have not yet been added:
 
@@ -185,7 +197,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
     ```
      Etc. for the other modules
-
 
   3. if a submodule is empty, then do the following:
 
@@ -198,8 +209,18 @@ Assume we have a top level directory called 'repos', and we have expanded resour
      the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
      `init` and `update` so that it is easier to tell what caused errors.
 
+## generally about project security
 
-## Generally About Project Security
+  0. Contain your development work
+
+    Consdider giving the repos directory its own user.  If you do add this link so that
+    the scripts can still have a 'repos' target.
+
+    ```
+    > ln -s . repos
+    ```
+
+    Alternatively put them in a container or a virtual machine.
 
   1. audit source files and legible scripts
 
@@ -207,33 +228,88 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
     Note! ‘.gitignore’ does not apply to pulled content.
 
+  2. hidden files 
+
+     Hidden files are can be an abomination because they increase the probability of stuff being missed during an audit.
+     No file that should be audited should be hidden.
+
+     Hidden files are not seen by file globs.  Hence
+
+    ```
+      > ls -ld *
+      drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
+      drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
+      -rw-rw----. 1 thomas thomas  1076 2022-02-25 07:25 LICENSE
+      drwxrwx---. 1 thomas thomas    20 2022-02-25 07:25 media
+      -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
+      -rw-rw----. 1 thomas thomas 18209 2022-02-26 08:02 README.md
+      drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
+    ```
+
+    Does not see the <tt>.gitignore</tt> file.
+
+    Globs not seeing hidden files is generally considered to be a good thing when we do not want usual shell operations
+    to see it.  For example <tt> cp * </tt> a repo manually we often want a copy of the project, not a copy of the repo
+    administrative files.  There is a separate command for copying a repo, <tt> git clone </tt>.
+
+    If we want to 'unhide' dot file from a file glob, then we rename it.  That is best. In the case <tt>.gitignore</tt>
+    <tt>git</tt> is expecting to see the file with that very name.  If we make a file that is not hidden and then
+    link <tt>.gitignore</tt> to it, git will yell at us "too many symbolic links!".
+
+     Hence, we can expose a file like <tt>.gitignore</tt> by linking to it (rather than the other way around).
+     When doing this, typically the link name is the same but without the dot in front of it.  Here I expose the
+     <tt>.gitignore</tt>.  
+
+    ```
+      2022-02-26T13:02:28Z [Endian]
+      thomas@beast§~/resources§
+      > ln -s .gitignore gitignore
+    ```
+      And now the file glob will pick it up.
+    ```
+      2022-02-26T13:07:13Z [Endian]
+      thomas@beast§~/resources§
+      > ls -ld *
+      drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
+      lrwxrwxrwx. 1 thomas thomas    10 2022-02-26 08:07 gitignore -> .gitignore
+      drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
+      -rw-rw----. 1 thomas thomas  1076 2022-02-25 07:25 LICENSE
+      drwxrwx---. 1 thomas thomas    20 2022-02-25 07:25 media
+      -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
+      -rw-rw----. 1 thomas thomas 20454 2022-02-26 08:14 README.md
+      drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
+    ```
+
   2. PATH
 
-     Do not have a repo in your execution PATH.  (The ~/repos/resources directory is not a repo.)
+     Do not put a repo in your execution PATH.  When running tests and such call them out locally, <tt>./program</tt>,
+     or through one of the environment variables initialized by the <tt>setup</tt>.
 
-  3. binary executbles
+     The <tt>~/repos/resources/bin</tt> directory is an exception to this. We need to maintain the executables used for
+     maintaing the projects themselves. Be careful to audit any changes to this <tt>resources</tt>.
 
-    It is best to not pull executables then run them!
+  3. pulled binary executbles
 
-    (If you must run an executable from a repo, then you surely trust the source.  Make sure there is a cryptographic
-    signature provided - and that signature is from another source than the repo!  Make sure the permissions and user and
-    group membership are correct. Consider running it in a container.)
+    It is best to not pull binary executables then run them, because they can not be audited.
 
-    It sometimes happens that a co-developers will compile and create an executable, and then not clean it,
-    so it poisons the repo.  Watch your pulls and clones, and remove executables from the repo, and complain
-    them.
+    It sometimes happens that a co-developers will compile and create an executable, and then not clean it, and then
+    accidentally the user poisons the repo with them.  Watch your pulls and clones, and remove executables from the
+    repo, and complain about them. The generic makefile, push, and pull scripts can help with this.
 
-    Make sure make clean removes executables before a push.
+    When an unauditable executable arrives in a pull it creates a trust problem.  We distrist both the
+    source and the integrity of the distribution process.  This latter problem can be mitigated if
+    cryptographic signatures are independently available.
 
+    Consider running such an executable in a container.
+
+    Make sure make your clean targets remove executables before a push.
+
+    Be careful with the programs in <tt>resources/bin</tt>.
 
   4. check for the .gitignore and audit it, add to it
 
-   In some cases this is less important if make clean is working, and the user makes use
-   of the ‘push’ script to push new content.
-
-   Conversely, we do not want to add clutter to the repo ourselves, so you will
-   want to have a `.gitignore`.  This might be part of the project, check for it
-   after cloning a new repo.
+   If you add the <tt>exec</tt>  or  <tt>bin</tt> directories to gitignore and then forget to
+   run make clean, it might prevent accidentally adding executables.
 
    Typical .gitignore files:
 
@@ -249,6 +325,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
     ```
         tmp/
+        bin/
+        exec/
         .*
         !.gitignore
         *~
@@ -257,7 +335,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
         *.s
         a.out
     ```
-
 
     For a python project:
     ```
@@ -280,21 +357,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
         **/migrations
         .vscode
     ```
-
-  5. no hidden files
-
-   Git already messes this up with their ‘.git’ directory and ‘.gitignore’.  Don't
-   add any more.
-
-   By convention files ending in a ‘~’ character are to be ignored.
-
-   Consider adding a tmp directory where its contents are ignored.
-
-  <!--- end of list --->
-
-## Some of the scripts found in this repo
-
-  
 
 ## General info and concepts
 
@@ -327,15 +389,11 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   2. the libraries and other resources the application makes use of
   3. the tools used for building the source code
 
-  <!--- end of list --->
-
   Let's give these code types short names:
 
   1. source
   2. resources
   3. tools
-
-  <!--- end of list --->
 
   We have various places where we might put code that we need in a program:
 
@@ -344,7 +402,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   3. in a project ensemble
   4. in a project's home directory.
 
-  <!--- end of list --->
 
   We shorten this list of places to:
 
@@ -352,8 +409,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   2. user
   3. ensemble
   4. project
-
-  <!--- end of list --->
 
   Now combining our code and locations into one list:
 
@@ -367,8 +422,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
      1. system
      2. user
      3. ensemble
-
-  <!--- end of list --->
 
   So there is only one place we will find the application source code that we are
   developing, and that is under the project directory. Resources that we may need in
@@ -388,11 +441,12 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       resources/  <--- resources for all projects - expand this repo here
           LICENSE
           README.md
-          makefile-cc
-          pull
-          push
-          rm_tilda_files_tree
-          setup
+          bin/
+              makefile-cc
+              pull
+              push
+              rm_tilda_files_tree
+              setup
       subu/ 
       tm/
       ws4_master/   <--- an ensemble directory
@@ -440,20 +494,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   not like `env` because it is not pushed to the repo, but it might be *pulled* from it.
   `.gitignore` does not affect pulls.  This is a security hazard.
 
-## Modifying the resources repo
 
-  If you need to modify a script in the `resources` project and do not want to distribute the
-  changes to the team, make a copy of the script in your own bin directory and modify it
-  there.  note `~/bin` appears before `~/projects/share`, so the changed script will get
-  picked up instead of the `project-share` version. 
-
-  For project specific scripts put them in the project environment `env/bin`.  Be sure to modify the default
-  `env/bin/init.sh` script to add `env/bin` to the executables search path.  Also note, that the contents of the `env`
-  directory do not get pushed back to the repo, so you will need to make copies of your `env` stuff if you want to keep
-  them.
-
-
-## Repo and Directory Naming
+## Repo and Directory Naming (again)
 
   If a repo has submodules in it, I generally give the repo name a suffix of ‘_ensemble’.
 
