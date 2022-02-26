@@ -1,6 +1,4 @@
-﻿2022-02-26 TWL brought the README.md info doc/README.odt (still converting), then using 
-
-online tool to convert the pdf to README.md
+﻿2022-02-26 TWL brought the README.md info doc/README.odt (still converting), then using online tool to convert the pdf to README.md. Find the original in the docs directory.
 
 **The ‘resources’ Project**
 
