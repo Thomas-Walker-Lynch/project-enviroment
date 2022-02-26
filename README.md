@@ -13,7 +13,7 @@ pull         - fancy shortcut for git pull<br>
 push         - fancy shortcut for git push<br>
 makefile     - a genetic makefile for C/C++ projects<br>
 makefile-env - default variables for make<br>
-... <br>
+<br>
 
 <p>They have been evolving, so tweaks migh be required. If in doubt, create another branch before doing
 so.  If you need changes specific to a project, make a new branch.
@@ -22,7 +22,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
 ```
 /home/Thomas/repos/
- ..
  resources_repo/
    bin/<br>
    include/
@@ -51,26 +50,28 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
-    ```
+```
       > mkdir ~/repos
-    ```
+```
 
   2. expand the 'system'  repo, then inspect and install those script in the system
 
-    ```
+```
       > cd ~/repos
       > git clone git@github.com:Thomas-Walker-Lynch/system
-    ```
+```
     
     <p>Follow the directions from the system repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
   3. expand the resources repo
 
-     ```
+
+```
       > cd ~/repos
       > git clone git@github.com:Thomas-Walker-Lynch/resources
-    ```
+```
+
    
      <p>be sure to inspect the scripts as they will get executed
      <p>if you need to customize the script make a branch and put your customizations on that
@@ -78,15 +79,16 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   4. add the following to `.bashrc`.  Note the file lib/bashrc to get started
 
-  ```
+```
    export PATH=~/repos/resources/bin:"$PATH"
-  ```
+```
+
 
 ## the setup script
 
     This command will open a new shell with the environment in that shell setup for the project.
 
-    ```
+```
       2022-02-25T13:06:24Z
       lander10@beast§~/§
       > setup Endian
@@ -96,7 +98,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       2022-02-25T13:06:28Z [Endian]
       lander10@beast§~/repos/Endian§
       > 
-    ```
+```
+
 
     <p>Currently <tt>setup</tt> echos the path so that they user will understand where the executables
     come from. 
@@ -118,6 +121,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   By default a C/C++ project wil have this directory structure:
 
+```
     ~/repos/
          Endian/
              deprecated/
@@ -134,6 +138,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
          resources/
          system/
          tmp/
+```
 
     Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to override defaults on
     the <tt>resources</tt> versions of those files. They are stubs tweak a couple of things and then pass the heavy
@@ -142,7 +147,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
     Give source files two suffixes. For example the Endian project source directory appears as:
 
-    ```
+```
      2022-02-26T10:54:55Z [Endian]
      thomas@beast§~/resources§
      > cd $PROJECT_HOME
@@ -151,7 +156,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
      thomas@beast§~/Endian§
      > ls src
      endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c
-    ```
+```
+
     Endian is a C project. For C++ sources the suffix will be <tt>.cc</tt>.  I suppose the generic makefile should
     be improved by adding a variable to configure the string used for suffixes.  Right now I think this convention
     is hard coded.
@@ -175,13 +181,13 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   1. install the project
 
     Suppose the project with submodules is called <project>_ensemble
-    ```
+```
       > cd ~/repos
       > git clone git@github.com/<user>/<project>_ensemble.git
       > mv <project>_ensemble <project>_master 
       > cd <project>_master
       > 
-    ```
+```
     Note in the line that moves the cloned repo directory to `<project>_master`, you might
     use a different suffix than `master`.  Conventionally the suffix is the branch to be
     checked out and worked on, but the scripts do not care what it is set to. Inside the
@@ -200,10 +206,10 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   3. if a submodule is empty, then do the following:
 
-    ```
+```
       > git submodule init
       > git submodule update
-    ```
+```
 
      Submodules directories will be empty when the `--recursive` switch is not provided with
      the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
@@ -216,9 +222,9 @@ Assume we have a top level directory called 'repos', and we have expanded resour
     Consdider giving the repos directory its own user.  If you do add this link so that
     the scripts can still have a 'repos' target.
 
-    ```
+```
     > ln -s . repos
-    ```
+```
 
     Alternatively put them in a container or a virtual machine.
 
@@ -235,7 +241,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
      Hidden files are not seen by file globs, so does not see the <tt>.gitignore</tt> file.
 
-    ```
+```
       > ls -ld *
       drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
       drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
@@ -244,7 +250,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
       -rw-rw----. 1 thomas thomas 18209 2022-02-26 08:02 README.md
       drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
-    ```
+```
 
     Globs not seeing hidden files is generally considered to be a good thing when we do not want usual shell operations
     to see it.  For example <tt> cp * </tt> a repo manually we often want a copy of the project, not a copy of the repo
@@ -258,13 +264,14 @@ Assume we have a top level directory called 'repos', and we have expanded resour
      When doing this, typically the link name is the same but without the dot in front of it.  Here I expose the
      <tt>.gitignore</tt>.  
 
-    ```
+```
       2022-02-26T13:02:28Z [Endian]
       thomas@beast§~/resources§
       > ln -s .gitignore gitignore
-    ```
+```
       And now the file glob will pick it up.
-    ```
+
+```
       2022-02-26T13:07:13Z [Endian]
       thomas@beast§~/resources§
       > ls -ld *
@@ -276,7 +283,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
       -rw-rw----. 1 thomas thomas 20454 2022-02-26 08:14 README.md
       drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
-    ```
+```
 
   2. PATH
 
@@ -311,17 +318,17 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
    Typical .gitignore files:
 
-    ```
+```
         env/
         tmp/
         .*
         !.gitignore
         *~
-    ```
+```
 
     For a C or C++ project home directory we will also ignore various intermediate files,
 
-    ```
+```
         tmp/
         bin/
         exec/
@@ -332,20 +339,21 @@ Assume we have a top level directory called 'repos', and we have expanded resour
         *.i
         *.s
         a.out
-    ```
+```
 
     For a python project:
-    ```
+
+```
         tmp/
         .*
         !.gitignore
         __pycache__/
         **/*.pyc
-    ```
+```
 
       And for a django project:
 
-    ```
+```
         tmp/
         .*
         !.gitignore
@@ -354,7 +362,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
         manage.py
         **/migrations
         .vscode
-    ```
+```
 
 ## General info and concepts
 
@@ -428,7 +436,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   This is what my home directory looks like:
 
-  ```
+```
   /home/thomas/
     bin/
     Desktop/
@@ -457,12 +465,12 @@ Assume we have a top level directory called 'repos', and we have expanded resour
         tmp/
         uWebSockets/ <--- resource project directory
         ws4/   <--- target project directory
-  ```
+```
 
   Now looking under my `projects` directory, and expanding out `ws4_master`:
 
 
-  ```
+```
      ws4_master/
        LICENSE
        README.md
@@ -473,7 +481,7 @@ Assume we have a top level directory called 'repos', and we have expanded resour
        tmp/
        uWebSockets/
        ws4/
-  ```
+```
 
   `ws4_master` is a project ensemble. The component projects include `uWebSockets` and
   `ws4`. This project ensemble also comes from a git repo.
@@ -507,35 +515,35 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   check it out. 
 
 
-  ```
+```
   > cd ~/repos
   > ls
       customer_gateway_master
       customer_gateway_v1.0
       customer_gateway_v2.0
-  ```
+```
 
   This is how the `customer_gateway_master` project environment directory was made:
 
-  ```
+```
   > cd ~/repos
   > git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
   > mv customer_gateway_ensemble customer_gateway_master
 
-  ```
+```
   When downloading a `<project>_ensemble` repo, we can expand the submodules at the same time
   by including the --recursive switch, as was shown above.  If the `--recursive` switch
   is not given, the submodules will have to be initialized and updated.
 
   The second directory was then created with the commands:
 
-  ```
+```
   > git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
   > mv customer_gateway_ensemble customer_gateway_v1.0
   > cd customer_gateway_v1.0
   > git checkout v1.0
 
-  ```
+```
 
   Cloning a `git` repository produces a directory tree, which in git speak is
   apparently called a `module`.
@@ -544,9 +552,9 @@ Assume we have a top level directory called 'repos', and we have expanded resour
   submodule clone operation requires a special command so that the module will know it is
   there:
 
-  ```
+```
   git submodule add <repo>
-  ```
+```
 
   We might do this because our project depends on other projects, and those other projects
   have their own git repositories, or because we are developing more than one project
