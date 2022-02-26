@@ -3,7 +3,7 @@
 
 ## What is it?
 
-<p> A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been
+<p>A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been
 adopted.  These apply to C, C++, Python, Django, and Rust. This replaces any other script you might be accustom to for
 entering a ‘virtual environment’.  
 
@@ -15,7 +15,7 @@ makefile     - a genetic makefile for C/C++ projects<br>
 makefile-env - default variables for make<br>
 ... <br>
 
-<p> They have been evolving, so tweaks migh be required. If in doubt, create another branch before doing
+<p>They have been evolving, so tweaks migh be required. If in doubt, create another branch before doing
 so.  If you need changes specific to a project, make a new branch.
 
 Assume we have a top level directory called 'repos', and we have expanded resources<br>
@@ -72,9 +72,9 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       > git clone git@github.com:Thomas-Walker-Lynch/resources
     ```
    
-     <p> be sure to inspect the scripts as they will get executed
-     <p> if you need to customize the script make a branch and put your customizations on that
-     <p> after doing a pull be sure to inspect anything newly downloaded
+     <p>be sure to inspect the scripts as they will get executed
+     <p>if you need to customize the script make a branch and put your customizations on that
+     <p>after doing a pull be sure to inspect anything newly downloaded
 
   4. add the following to `.bashrc`.  Note the file lib/bashrc to get started
 
@@ -101,15 +101,15 @@ Assume we have a top level directory called 'repos', and we have expanded resour
     <p>Currently <tt>setup</tt> echos the path so that they user will understand where the executables
     come from. 
 
-    <p> The prompt carries sufficient information for making sense of the transcript when it is read later.
+    <p>The prompt carries sufficient information for making sense of the transcript when it is read later.
 
-    <p> On the
+    <p>On the
     first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script. 
     Following the time, in square brackets you will see the name of the project. If the square brackes are
     not ther, then no project environment has been setup.  If a user attempts to work on a project that has not
     been setup, he or she is likely to experience many errors.
 
-    <p> On the second line we have the user name, machine name, and current working directory.
+    <p>On the second line we have the user name, machine name, and current working directory.
 
     <p>On the third line the familiar `>` appears. Anything you type after the prompt is taken as the command for the
     shell. It is conventional for script run as root user that this will instead be '#'.
@@ -230,10 +230,10 @@ Assume we have a top level directory called 'repos', and we have expanded resour
 
   2. hidden files 
 
-     Hidden files are can be an abomination because they increase the probability of stuff being missed during an audit.
-     No file that should be audited should be hidden.
+     Files that should be audited must not be hidden.  Otherwise they are too easy to miss during
+     the audit.
 
-     Hidden files are not seen by file globs.  Hence
+     Hidden files are not seen by file globs, so does not see the <tt>.gitignore</tt> file.
 
     ```
       > ls -ld *
@@ -245,8 +245,6 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       -rw-rw----. 1 thomas thomas 18209 2022-02-26 08:02 README.md
       drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
     ```
-
-    Does not see the <tt>.gitignore</tt> file.
 
     Globs not seeing hidden files is generally considered to be a good thing when we do not want usual shell operations
     to see it.  For example <tt> cp * </tt> a repo manually we often want a copy of the project, not a copy of the repo
