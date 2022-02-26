@@ -32,10 +32,8 @@ Assume we have a top level directory called 'repos', and we have expanded resour
    projects-init.sh
 ```
 
+## starting from scratch - setting up a project directory
 
-
-
-We are generally allergic to executables in repos, so we begin 
 
   1. make a top level directory for holding all the repos you work on, independent of language, etc.
 
@@ -47,58 +45,34 @@ We are generally allergic to executables in repos, so we begin
 
     ```
       > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/usr-local-bin
+      > git clone git@github.com:Thomas-Walker-Lynch/system
     ```
     <p>Follow the directions from the usr-local-bin repo for installing ‘home’ and ‘Z’.  There is not really much to it.
     <p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
 
 
-  3. make a directory for resources that are shared among the various project
+  3. expand the resources repo
 
      ```
       > cd ~/repos
-      > mkdir resources
-      > cd resources
-      > mkdir lib bin include tmp media
+      > git clone git@github.com:Thomas-Walker-Lynch/resources
     ```
+   
+   <p> be sure to inspect the scripts as they will get executed
+   <p> if you need to customize the script make a branch and put your customizations on that
+   <p> after doing a pull be sure to inspect anything newly downloaded
 
-  4. get some project resources
 
-    ```
-      > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources_repo.git
-    ```
-
-  5. set the executables PATH
-
-  I added the following to my `.bashrc`:
+  4. add the following to `.bashrc`:
 
   ```
    export PATH=~/repos/resources/bin:"$PATH"
 
-  ``
-  5. install project resources
-
-    ```
-      > cd ~/repos/resources_repo
-      > cp pull  push  rm_tilda_files_tree  start  ~/repos/resources/bin
-      #inspect executables
-      > cd ~/repos/resources/bin
-      # do not edit files here
-      # make a branch on resources_repo if you need local changes
-      > chmod -rwx,ug+rx *
-      > cd ~/repos/resources_repo
-      #inspect makefile-cc
-      > cp makefile-cc ~/repos/resources/lib
-    ```
-   
-    etc. depending on the resources you will use
-
+  `
 
   <!--- end of list --->
 
-  That is it for installing this repo.
-
+ 
 ## project setup
 
 By default project should have this directory structure:
