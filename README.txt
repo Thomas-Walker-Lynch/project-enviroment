@@ -1,94 +1,62 @@
- 
-# `resources`
+﻿Find the source for this document in the docs directory. 
+The ‘resources’ Project
+2022-02-26 TWL imported from README markdown, still in process of conversion
+What is it?
+A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been adopted.  These apply to C, C++, Python, Django, and Rust. This replaces any other script you might be accustom to for entering a ‘virtual environment’.  
+setup
+sets up the environment for a project
+pull
+fancy shortcut for git pull
+push
+fancy shortcut for git push
+makefile
+a genetic makefile for C/C++ projects
+makefil-env
+default variables for make
 
-## What is it?
-
-<p>A set of scripts used for the projects found in 'github.com/thomas-walker-lynch' and other places where it has been
-adopted.  These apply to C, C++, Python, Django, and Rust. This replaces any other script you might be accustom to for
-entering a ‘virtual environment’.  
-<br>
-<br>
-setup        - sets up the environment for a project<br>
-pull         - fancy shortcut for git pull<br>
-push         - fancy shortcut for git push<br>
-makefile     - a genetic makefile for C/C++ projects<br>
-makefile-env - default variables for make<br>
-<br>
-
-<p>They have been evolving, so tweaks migh be required. If in doubt, create another branch before doing
-so.  If you need changes specific to a project, make a new branch.
-
-Assume we have a top level directory called 'repos', and we have expanded resources<br>
-
-```
+These scripts  have been evolving with each project, so tweaks might be required. 
+Assume we have a top level directory called 'repos', and we have expanded resources
 /home/Thomas/repos/
- resources_repo/
-   bin/<br>
-   include/
-   lib/
-   media/
-   tmp/
-   LICENSE
-   README.md
-   projects-init.sh
-```
-## Modifying the resources repo
+  resources_repo/
+    bin/<br>
+    include/
+    lib/
+    media/
+    tmp/
+    LICENSE
+    README.md
+    projects-init.sh
 
-  If you make some changes and are testing them, then do that on a branch. Merge the branch after
-  it is tested.
+Modifying the resources repo
+If you make some changes and are testing them, then do that on a branch. Merge the branch after it is tested.
+If you do something to the resources repo of general interest, then check it in to master.
+If you need special modifications specific to your needs, i.e. not of general interest even to those who might come in the future and be working in the same language, etc., then make your very own branch.
+ If you have a fundamentally different way of going about this, some people want it, others don't - then that goes on a branch.
 
-  If you do something to the resources repo of general interest, then check it in to master.
+Your local directory for holding project, ‘repos’
 
-  If you need special modifications specific to your needs, i.e. not of general interest even
-  to those who might come in the future and be working in the same language, etc., then
-  make your very own branch.
+    1. make a top level directory for holding all the repos you work on, independent of language, etc.
+        > mkdir ~/repos
+       
+    2. expand the system  repo, then inspect and install those script in the system
+       
+       > cd ~/repos
+       > git clone git@github.com:Thomas-Walker-Lynch/system
+       
+       Follow the directions from the system repo for installing home and Z.  There is not really much to it. ‘Z’ is used for timestamps.  home returns the home directory from /etc/passwd.
 
-  If you have a fundamentally different way of going about this, some people want it, others
-  don't - then that goes on a branch.
-
-## setting up a directory to hold projects
-
-  1. make a top level directory for holding all the repos you work on, independent of language, etc.
-
-```
-      > mkdir ~/repos
-```
-
-  2. expand the 'system'  repo, then inspect and install those script in the system
-
-```
-      > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/system
-```
-    
-<p>Follow the directions from the system repo for installing ‘home’ and ‘Z’.  There is not really much to it.
-<p>‘Z’ is used for timestamps.  ‘home’ returns the home directory from /etc/passwd.
-
-  3. expand the resources repo
+    3. expand the resources repo
+         > cd ~/repos
+         > git clone git@github.com:Thomas-Walker-Lynch/resources
+       
+    4. add the following to .bashrc.  Note the file lib/bashrc to get started.
+       
+        > export PATH=~/repos/resources/bin:"$PATH"
 
 
-```
-      > cd ~/repos
-      > git clone git@github.com:Thomas-Walker-Lynch/resources
-```
-
-   
-<p>be sure to inspect the scripts as they will get executed
-<p>if you need to customize the script make a branch and put your customizations on that
-<p>after doing a pull be sure to inspect anything newly downloaded
-
-  4. add the following to `.bashrc`.  Note the file lib/bashrc to get started
-
-```
-   export PATH=~/repos/resources/bin:"$PATH"
-```
-
-
-## the setup script
+The setup script
 
     This command will open a new shell with the environment in that shell setup for the project.
-
-```
       2022-02-25T13:06:24Z
       lander10@beast§~/§
       > setup Endian
@@ -98,30 +66,18 @@ Assume we have a top level directory called 'repos', and we have expanded resour
       2022-02-25T13:06:28Z [Endian]
       lander10@beast§~/repos/Endian§
       > 
-```
 
-
-<p>Currently <tt>setup</tt> echos the path so that they user will understand where the executables
+Currently <tt>setup</tt> echos the path so that they user will understand where the executables
 come from. 
-
-<p>The prompt carries sufficient information for making sense of the transcript when it is read later.
-
-<p>On the
-first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script. 
-Following the time, in square brackets you will see the name of the project. If the square brackes are
-not ther, then no project environment has been setup.  If a user attempts to work on a project that has not
-been setup, he or she is likely to experience many errors.
-
-<p>On the second line we have the user name, machine name, and current working directory.
-
-<p>On the third line the familiar `>` appears. Anything you type after the prompt is taken as the command for the
-shell. It is conventional for script run as root user that this will instead be '#'.
-
-## the generic makefile
+The prompt carries sufficient information for making sense of the transcript when it is read later.
+On the first line, the time shown is UTC in standard iso8601 format. This comes from the ‘/usr/bin/Z’ script. 
+Following the time, in square brackets you will see the name of the project. If the square brackets are not there, then no project environment has been setup.  If a user attempts to work on a project that has not been setup, he or she is likely to experience many errors.
+On the second line we have the user name, machine name, and current working directory.
+On the third line the familiar `>` appears. Anything you type after the prompt is taken as the command for the shell. It is conventional for script run as root user that this will instead be '#'.
+The generic makefile
 
   By default a C/C++ project wil have this directory structure:
 
-```
     ~/repos/
          Endian/
              deprecated/
@@ -138,16 +94,8 @@ shell. It is conventional for script run as root user that this will instead be 
          resources/
          system/
          tmp/
-```
-
-    Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to override defaults on
-    the <tt>resources</tt> versions of those files. They are stubs tweak a couple of things and then pass the heavy
-    lifting to <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt>.  Leave the
-    <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt> where they are and do not make copies.
-
-    Give source files two suffixes. For example the Endian project source directory appears as:
-
-```
+Note <tt>makefile</tt> and <tt>makefile-env</tt> inside the Endian project are there only to override defaults on  the <tt>resources</tt> versions of those files. They are stubs tweak a couple of things and then pass the heavy  lifting to <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt>.  Leave the  <tt>resources/lib/makefile</tt> and <tt>resources/lib/makefile-env</tt> where they are and do not make copies.
+Give source files two suffixes. For example the Endian project source directory appears as:
      2022-02-26T10:54:55Z [Endian]
      thomas@beast§~/resources§
      > cd $PROJECT_HOME
@@ -156,38 +104,26 @@ shell. It is conventional for script run as root user that this will instead be 
      thomas@beast§~/Endian§
      > ls src
      endian.lib.c  endian_test.cli.c  ip4.lib.c  ip4_test.cli.c
-```
 
-    Endian is a C project. For C++ sources the suffix will be <tt>.cc</tt>.  I suppose the generic makefile should
-    be improved by adding a variable to configure the string used for suffixes.  Right now I think this convention
-    is hard coded.
-
-    The compiled lib files will go into <tt>lib/$PROJECT_lib.a</tt> while the cli files will be made stand alone and
-    appear in the <tt>exec</tt> directory.  Presumably all the <tt>.cli.c</tt> files have a main function defined.
-
-## push and pull scripts
-
-     These are git command sequence shortcuts.  They do the usual things when pushing and pulling from
-     a git repo and also do some checks.
-
-## other things
-
+Endian is a C project. For C++ sources the suffix will be <tt>.cc</tt>.  I suppose the generic makefile should  be improved by adding a variable to configure the string used for suffixes.  Right now I think this convention is hard coded.
+The compiled lib files will go into <tt>lib/$PROJECT_lib.a</tt> while the cli files will be made stand alone and appear in the <tt>exec</tt> directory.  Presumably all the <tt>.cli.c</tt> files have a main function defined.
+Push and pull scripts
+These are git command sequence shortcuts.  They do the usual things when pushing and pulling from  a git repo and also do some checks.
+Other things
      Other useful things will be found in the resource tree.
-
-## projects with submodules
+Projects with submodules
 
   By convention, projects with submodules have the suffix <tt>_ensemble</tt>.
 
   1. install the project
 
     Suppose the project with submodules is called <project>_ensemble
-```
+
       > cd ~/repos
       > git clone git@github.com/<user>/<project>_ensemble.git
       > mv <project>_ensemble <project>_master 
       > cd <project>_master
-      > 
-```
+
     Note in the line that moves the cloned repo directory to `<project>_master`, you might
     use a different suffix than `master`.  Conventionally the suffix is the branch to be
     checked out and worked on, but the scripts do not care what it is set to. Inside the
@@ -196,20 +132,19 @@ shell. It is conventional for script run as root user that this will instead be 
 
   2. for submodules that have not yet been added:
 
-    ```
+
       > git submodule add https://github.com/../<resource_project>
       > git submodule add https://github.com/../<resource_project>
       ...
 
-    ```
+
      Etc. for the other modules
 
   3. if a submodule is empty, then do the following:
 
-```
       > git submodule init
       > git submodule update
-```
+
 
      Submodules directories will be empty when the `--recursive` switch is not provided with
      the clone. Actually, I prefer not to use `--recursive` and then to follow up with an
@@ -222,9 +157,8 @@ shell. It is conventional for script run as root user that this will instead be 
     Consdider giving the repos directory its own user.  If you do add this link so that
     the scripts can still have a 'repos' target.
 
-```
     > ln -s . repos
-```
+
 
     Alternatively put them in a container or a virtual machine.
 
@@ -241,7 +175,7 @@ shell. It is conventional for script run as root user that this will instead be 
 
      Hidden files are not seen by file globs, so does not see the <tt>.gitignore</tt> file.
 
-```
+
       > ls -ld *
       drwxrwx---. 1 thomas thomas    64 2022-02-26 07:55 bin
       drwxrwx---. 1 thomas thomas   142 2022-02-26 07:03 lib
@@ -250,7 +184,7 @@ shell. It is conventional for script run as root user that this will instead be 
       -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
       -rw-rw----. 1 thomas thomas 18209 2022-02-26 08:02 README.md
       drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
-```
+
 
     Globs not seeing hidden files is generally considered to be a good thing when we do not want usual shell operations
     to see it.  For example <tt> cp * </tt> a repo manually we often want a copy of the project, not a copy of the repo
@@ -264,14 +198,14 @@ shell. It is conventional for script run as root user that this will instead be 
      When doing this, typically the link name is the same but without the dot in front of it.  Here I expose the
      <tt>.gitignore</tt>.  
 
-```
+
       2022-02-26T13:02:28Z [Endian]
       thomas@beast§~/resources§
       > ln -s .gitignore gitignore
-```
+
       And now the file glob will pick it up.
 
-```
+
       2022-02-26T13:07:13Z [Endian]
       thomas@beast§~/resources§
       > ls -ld *
@@ -283,7 +217,7 @@ shell. It is conventional for script run as root user that this will instead be 
       -rw-rw----. 1 thomas thomas   141 2022-02-25 07:25 projects-init.sh
       -rw-rw----. 1 thomas thomas 20454 2022-02-26 08:14 README.md
       drwxrwx---. 1 thomas thomas    84 2022-02-26 05:40 tmp
-```
+
 
   2. PATH
 
@@ -318,17 +252,15 @@ shell. It is conventional for script run as root user that this will instead be 
 
    Typical .gitignore files:
 
-```
         env/
         tmp/
         .*
         !.gitignore
         *~
-```
 
     For a C or C++ project home directory we will also ignore various intermediate files,
 
-```
+
         tmp/
         bin/
         exec/
@@ -339,21 +271,20 @@ shell. It is conventional for script run as root user that this will instead be 
         *.i
         *.s
         a.out
-```
+
 
     For a python project:
 
-```
         tmp/
         .*
         !.gitignore
         __pycache__/
         **/*.pyc
-```
+
 
       And for a django project:
 
-```
+
         tmp/
         .*
         !.gitignore
@@ -362,7 +293,7 @@ shell. It is conventional for script run as root user that this will instead be 
         manage.py
         **/migrations
         .vscode
-```
+
 
 ## General info and concepts
 
@@ -436,7 +367,6 @@ shell. It is conventional for script run as root user that this will instead be 
 
   This is what my home directory looks like:
 
-```
   /home/thomas/
     bin/
     Desktop/
@@ -465,12 +395,10 @@ shell. It is conventional for script run as root user that this will instead be 
         tmp/
         uWebSockets/ <--- resource project directory
         ws4/   <--- target project directory
-```
 
   Now looking under my `projects` directory, and expanding out `ws4_master`:
 
 
-```
      ws4_master/
        LICENSE
        README.md
@@ -481,7 +409,7 @@ shell. It is conventional for script run as root user that this will instead be 
        tmp/
        uWebSockets/
        ws4/
-```
+
 
   `ws4_master` is a project ensemble. The component projects include `uWebSockets` and
   `ws4`. This project ensemble also comes from a git repo.
@@ -514,36 +442,32 @@ shell. It is conventional for script run as root user that this will instead be 
   pointed at it now, so I should probably delete it.  If I ever need v1.0 again I can always
   check it out. 
 
-
-```
   > cd ~/repos
   > ls
       customer_gateway_master
       customer_gateway_v1.0
       customer_gateway_v2.0
-```
+
 
   This is how the `customer_gateway_master` project environment directory was made:
 
-```
+
   > cd ~/repos
   > git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
   > mv customer_gateway_ensemble customer_gateway_master
 
-```
   When downloading a `<project>_ensemble` repo, we can expand the submodules at the same time
   by including the --recursive switch, as was shown above.  If the `--recursive` switch
   is not given, the submodules will have to be initialized and updated.
 
   The second directory was then created with the commands:
 
-```
+
   > git clone --recursive --jobs 8 git@github.com:Reasoning-Technology/customer_gateway_ensemble.git
   > mv customer_gateway_ensemble customer_gateway_v1.0
   > cd customer_gateway_v1.0
   > git checkout v1.0
 
-```
 
   Cloning a `git` repository produces a directory tree, which in git speak is
   apparently called a `module`.
@@ -552,9 +476,9 @@ shell. It is conventional for script run as root user that this will instead be 
   submodule clone operation requires a special command so that the module will know it is
   there:
 
-```
+
   git submodule add <repo>
-```
+
 
   We might do this because our project depends on other projects, and those other projects
   have their own git repositories, or because we are developing more than one project
