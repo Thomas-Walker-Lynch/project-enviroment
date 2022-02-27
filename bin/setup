@@ -25,7 +25,7 @@ read -r -d '' InitFile <<-"EOF"
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
      export HOME=$(/usr/local/bin/home)
-     export REPOS="$HOME"
+     export REPOS="$HOME"/repos
      export RESOURCES="$REPOS"/resources
      export PROJECT_HOME="$REPOS"/"$PROJECT_PATH"
      export TMP="$RESOURCES/tmp"
