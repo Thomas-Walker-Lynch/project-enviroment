@@ -12,3 +12,4 @@ https://products.aspose.app/words/conversion/odt-to-md
 
 Another website also has an .odt to .md converter.
 
+Yes, the aspose odt to md produced nice output.  It even preserved the tables.
