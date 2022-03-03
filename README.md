@@ -58,7 +58,7 @@ If you need special modifications specific to your needs, i.e. not of general in
 
 \> git clone git@github.com:Thomas-Walker-Lynch/system
 
-Follow the directions from the system repo for installing home and Z.  There is not really much to it. ‘Z’ is used for timestamps.  home returns the home directory from /etc/passwd.
+Follow the directions from the system repo for installing home, user, and Z.  There is not really much to it. ‘Z’ is used for timestamps.  home returns the home directory from /etc/passwd.
 
 1. expand the resources repo
 

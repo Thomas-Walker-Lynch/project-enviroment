@@ -34,7 +34,8 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PROJECT_HOME"
-     INITF="$PROJECT_HOME"/bin/setup_project.sh
+     #export while debugging
+     export INITF="$PROJECT_HOME"/bin/setup_project.sh
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi
