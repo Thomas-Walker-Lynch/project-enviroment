@@ -1,4 +1,3 @@
-
 # This makefile is usually called through a local makefile rather than directly.
 
 # should add test that incdir is not pwd before deleting the include
@@ -8,13 +7,13 @@
 #--------------------------------------------------------------------------------
 # useful macros, defines the directory structure, local targets, install target
 #
--include $(RESOURCES)/lib/makefile-env
+-include $(RESOURCES)/library/makefile-env
 
-#--------------------------------------------------------------------------------
+#----------------------------a----------------------------------------------------
 # local customizations
 #  user must define things needed by the local makefile, the compiler, and flags
 
--include makefile-env
+-include makefile-environment
 
 #--------------------------------------------------------------------------------
 # files named by convention

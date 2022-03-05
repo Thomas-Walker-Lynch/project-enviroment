@@ -17,9 +17,7 @@ export PS2='>>'
 #   ~/bin
 #  export PATH=~/bin:~/.local/bin:"$PATH"
 
-# repos/resources/bin
-#
-  export PATH=~/resources/bin:"$PATH"
+export PATH=~/resources/executable:"$PATH"
 
 #eval $(ssh-agent)
 #ssh-add ~/.ssh/key

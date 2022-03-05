@@ -29,13 +29,13 @@ CC=
 #
 
 DEPRDIR=deprecated
-DOCDIR=doc
-EXECDIR=exec
+DOCDIR=document
+EXECDIR=executable
 INCDIR=include
-LIBDIR=lib
-SRCDIR=src
+LIBDIR=library
+SRCDIR=source
 TESTDIR=test
-TMPDIR=tmp
+TMPDIR=temporary
 TRYDIR=try
 
 #--------------------------------------------------------------------------------
