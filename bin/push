@@ -1,4 +1,5 @@
 #!/bin/bash
+#set -x
 
 if [ -z "$PROJECT" ]; then
     echo "can't $0, no PROJECT found in the environment"
@@ -32,24 +33,24 @@ pushd "$PROJECT_HOME" > /dev/null
   find . \
        -not -path "./.git/*" \
        -not -path "./tmp/*" \
-       -not -name '*~'\
        -type f \
        -executable \
-       -execdir echo "found executable, removing x flag" {} \; 
+       -exec echo "found executable, removing x flag" {} \; 
        -execdir chmod -x {} \;
 
   #     -execdir mv {} {}~ \;
 
-
-  set -x
+set -x
   git stash
   git pull
   git stash pop
   git add .
   git commit -m "$CommitMessage"
   git push
-  set +x
+set +x
 
 popd > /dev/null
+#set +x
+
 
 
