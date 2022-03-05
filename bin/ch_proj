@@ -1,7 +1,7 @@
 #!/bin/bash
 # 2022-02-13 removed the branch/version stuff
 # this will start a new shell that has an environment appropriate for the project
-# set -x
+#set -x
 
 if [ -z "$1" ]; then
    echo "no project specified"
@@ -34,12 +34,7 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$PROJECT_HOME"
-<<<<<<< Updated upstream
-     #export while debugging
-     export INITF="$PROJECT_HOME"/bin/setup_project.sh
-=======
      INITF="$PROJECT_HOME/bin/setup_project.sh"
->>>>>>> Stashed changes
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi
