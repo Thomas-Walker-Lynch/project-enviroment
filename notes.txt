@@ -1,0 +1,11 @@
+
+Think of a directory name as a property tag rather than thinking of it as a place to put things.
+
+Hence we say ‘document’  instead of ‘documents’ because it is a tag that appears on a single file.
+
+I want to move to a method of using tags for the file system in general.
+
+I still use abreviations for command names.  Though I would prefer perhaps that the command names were
+written out and that the shell found them with abreviations.  Or perhaps in an intermediate form
+that symlinks with abreviated names point at the commands.
+

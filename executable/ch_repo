@@ -1,40 +1,40 @@
 #!/bin/bash
 # 2022-02-13 removed the branch/version stuff
-# this will start a new shell that has an environment appropriate for the project
+# this will start a new shell that has an environment appropriate for the repo
 #set -x
 
 if [ -z "$1" ]; then
-   echo "no project specified"
+   echo "no repo specified"
    exit 1
 fi
-project="$1"
+repo="$1"
 
 if [ -z "$2" ]; then
-   project_path="$project"
+   repo_path="$repo"
 else
-   project_path="$2"
+   repo_path="$2"
 fi
 
-
-# makes an init file for bash. Variables from the environment of 'start' will not expand
-# within this heredoc because of the quotes around the EOF.  Yes, that is a thing.
-# cat comes from the file system, might be better to use read
-# InitFile=$(cat <<-"EOF"
+# makes an init file for bash. 
+# Variables from the environment will not expand within this heredoc because of the quotes around the EOF.  (Yes, that is
+# a thing.)
+# moved this to the .bashrc:
+#      export PS1='\n$(/usr/local/bin/Z) [$(echo "$REPO")]\n\u@\h§\w§\n> '
 read -r -d '' InitFile <<-"EOF"
+     export HOME=$(/usr/local/bin/home)
      . $(/usr/local/bin/home)/.bashrc
+     export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
-     export HOME=$(/usr/local/bin/home)
      export REPOS="$HOME/repos"
+     export REPO_HOME="$REPOS/$REPO_PATH"
      export RESOURCES="$REPOS/resources"
-     export PROJECT_HOME="$REPOS/$PROJECT_PATH"
-     export TMP="$RESOURCES/tmp"
-     export PS1='\n$(/usr/local/bin/Z) [$(echo "$PROJECT")]\n\u@\h§\w§\n> '
+     export TMP="$RESOURCES/temporary"
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
-     cd "$PROJECT_HOME"
-     INITF="$PROJECT_HOME/bin/setup_project.sh"
+     cd "$REPO_HOME"
+     INITF="$REPO_HOME/executable/ch_repo_initialize"
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi
@@ -46,10 +46,10 @@ EOF
 # tracking directory changes in the newly launched shell.  Emacs will continue to track
 # directory changes if we call bash directly, or if we use env -i with INSIDE_EMACS defined
 # as a parameter.
-env -i \
+env --ignore-environment \
     INSIDE_EMACS="$INSIDE_EMACS" \
-    PROJECT="$project"\
-    PROJECT_PATH="$project_path"\
+    REPO="$repo"\
+    REPO_PATH="$repo_path"\
     HOSTNAME="$HOSTNAME" \
     LOGNAME="$LOGNAME" \
     DISPLAY="$DISPLAY" \

@@ -1,7 +1,7 @@
 #!/bin/bash
 #set -x
-if [ -z "$PROJECT_HOME" ]; then
-    echo "can't $0, no PROJECT_HOME project home directory found in the environment"
+if [ -z "$REPO_HOME" ]; then
+    echo "can't $0, no REPO_HOME repo home directory found in the environment"
     exit 1;
 fi
 if [ -z "$TMP" ]; then
@@ -14,9 +14,9 @@ fi
 TimeStamp="$TMP"/git_pull_timestamp_"$(od -A n -t x -N 8 /dev/urandom |tr -d ' ')"
 touch "$TimeStamp"
 
-# would be better to make this project specific so we don't pull other submodules than the
-# project ..  or do we want the latest in the other submodules also?
-pushd "$PROJECT_HOME" > /dev/null
+# would be better to make this repo specific so we don't pull other submodules than the
+# repo ..  or do we want the latest in the other submodules also?
+pushd "$REPO_HOME" > /dev/null
 
   git pull --recurse-submodules || echo "git pull failed"
 
