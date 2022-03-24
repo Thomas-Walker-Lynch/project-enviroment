@@ -29,7 +29,9 @@ read -r -d '' InitFile <<-"EOF"
      export REPOS="$HOME/repos"
      export REPO_HOME="$REPOS/$REPO_PATH"
      export RESOURCES="$REPOS/resources"
-     export TMP="$RESOURCES/temporary"
+     if [ -z "$TMP" ]; then 
+       export TMP="$RESOURCES/temporary"
+     fi
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
@@ -48,6 +50,7 @@ EOF
 # as a parameter.
 env --ignore-environment \
     INSIDE_EMACS="$INSIDE_EMACS" \
+    TMP="$TMP" \
     REPO="$repo"\
     REPO_PATH="$repo_path"\
     HOSTNAME="$HOSTNAME" \
