@@ -28,9 +28,9 @@ read -r -d '' InitFile <<-"EOF"
      export USERNAME=$(/usr/local/bin/user)
      export REPO="$HOME/repo"
      export REPO_HOME="$REPO/$REPO_PATH"
-     export RESOURCES="$REPO/resources"
+     export RESOURCE="$REPO/resource"
      if [ -z "$TMP" ]; then 
-       export TMP="$RESOURCES/temporary"
+       export TMP="$RESOURCE/temporary"
      fi
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
