@@ -1,0 +1,1 @@
+note the repo 'system'  for such things as a bashrc and an emacs initialization file
