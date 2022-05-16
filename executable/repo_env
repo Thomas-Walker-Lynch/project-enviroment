@@ -26,7 +26,7 @@ read -r -d '' InitFile <<-"EOF"
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
-     export REPO="$HOME/repo"
+     export REPO="$HOME/user"
      export PROJECT_HOME="$REPO/$REPO_PATH"
      export RESOURCE="$REPO/resource"
      if [ -z "$TMP" ]; then 
