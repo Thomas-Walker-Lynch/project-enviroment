@@ -27,7 +27,7 @@ read -r -d '' InitFile <<-"EOF"
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
      export PROJECT_HOME="$REPO_HOME"/"$REPO"
-     export RESOURCE="$REPO_HOME"/resource"
+     export RESOURCE="$REPO_HOME"/resource
      if [ -z "$TMP" ]; then 
        export TMP="$RESOURCE/temporary"
      fi
