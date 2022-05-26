@@ -10,9 +10,9 @@ fi
 project="$1"
 
 if [ -z "$2" ]; then
-   repo_path="$project"
+   repo="$project"
 else
-   repo_path="$2"
+   repo="$2"
 fi
 
 # makes an init file for bash. 
@@ -26,9 +26,8 @@ read -r -d '' InitFile <<-"EOF"
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
-     export REPO="$HOME/user"
-     export PROJECT_HOME="$REPO/$REPO_PATH"
-     export RESOURCE="$REPO/resource"
+     export PROJECT_HOME="$REPO_HOME"/"$REPO"
+     export RESOURCE="$REPO_HOME"/resource"
      if [ -z "$TMP" ]; then 
        export TMP="$RESOURCE/temporary"
      fi
@@ -52,7 +51,8 @@ env --ignore-environment \
     INSIDE_EMACS="$INSIDE_EMACS" \
     TMP="$TMP" \
     PROJECT="$project"\
-    REPO_PATH="$repo_path"\
+    REPO_HOME="$REPO_HOME"\
+    REPO="$repo"\
     HOSTNAME="$HOSTNAME" \
     LOGNAME="$LOGNAME" \
     DISPLAY="$DISPLAY" \
