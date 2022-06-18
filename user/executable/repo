@@ -3,16 +3,10 @@
 # this will start a new shell that has an environment appropriate for the repo
 #set -x
 
-if [ -z "$1" ]; then
-   echo "no project specified"
+repo="$1"
+if [ -z "$repo" ]; then
+   echo "no repo specified"
    exit 1
-fi
-project="$1"
-
-if [ -z "$2" ]; then
-   repo="$project"
-else
-   repo="$2"
 fi
 
 # makes an init file for bash. 
@@ -26,7 +20,7 @@ read -r -d '' InitFile <<-"EOF"
      export HOME=$(/usr/local/bin/home)
      export SHELL=/bin/bash
      export USERNAME=$(/usr/local/bin/user)
-     export PROJECT_HOME="$REPO_HOME"/"$REPO"
+     export REPO_DIR="$REPO_HOME"/"$REPO"
      export RESOURCE="$REPO_HOME"/resource
      if [ -z "$TMP" ]; then 
        export TMP="$RESOURCE/temporary"
@@ -34,8 +28,8 @@ read -r -d '' InitFile <<-"EOF"
      if [ ! -d "$TMP" ]; then 
        mkdir "$TMP"
      fi
-     cd "$PROJECT_HOME"
-     INITF="$PROJECT_HOME/executable/repo_env_initialize"
+     cd "$REPO_DIR"
+     INITF="$REPO_DIR/initialize"
      if [ -f "$INITF" ]; then
        . "$INITF"
      fi
@@ -50,7 +44,6 @@ EOF
 env --ignore-environment \
     INSIDE_EMACS="$INSIDE_EMACS" \
     TMP="$TMP" \
-    PROJECT="$project"\
     REPO_HOME="$REPO_HOME"\
     REPO="$repo"\
     HOSTNAME="$HOSTNAME" \

@@ -1,8 +1,8 @@
 #!/bin/bash
 #set -x
 
-if [ -z "$PROJECT_HOME" ]; then
-    echo "can't $0, no PROJECT_HOME found in the environment"
+if [ -z "$REPO_DIR" ]; then
+    echo "can't $0, no REPO_DIR found in the environment"
     exit 1;
 fi
 CommitMessage="$1"
@@ -15,7 +15,7 @@ if [ -z "$CommitMessage" ]; then
      fi
 fi
 
-pushd "$PROJECT_HOME" > /dev/null
+pushd "$REPO_DIR" > /dev/null
 
   # make clean any directories with a makefile
   find . \
