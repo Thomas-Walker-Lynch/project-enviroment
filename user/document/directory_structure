@@ -1,0 +1,17 @@
+
+repo_home/<repo>/
+   LICENSE
+   README
+   initialize
+   user/
+     document/
+     executable/  - for tools used by the project, not those built by it
+     experiment/  - inevitably we want to practice trying some things cout
+     library/     - for non executable files used by the project, not those built by it
+     source/      - source code being developed by this project
+     test/        - tests
+     build/       - work area during builds by the project, ignored by git
+       library    - downloaded stuff used by the build but not kept as part of the repo
+       log
+       checkpoint
+       executable - built by 

@@ -29,9 +29,9 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$REPO_DIR"
-     INITF="$REPO_DIR/initialize"
-     if [ -f "$INITF" ]; then
-       . "$INITF"
+     initf="$REPO_DIR/initialize"
+     if [ -f "$initf" ]; then
+       . "$initf"
      fi
      echo $PATH
 EOF
@@ -41,11 +41,14 @@ EOF
 # tracking directory changes in the newly launched shell.  Emacs will continue to track
 # directory changes if we call bash directly, or if we use env -i with INSIDE_EMACS defined
 # as a parameter.
+#
+# PROJECT is for PS1 bash prompt
 env --ignore-environment \
     INSIDE_EMACS="$INSIDE_EMACS" \
     TMP="$TMP" \
     REPO_HOME="$REPO_HOME"\
     REPO="$repo"\
+    PROJECT="$repo"\
     HOSTNAME="$HOSTNAME" \
     LOGNAME="$LOGNAME" \
     DISPLAY="$DISPLAY" \
