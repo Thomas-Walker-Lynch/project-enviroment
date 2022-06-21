@@ -1,0 +1,4 @@
+
+# the 'repo' command has not been run yet, so only $REPO_HOME is defined at this point
+
+export PATH="$REPO_HOME/resource/user/cantari:$PATH"
