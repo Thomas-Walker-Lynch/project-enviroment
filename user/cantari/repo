@@ -29,9 +29,9 @@ read -r -d '' InitFile <<-"EOF"
        mkdir "$TMP"
      fi
      cd "$REPO_DIR"
-     initf="$REPO_DIR/initialize"
-     if [ -f "$initf" ]; then
-       . "$initf"
+     act="$REPO_DIR/activate"
+     if [ -f "$act" ]; then
+       . "$act"
      fi
      echo $PATH
 EOF
